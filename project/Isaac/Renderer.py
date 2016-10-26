@@ -15,6 +15,10 @@ class Renderer:
         self.frameY = frameY
 
         self.delay = 0
+
+    def __del__(self):
+        pass
+
     def draw(self, x, y):
         Renderer.sprites[self.key].clip_draw\
             (self.frameX * self.width, self.frameY * self.height, self.width, self.height, x, y)

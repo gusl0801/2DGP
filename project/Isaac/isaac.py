@@ -1,6 +1,6 @@
 from unit import*
 
-
+lask_key = None
 class Isaac(Unit):      #sub class
     def __init__(self):
         Unit.__init__(self)
@@ -56,6 +56,60 @@ class Isaac(Unit):      #sub class
                 self.move(0, self.speed)
             elif self.way == Way.Left:
                 self.move(-self.speed, 0)
+
+    def handle_event(self, event):
+        global last_key
+
+        if event.type == SDL_KEYDOWN:
+            if event.key != None:
+                last_key = event.key
+
+            if event.key == SDLK_d:
+                self.change_way(Way.Right)
+                self.change_state(UnitState.Move)
+
+            elif event.key == SDLK_a:
+                self.change_way(Way.Left)
+                self.change_state(UnitState.Move)
+
+            elif event.key == SDLK_w:
+                self.change_way(Way.Up)
+                self.change_state(UnitState.Move)
+
+            elif event.key == SDLK_s:
+                self.change_way(Way.Down)
+                self.change_state(UnitState.Move)
+
+            elif event.key == SDLK_UP:
+                self.change_way(Way.Up)
+                self.change_state(UnitState.Attack)
+                self.shot_tear()
+
+            elif event.key == SDLK_DOWN:
+                self.change_way(Way.Down)
+                self.change_state(UnitState.Attack)
+                self.shot_tear()
+
+            elif event.key == SDLK_LEFT:
+                self.change_way(Way.Left)
+                self.change_state(UnitState.Attack)
+                self.shot_tear()
+
+            elif event.key == SDLK_RIGHT:
+                self.change_way(Way.Right)
+                self.change_state(UnitState.Attack)
+                self.shot_tear()
+
+
+        elif event.type == SDL_KEYUP:
+            if (event.key == SDLK_w
+                or event.key == SDLK_d
+                or event.key == SDLK_s
+                or event.key == SDLK_a):
+
+                if last_key == event.key:
+                    self.change_state(UnitState.Stop)
+                    last_key = None
 
     def change_way(self, way):
         self.way = way

@@ -75,65 +75,13 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN:
-            if event.key != None:
-                last_key = event.key
-                print(last_key)
 
-            if event.key == SDLK_d:
-                isaac.change_way(Way.Right)
-                isaac.change_state(UnitState.Move)
+        elif (event.type, event.key)  == (SDL_KEYDOWN,SDLK_ESCAPE):
+            game_framework.quit()
 
-            elif event.key == SDLK_a:
-                isaac.change_way(Way.Left)
-                isaac.change_state(UnitState.Move)
+        else:
+            isaac.handle_event(event)
 
-            elif event.key == SDLK_w:
-                isaac.change_way(Way.Up)
-                isaac.change_state(UnitState.Move)
-
-            elif event.key == SDLK_s:
-                isaac.change_way(Way.Down)
-                isaac.change_state(UnitState.Move)
-
-            elif event.key == SDLK_UP:
-                isaac.change_way(Way.Up)
-                isaac.change_state(UnitState.Attack)
-                isaac.shot_tear()
-
-            elif event.key == SDLK_DOWN:
-                isaac.change_way(Way.Down)
-                isaac.change_state(UnitState.Attack)
-                isaac.shot_tear()
-
-            elif event.key == SDLK_LEFT:
-                isaac.change_way(Way.Left)
-                isaac.change_state(UnitState.Attack)
-                isaac.shot_tear()
-
-            elif event.key == SDLK_RIGHT:
-                isaac.change_way(Way.Right)
-                isaac.change_state(UnitState.Attack)
-                isaac.shot_tear()
-
-            elif event.key == SDLK_ESCAPE:
-                game_framework.quit()
-
-        elif event.type == SDL_KEYUP:
-            if (event.key == SDLK_w
-                or event.key == SDLK_d
-                or event.key == SDLK_s
-                or event.key == SDLK_a):
-
-                if last_key == event.key:
-                    isaac.change_state(UnitState.Stop)
-                    last_key = None
-"""
-눈물 발사 간격
-이 전에 입력이 들어오면
-저장
-일정 간격 이후에 발사?
-"""
 
 def pause():
     pass

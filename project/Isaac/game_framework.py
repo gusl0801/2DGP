@@ -1,6 +1,6 @@
-#from enum import Enum # enum class 사용 python 3.4이상
+from pico2d import*
 
-
+current_time = 0.0
 
 class GameState:
     def __init__(self, state):
@@ -78,15 +78,18 @@ def quit():                 #게임을 중단
 def run(start_state):             #게임을 state로 시작함
     global running
     global stack
+    global frame_time
 
     running = True
     stack = [start_state]
     start_state.enter()
 
     while(running):                #game-loop
-        stack[-1].handle_events()
-        stack[-1].update()
-        stack[-1].draw()
+        frame_time = get_frame_time()
+
+        stack[-1].handle_events(frame_time)
+        stack[-1].update(frame_time)
+        stack[-1].draw(frame_time)
     #repeatedly delete the top of the stack, stack의 맨 위 변수 반복 삭제
     while (len(stack) > 0):
         stack[-1].exit()
@@ -95,6 +98,13 @@ def run(start_state):             #게임을 state로 시작함
 def test_game_framework():
     start_state = TestGameState('StartState')
     run(start_state)
+
+def get_frame_time():
+    global current_time
+
+    frame_time = get_time() - current_time
+    current_time += frame_time
+    return frame_time
 
 if __name__ == '__main__':
     test_game_framework()

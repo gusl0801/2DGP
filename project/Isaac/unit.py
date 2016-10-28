@@ -32,11 +32,11 @@ class Unit:
         self.hp = 6
 
     #overrided by subclass
-    def update(self):
+    def update(self, frame_time):
         pass
 
     #overrided by subclass
-    def draw(self):
+    def draw(self, frame_time):
         pass
 
     def collision_update(self, unit):

@@ -1,4 +1,5 @@
 from unit import*
+import game_engine
 
 lask_key = None
 class Isaac(Unit):      #sub class
@@ -11,8 +12,9 @@ class Isaac(Unit):      #sub class
         self.way = Way.Down
         self.tear_size = 5
         self.sprite = load_image('resource/character/isaac_normal/isaac_base.png')
+        self.game_engine = game_engine.GameEngine()
 
-    def draw(self):
+    def draw(self, frame_time):
         #draw_rectangle(self.x - 28, self.y - 37, self.x + 28, self.y + 37)
         if self.way == Way.Up:
             self.sprite.clip_draw(self.frameBody * 45, 150, 45, 75, self.x, self.y)
@@ -27,7 +29,7 @@ class Isaac(Unit):      #sub class
             self.sprite.clip_draw(self.frameHead * 56, 225, 56, 75, self.x, self.y + 13)
         self.tear_manager.draw()
 
-    def update(self):
+    def update(self,frame_time):
         self.tear_manager.update()
         self.tear_manager.check_frame_out()
 
@@ -47,7 +49,9 @@ class Isaac(Unit):      #sub class
 
         if self.state == UnitState.Move:
             self.frameBody = (self.frameBody + 1) % 10
+            self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
 
+            """
             if self.way == Way.Down:
                 self.move(0, -self.speed)
             elif self.way == Way.Right:
@@ -56,6 +60,7 @@ class Isaac(Unit):      #sub class
                 self.move(0, self.speed)
             elif self.way == Way.Left:
                 self.move(-self.speed, 0)
+            """
 
     def handle_event(self, event):
         global last_key

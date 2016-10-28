@@ -30,7 +30,7 @@ def exit():
     del(press)
     del (bgm)
 
-def handle_events():
+def handle_events(frame_time):
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -41,13 +41,13 @@ def handle_events():
             elif event.key == SDLK_ESCAPE:
                 game_framework.quit()
 
-def draw():
+def draw(frame_time):
     clear_canvas()
     image.draw(480, 270)
     press.draw(pressX, pressY)
     update_canvas()
 
-def update():
+def update(frame_time):
     global pressY
     global press_move_up
 

@@ -54,21 +54,21 @@ def exit():
     del(rooms)
     del(bgm)
 
-def update():
+def update(frame_time):
     global current_room
 
-    isaac.update()
+    isaac.update(frame_time)
 
     current_room = current_room.update(isaac)
     delay(0.017)
 
-def draw():
+def draw(frame_time):
     clear_canvas()
     current_room.draw()
-    isaac.draw()
+    isaac.draw(frame_time)
     update_canvas()
 
-def handle_events():
+def handle_events(frame_time):
     global last_key
 
     events = get_events()

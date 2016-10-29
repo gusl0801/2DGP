@@ -15,6 +15,11 @@ class UnitTeam:
 
 #superclass
 class Unit:
+    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+    RUN_SPEED_KMPH = 0.5  # Km / Hour
+    RUN_SPEED_MPH = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+    RUN_SPEED_MPS = (RUN_SPEED_MPH / 60.0)
+    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
     def __init__(self):
         self.state = UnitState.Stop
 
@@ -25,7 +30,7 @@ class Unit:
 
         self.x, self.y = 490, 280
         self.image_x, self.image_y = 32, 32
-        self.speed = 3
+        self.speed = Unit.RUN_SPEED_PPS
 
         self.delay = 0
 

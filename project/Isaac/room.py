@@ -2,6 +2,7 @@ from obstacle import*
 from Monster import*
 
 from Boss import *
+from Item import *
 
 class Room:
     image = None

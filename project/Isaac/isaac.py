@@ -50,18 +50,7 @@ class Isaac(Unit):      #sub class
         if self.state == UnitState.Move:
             self.frameBody = (self.frameBody + 1) % 10
             self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
-
-            """
-            if self.way == Way.Down:
-                self.move(0, -self.speed)
-            elif self.way == Way.Right:
-                self.move(self.speed, 0)
-            elif self.way == Way.Up:
-                self.move(0, self.speed)
-            elif self.way == Way.Left:
-                self.move(-self.speed, 0)
-            """
-
+            
     def handle_event(self, event):
         global last_key
 
@@ -129,20 +118,6 @@ class Isaac(Unit):      #sub class
         elif self.way == Way.Left:
             self.frameHead = 6
 
-    def process_message(self, event):
-        if event.type == SDL_KEYDOWN:
-            if event.key == SDLK_RIGHT:
-                self.changeWay(Way.Right)
-
-            elif event.key == SDLK_LEFT:
-                self.changeWay(Way.Left)
-
-            elif event.key == SDLK_UP:
-                self.changeWay(Way.Up)
-
-            elif event.key == SDLK_DOWN:
-                self.changeWay(Way.Down)
-
     def shot_tear(self):
         self.tear_manager.append()
 
@@ -159,6 +134,7 @@ class Isaac(Unit):      #sub class
         self.tear_manager.clear()
 
     def undo_move(self):
+        """
         if self.way == Way.Down:
             self.move(0, self.speed)
         elif self.way == Way.Right:
@@ -167,3 +143,11 @@ class Isaac(Unit):      #sub class
             self.move(0, -self.speed)
         elif self.way == Way.Left:
             self.move(self.speed, 0)
+        """
+        if self.way in (Way.Down, Way.Up):
+            print("undo_move,y")
+            self.x, self.y = self.game_engine.undo_move(self.x, self.y, game_engine.MovePattern.MoveY)
+        elif self.way in (Way.Right, Way.Left):
+            print("undo_move,x")
+            self.x, self.y = self.game_engine.undo_move(self.x, self.y, game_engine.MovePattern.MoveX)
+

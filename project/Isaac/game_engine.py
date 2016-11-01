@@ -25,7 +25,6 @@ class GameEngine:
         self.move_y = random.randint(-3, 3)
 
         self.prev_x, self.prev_y = 0, 0
-        self.move_handler = {}
 
     def move(self, frame_time, speed, x, y, way = None):
         self.prev_x, self.prev_y = x, y
@@ -36,14 +35,7 @@ class GameEngine:
             y = min(y + distance, self.max_y)
 
         elif way != None:
-            if way == Way.Down:
-                y -= distance
-            elif way == Way.Up:
-                y = min(y + distance, self.max_y)
-            elif way == Way.Left:
-                x -= distance
-            elif way == Way.Right:
-                x = min(x + distance, self.max_x)
+            x,y = self.move_handler[way](self, x, y,distance)
 
         if x <= self.min_x:
             x = self.min_x
@@ -51,25 +43,30 @@ class GameEngine:
             y = self.min_y
 
         return x, y
-    def right_move(self,x):
-        pass
 
-    def down_move(self, y):
-        pass
+    def handle_left_move(self, x, y, distance):
+        x -= distance
+        return x, y
 
-    def up_move(self, y):
-        pass
-    """
-    함수 오버로딩...
-    def move(self, unit):
-        unit.x = min(unit.x + unit.speed, self.max_x)
-        y = min(unit.y + unit.speed, self.max_y)
+    def handle_right_move(self, x, y, distance):
+        x = min(x + distance, self.max_x)
+        return x, y
 
-        if unit.x <= self.min_x:
-            unit.x = self.min_x
-        if unit.y <= self.min_y:
-            unit.y = self.min_y
-    """
+    def handle_down_move(self, x, y, distance):
+        y -= distance
+        return x, y
+
+    def handle_up_move(self, x, y, distance):
+        y = min(y + distance, self.max_y)
+        return x, y
+
+    move_handler = {
+        Way.Down  : handle_down_move,
+        Way.Up    : handle_up_move,
+        Way.Left  : handle_left_move,
+        Way.Right : handle_right_move
+    }
+
 
     def move_randomly(self, x, y):
         self.prev_x, self.prev_y = x, y

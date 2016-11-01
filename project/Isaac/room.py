@@ -17,7 +17,7 @@ class Room:
             Room.image = load_image('resource/map/map_normal.png')
         pass
 
-    def update(self, unit):
+    def update(self, frame_time, unit):
         for rock in self.rock_list:
             rock.check_collision(unit)
 
@@ -54,11 +54,11 @@ class Room_0(Room):
 
         self.tumors = [Tumor(200, 102, Way.Down), Tumor(200, 450, Way.Up)]
 
-    def update(self, unit):
-        Room.update(self, unit)
+    def update(self, frame_time, unit):
+        Room.update(self, frame_time, unit)
 
         for tumor in self.tumors:
-            tumor.update(unit)
+            tumor.update(frame_time, unit)
 
         for door in self.door_list:
             if door.check_collision(unit) != None:
@@ -76,10 +76,10 @@ class Room_1(Room):
 
         self.monstro = Monstro(480, 300)
 
-    def update(self, unit):
-        Room.update(self, unit)
+    def update(self, frame_time, unit):
+        Room.update(self,frame_time,  unit)
 
-        self.monstro.update(unit)
+        self.monstro.update(frame_time, unit)
 
         for door in self.door_list:
             if door.check_collision(unit) != None:
@@ -106,17 +106,17 @@ class Room_2(Room):
 
         self.tentacles = [Tentacle(120, 450), Tentacle(120, 120), Tentacle(830, 450), Tentacle(830, 120)]
 
-    def update(self, unit):
-        Room.update(self, unit)
+    def update(self, frame_time, unit):
+        Room.update(self, frame_time, unit)
 
         for fly in self.flies:
-            fly.update(unit)
+            fly.update(frame_time, unit)
 
         for tentacle in self.tentacles:
-            tentacle.update(unit)
+            tentacle.update(frame_time, unit)
 
         for spider in self.spiders:
-            spider.update(unit)
+            spider.update(frame_time, unit)
 
         for rock in self.rock_list:
             for spider in self.spiders:
@@ -149,11 +149,11 @@ class Room_3(Room):
         self.dung_list = [Dung(490, 300), Dung(440, 250), Dung(490, 200), Dung(540, 250)]
         self.flies = [Fly() for i in range(20)]
 
-    def update(self, unit):
-        Room.update(self, unit)
+    def update(self,frame_time,  unit):
+        Room.update(self,frame_time,  unit)
 
         for fly in self.flies:
-            fly.update(unit)
+            fly.update(frame_time, unit)
 
         for door in self.door_list:
             if door.check_collision(unit) != None:
@@ -188,8 +188,8 @@ class Room_4(Room):
         self.rock_list.append(Rock(790, 140, RockShape.Size_twoBytwo, MapType.Normal))
         self.rock_list.append(Rock(680, 140, RockShape.Size_twoBytwo, MapType.Normal))
 
-    def update(self, unit):
-        Room.update(self, unit)
+    def update(self, frame_time, unit):
+        Room.update(self,frame_time,  unit)
 
         for door in self.door_list:
             if door.check_collision(unit) != None:
@@ -205,8 +205,8 @@ class Room_5(Room):
 
         self.dung_list = [Dung(130, 440), Dung(130, 110), Dung(830, 440), Dung(830, 110)]
 
-    def update(self, unit):
-        Room.update(self, unit)
+    def update(self, frame_time, unit):
+        Room.update(self, frame_time, unit)
 
         for door in self.door_list:
             if door.check_collision(unit) != None:

@@ -12,14 +12,13 @@ class Spider(Unit):
         self.game_engine = game_engine.GameEngine()
         self.renderer = Renderer.Renderer('resource/monster/spider.png', 53, 53)
 
-    def update(self, unit):
+    def update(self, frame_time, unit):
         unit.tear_manager.collision_update(self)
 
         self.x, self.y = self.game_engine.move_randomly(self.x, self.y)
         self.renderer.update(5)
 
         self.collision_update(unit)
-
 
     def collision_update(self, unit):
         if unit.check_collision(self.x - 26, self.x + 26, self.y, self.y + 53):
@@ -35,7 +34,7 @@ class Tentacle(Unit):
         self.renderer = Renderer.Renderer(
             'resource/monster/tentacle.png', 48, 96)
 
-    def update(self, unit):
+    def update(self, frame_time, unit):
         unit.tear_manager.collision_update(self)
 
         self.renderer.update(6)
@@ -63,7 +62,7 @@ class Fly(Unit):
             self.renderer = Renderer.Renderer(
                 'resource/monster/fly_yellow.png', 32, 32)
 
-    def update(self, unit):
+    def update(self, frame_time, unit):
         unit.tear_manager.collision_update(self)
         self.x, self.y = self.game_engine.move_randomly(self.x, self.y)
         self.renderer.update(2)
@@ -86,7 +85,7 @@ class Tumor(Unit):
         self.renderer = Renderer.Renderer(
             'resource/monster/tumor.png', 70, 67, 0, (Way.WayCount - self.way + 1))
 
-    def update(self, unit):
+    def update(self, frame_time, unit):
         self.renderer.update(3)
 
     def attack(self, unit):

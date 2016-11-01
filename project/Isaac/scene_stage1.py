@@ -59,7 +59,7 @@ def update(frame_time):
 
     isaac.update(frame_time)
 
-    current_room = current_room.update(isaac)
+    current_room = current_room.update(frame_time,isaac)
     delay(0.017)
 
 def draw(frame_time):

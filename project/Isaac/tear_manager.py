@@ -28,9 +28,9 @@ class TearManager:
                 and (y1 < tear.y and y2 > tear.y)):
                 self.tear_list.remove(tear)
 
-    def update(self):
+    def update(self, frame_time):
         for i in self.tear_list:
-           i.update()
+           i.update(frame_time)
 
     def draw(self):
         for i in self.tear_list:

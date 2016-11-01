@@ -25,29 +25,40 @@ class GameEngine:
         self.move_y = random.randint(-3, 3)
 
         self.prev_x, self.prev_y = 0, 0
+        self.move_handler = {}
 
     def move(self, frame_time, speed, x, y, way = None):
         self.prev_x, self.prev_y = x, y
+        distance = speed * frame_time
+
         if way == None:
-            x = min(x + speed, self.max_x)
-            y = min(y + speed, self.max_y)
+            x = min(x + distance, self.max_x)
+            y = min(y + distance, self.max_y)
 
         elif way != None:
             if way == Way.Down:
-                y -= speed
+                y -= distance
             elif way == Way.Up:
-                y = min(y + speed, self.max_y)
+                y = min(y + distance, self.max_y)
             elif way == Way.Left:
-                x -= speed
+                x -= distance
             elif way == Way.Right:
-                x = min(x + speed, self.max_x)
+                x = min(x + distance, self.max_x)
 
         if x <= self.min_x:
             x = self.min_x
         if y <= self.min_y:
             y = self.min_y
-        return x, y
 
+        return x, y
+    def right_move(self,x):
+        pass
+
+    def down_move(self, y):
+        pass
+
+    def up_move(self, y):
+        pass
     """
     함수 오버로딩...
     def move(self, unit):

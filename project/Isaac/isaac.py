@@ -30,7 +30,7 @@ class Isaac(Unit):      #sub class
         self.tear_manager.draw()
 
     def update(self,frame_time):
-        self.tear_manager.update()
+        self.tear_manager.update(frame_time)
         self.tear_manager.check_frame_out()
 
         if self.state == UnitState.Stop:

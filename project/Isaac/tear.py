@@ -6,6 +6,7 @@ class TearType:
     Normal = 1
 
 class Tear:
+    move_handler = {}
     def __init__(self, unit):
         if unit.way == Way.Down:
             self.x, self.y = unit.x, unit.y - 7
@@ -16,6 +17,8 @@ class Tear:
         elif unit.way == Way.Left:
             self.x, self.y = unit.x - 7, unit.y
 
+        if Tear.move_handler == {}:
+            Tear.move_handler = {}
         self.speed = 5
         self.team = unit.team
         self.way = unit.way
@@ -49,7 +52,8 @@ class Tear:
 
         return False
 
-    def update(self):
+    def update(self ,frame_time):
+        distance = self.speed * frame_time
         if self.way == Way.Down:
             self.move(0, -self.speed)
         elif self.way == Way.Right:
@@ -62,3 +66,14 @@ class Tear:
     def draw(self):
         self.image.clip_draw(self.size * 48, 0, 48, 48, self.x, self.y)
 
+    def left_move(self, distance):
+        self.move(-distance, 0)
+
+    def right_move(self, distance):
+        self.move(distance, 0)
+
+    def up_move(self, distance):
+        self.move(0, distance)
+
+    def down_move(self, distance):
+        self.move(0, -distance)

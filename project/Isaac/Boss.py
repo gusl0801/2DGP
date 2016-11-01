@@ -1,6 +1,5 @@
 from unit import*
 
-
 class Monstro(Unit):
     class Monstro_Phase:
         Shot = 0
@@ -12,7 +11,7 @@ class Monstro(Unit):
         self.x, self.y = x, y
         self.sprite = load_image('resource/monster/Monstro.png')
 
-    def update(self, unit):
+    def update(self,frame_time,unit):
         self.delay += 1
 
         if self.state == UnitState.Stop:

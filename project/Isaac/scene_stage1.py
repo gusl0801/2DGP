@@ -82,12 +82,8 @@ def handle_events(frame_time):
         else:
             isaac.handle_event(event)
 
-
 def pause():
     pass
 
 def resume():
     pass
-
-
-

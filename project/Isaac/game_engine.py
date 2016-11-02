@@ -60,11 +60,35 @@ class GameEngine:
         y = min(y + distance, self.max_y)
         return x, y
 
+    def handle_left_up_move(self, x, y, distance):
+        x -= distance
+        y = min(y + distance, self.max_y)
+        return x,y
+
+    def handle_left_down_move(self, x, y, distance):
+        x -= distance
+        y -= distance
+        return x,y
+
+    def handle_right_up_move(self, x, y, distance):
+        x = min(x + distance, self.max_x)
+        y = min(y + distance, self.max_y)
+        return x,y
+
+    def handle_right_down_move(self, x, y, distance):
+        x = min(x + distance, self.max_x)
+        y -= distance
+        return x,y
+
     move_handler = {
-        Way.Down  : handle_down_move,
-        Way.Up    : handle_up_move,
-        Way.Left  : handle_left_move,
-        Way.Right : handle_right_move
+        Way.Down     : handle_down_move,
+        Way.Up       : handle_up_move,
+        Way.Left     : handle_left_move,
+        Way.Right    : handle_right_move,
+        Way.LeftUp   : handle_left_up_move,
+        Way.LeftDown : handle_left_down_move,
+        Way.RightUp  : handle_right_up_move,
+        Way.RightDown: handle_right_down_move
     }
 
 

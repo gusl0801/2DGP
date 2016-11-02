@@ -8,20 +8,14 @@ class UnitState:
     Attack = 3
     Attacked = 4
 
-
 class UnitTeam:
     Ally = 0
     Enemy = 1
 
 #superclass
 class Unit:
-    PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-    RUN_SPEED_KMPH = 20  # Km / Hour
-    RUN_SPEED_MPH = (RUN_SPEED_KMPH * 1000.0 / 60.0)
-    RUN_SPEED_MPS = (RUN_SPEED_MPH / 60.0)
-    RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
     def __init__(self):
-        self.state = UnitState.Stop
+        self.state = UnitState.Idle
 
         self.tear_manager = TearManager(self)
 
@@ -30,7 +24,9 @@ class Unit:
 
         self.x, self.y = 490, 280
         self.image_x, self.image_y = 32, 32
-        self.speed = Unit.RUN_SPEED_PPS
+
+        self.speed = None
+        self.init_speed()
 
         self.delay = 0
 
@@ -45,9 +41,6 @@ class Unit:
         pass
 
     def collision_update(self, unit):
-        pass
-
-    def sprite_update(self):
         pass
 
     def move(self, x, y):
@@ -65,6 +58,18 @@ class Unit:
     def undo_move(self):
         pass
 
+    def detect_enemy_pos(self, enemy):
+        exist_on_left = (enemy.x <= self.x) #enemy is exist on left face
+        exist_on_up = (enemy.y >= self.y)   #enemy is exist on up face
+
+        if (exist_on_left and exist_on_up):
+            self.way = Way.LeftUp
+        elif (exist_on_left and not exist_on_up):
+            self.way = Way.LeftDown
+        elif (not exist_on_left and exist_on_up):
+            self.way = Way.RightUp
+        elif (not exist_on_left and not exist_on_up):
+            self.way = Way.RightDown
 
     def change_state(self, state):
         self.state = state
@@ -74,6 +79,9 @@ class Unit:
         self.delay = 0
         self.frameBody = 0
 
+    def detect_enemy(self, enemy):
+        pass
+
     def check_collision(self, x1, x2, y1, y2):
         if ((x1 < self.x  and x2 > self.x)
             and (y1 < self.y and y2 > self.y)):
@@ -81,8 +89,21 @@ class Unit:
 
         return False
 
-    #overrided by subclass
-    def process_message(self):
-        pass
+    def init_speed(self):
+        PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+        RUN_SPEED_KMPH = 20  # Km / Hour
+        RUN_SPEED_MPH = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+        RUN_SPEED_MPS = (RUN_SPEED_MPH / 60.0)
+        RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
+        self.speed = RUN_SPEED_PPS
+
+    def change_speed(self, KMPH_speed):
+        PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+        RUN_SPEED_KMPH = KMPH_speed  # Km / Hour
+        RUN_SPEED_MPH = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+        RUN_SPEED_MPS = (RUN_SPEED_MPH / 60.0)
+        RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+        self.speed = RUN_SPEED_PPS
 

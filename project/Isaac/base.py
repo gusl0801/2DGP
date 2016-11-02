@@ -10,7 +10,11 @@ class Way:
     Right = 1
     Up = 2
     Down = 3
-    WayCount = 4
+    LeftUp = 4
+    LeftDown = 5
+    RightUp = 6
+    RightDown = 7
+    WayCount = 8
 
 class MapType:
     Normal = 0

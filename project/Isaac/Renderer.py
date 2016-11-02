@@ -21,7 +21,9 @@ class Renderer:
 
     def draw(self, x, y):
         Renderer.sprites[self.key].clip_draw\
-            (self.frameX * self.width, self.frameY * self.height, self.width, self.height, x, y)
+            (self.frameX * self.width,
+             self.frameY * self.height,
+             self.width, self.height, x, y)
 
     def update(self, max_x = -1, max_y = None):
         self.delay += 1

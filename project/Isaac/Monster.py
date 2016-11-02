@@ -2,7 +2,6 @@ from unit import *
 import random
 import Renderer
 
-
 class Spider(Unit):
     def __init__(self, x, y):
         Unit.__init__(self)
@@ -81,15 +80,42 @@ class Tumor(Unit):
         Unit.__init__(self)
         self.x, self.y = x, y
 
+        self.change_speed(10)
         self.way = way
-        self.renderer = Renderer.Renderer(
-            'resource/monster/tumor.png', 70, 67, 0, (Way.WayCount - self.way + 1))
+        self.game_engine = game_engine.GameEngine()
+        self.renderer = Renderer.Renderer\
+                ('resource/monster/tumor.png', 70, 67, 0, (Way.WayCount - 4 - self.way + 1))
 
     def update(self, frame_time, unit):
-        self.renderer.update(3)
+        unit.tear_manager.collision_update(self)
+        self.collision_update(unit)
+
+        if self.state in (UnitState.Move, UnitState.Idle, UnitState.Attacked):
+            self.detect_enemy(unit)
+            self.renderer.update(3)
+            self.detect_enemy_pos(unit)
+            self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
+
+        elif self.state in (UnitState.Attack,):
+            pass
 
     def attack(self, unit):
         pass
 
     def draw(self):
         self.renderer.draw(self.x, self.y)
+
+    def collision_update(self, unit):
+        if unit.check_collision(self.x - 35, self.x + 35, self.y - 30, self.y + 67):
+            unit.undo_move()
+
+    def detect_enemy(self, enemy):
+        x_axis_check = (enemy.x > self.x - 50 and enemy.x < self.x + 50)
+        if x_axis_check:
+            pass
+            #print("x_axis_check is true")
+            #self.state = UnitState.Attack
+
+
+
+

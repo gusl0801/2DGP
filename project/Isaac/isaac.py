@@ -1,5 +1,6 @@
 from unit import*
 import game_engine
+import Renderer
 
 lask_key = None
 class Isaac(Unit):      #sub class
@@ -14,13 +15,15 @@ class Isaac(Unit):      #sub class
         self.sprite = load_image('resource/character/isaac_normal/isaac_base.png')
         self.game_engine = game_engine.GameEngine()
 
+        self.renderer = Renderer.Renderer('resource/character/isaac_normal/isaac_base.png', 56, 75)
+
     def draw(self, frame_time):
         #draw_rectangle(self.x - 28, self.y - 37, self.x + 28, self.y + 37)
-        if self.way == Way.Up:
+        if self.way in (Way.Up, Way.LeftUp, Way.RightUp):
             self.sprite.clip_draw(self.frameBody * 45, 150, 45, 75, self.x, self.y)
             self.sprite.clip_draw(self.frameHead * 56, 225, 56, 75, self.x, self.y + 13)
 
-        elif self.way == Way.Down:
+        elif self.way in (Way.Down, Way.LeftDown, Way.RightDown):
             self.sprite.clip_draw(self.frameBody * 45, 150, 45, 75, self.x, self.y)
             self.sprite.clip_draw(self.frameHead * 56, 225, 56, 75, self.x + 1, self.y + 13)
 
@@ -29,7 +32,11 @@ class Isaac(Unit):      #sub class
             self.sprite.clip_draw(self.frameHead * 56, 225, 56, 75, self.x, self.y + 13)
         self.tear_manager.draw()
 
+        #self.renderer.draw(self.x, self.y)
+
     def update(self,frame_time):
+        #self.renderer.update()
+
         self.tear_manager.update(frame_time)
         self.tear_manager.check_frame_out()
 
@@ -50,7 +57,7 @@ class Isaac(Unit):      #sub class
         if self.state == UnitState.Move:
             self.frameBody = (self.frameBody + 1) % 10
             self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
-            
+
     def handle_event(self, event):
         global last_key
 
@@ -67,11 +74,21 @@ class Isaac(Unit):      #sub class
                 self.change_state(UnitState.Move)
 
             elif event.key == SDLK_w:
-                self.change_way(Way.Up)
+                if self.way in (Way.Left,):
+                    self.change_way(Way.LeftUp)
+                elif self.way in (Way.Right,):
+                    self.change_way(Way.RightUp)
+                else:
+                    self.change_way(Way.Up)
                 self.change_state(UnitState.Move)
 
             elif event.key == SDLK_s:
-                self.change_way(Way.Down)
+                if self.way in (Way.Left,):
+                    self.change_way(Way.LeftDown)
+                elif self.way in (Way.Right,):
+                    self.change_way(Way.RightDown)
+                else:
+                    self.change_way(Way.Down)
                 self.change_state(UnitState.Move)
 
             elif event.key == SDLK_UP:
@@ -109,7 +126,7 @@ class Isaac(Unit):      #sub class
         self.way = way
         self.delay = 0
 
-        if self.way == Way.Down:
+        if self.way in (Way.Down, Way.RightDown, Way.LeftDown):
             self.frameHead = 0
         elif self.way == Way.Right:
             self.frameHead = 2
@@ -145,9 +162,7 @@ class Isaac(Unit):      #sub class
             self.move(self.speed, 0)
         """
         if self.way in (Way.Down, Way.Up):
-            print("undo_move,y")
             self.x, self.y = self.game_engine.undo_move(self.x, self.y, game_engine.MovePattern.MoveY)
         elif self.way in (Way.Right, Way.Left):
-            print("undo_move,x")
             self.x, self.y = self.game_engine.undo_move(self.x, self.y, game_engine.MovePattern.MoveX)
 

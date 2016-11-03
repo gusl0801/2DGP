@@ -26,6 +26,8 @@ class GameEngine:
 
         self.prev_x, self.prev_y = 0, 0
 
+        self.time_elapsed = 0.0
+
     def move(self, frame_time, speed, x, y, way = None):
         self.prev_x, self.prev_y = x, y
         distance = speed * frame_time
@@ -110,6 +112,12 @@ class GameEngine:
             self.move_count = 0
 
         return x, y
+
+    def shake_x(self, frame_time, x):
+        pass
+
+    def shake_y(self, frame_time, y):
+        pass
 
     def undo_move(self, x, y, pattern = 0, speed = 0):
         if pattern == MovePattern.MoveX:

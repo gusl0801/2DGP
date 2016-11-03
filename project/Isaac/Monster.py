@@ -98,7 +98,7 @@ class Tumor(Unit):
         self.collision_update(unit)
         self.tear_manager.update(frame_time)
 
-        self.state_handler[self.state](self,frame_time,unit)
+        self.state_handler[self.state](frame_time,unit)
 
     def attack(self, unit):
         pass
@@ -147,7 +147,7 @@ class Tumor(Unit):
 
     def handle_attacked(self, frame_time, unit):
         pass
-
+    """
     state_handler = \
         {
             UnitState.Move: handle_move,
@@ -155,6 +155,7 @@ class Tumor(Unit):
             UnitState.Wait: handle_wait,
             UnitState.Attacked: handle_attacked
         }
+    """
 
 
 

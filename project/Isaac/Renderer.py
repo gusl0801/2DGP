@@ -25,6 +25,9 @@ class Renderer:
              self.frameY * self.height,
              self.width, self.height, x, y)
 
+    def draw_boundary(self, x1, x2, y1, y2):
+        draw_rectangle(x1, y1, x2, y2)
+
     def update(self, max_x = -1, max_y = None):
         self.delay += 1
         if self.delay > 3:

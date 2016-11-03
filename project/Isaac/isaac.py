@@ -19,7 +19,6 @@ class Isaac(Unit):      #sub class
 
         self.renderer = Renderer.Renderer('resource/character/isaac_normal/isaac_base.png', 56, 75)
 
-
     def draw(self, frame_time):
         #draw_rectangle(self.x - 28, self.y - 37, self.x + 28, self.y + 37)
         if self.way in (Way.Up, Way.LeftUp, Way.RightUp):
@@ -39,27 +38,12 @@ class Isaac(Unit):      #sub class
 
     def update(self,frame_time):
         #self.renderer.update()
+        self.time_elapsed += frame_time
 
         self.tear_manager.update(frame_time)
         self.tear_manager.check_frame_out()
 
-        if self.state == UnitState.Stop:
-            return
-
-        if self.state == UnitState.Attack:
-            self.delay += 1
-
-            if self.delay >= 5:
-                self.frameHead += 1
-                self.delay = 0
-
-                if (self.frameHead % 2) == 0:
-                    self.change_way(self.way)
-                    self.change_state(UnitState.Stop)
-
-        if self.state == UnitState.Move:
-            self.frameBody = (self.frameBody + 1) % 10
-            self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
+        self.state_handler[self.state](frame_time)
 
     def handle_event(self, event):
         global last_key
@@ -68,30 +52,24 @@ class Isaac(Unit):      #sub class
             if event.key != None:
                 last_key = event.key
 
-            if event.key == SDLK_d:
+            if event.key in (SDLK_d,):
                 self.change_way(Way.Right)
+                self.next_way = Way.Right
                 self.change_state(UnitState.Move)
 
-            elif event.key == SDLK_a:
+            elif event.key in (SDLK_a,):
                 self.change_way(Way.Left)
+                self.next_way = Way.Left
                 self.change_state(UnitState.Move)
 
-            elif event.key == SDLK_w:
-                if self.way in (Way.Left,):
-                    self.change_way(Way.LeftUp)
-                elif self.way in (Way.Right,):
-                    self.change_way(Way.RightUp)
-                else:
-                    self.change_way(Way.Up)
+            elif event.key in (SDLK_w,):
+                self.change_way(Way.Up)
+                self.next_way = Way.Up
                 self.change_state(UnitState.Move)
 
-            elif event.key == SDLK_s:
-                if self.way in (Way.Left,):
-                    self.change_way(Way.LeftDown)
-                elif self.way in (Way.Right,):
-                    self.change_way(Way.RightDown)
-                else:
-                    self.change_way(Way.Down)
+            elif event.key in (SDLK_s,):
+                self.change_way(Way.Down)
+                self.next_way = Way.Down
                 self.change_state(UnitState.Move)
 
             elif event.key == SDLK_UP:
@@ -114,19 +92,19 @@ class Isaac(Unit):      #sub class
                 self.change_state(UnitState.Attack)
                 self.shot_tear()
 
-
         elif event.type == SDL_KEYUP:
-            if (event.key == SDLK_w
-                or event.key == SDLK_d
-                or event.key == SDLK_s
-                or event.key == SDLK_a):
-
-                if last_key == event.key:
-                    self.change_state(UnitState.Stop)
-                    last_key = None
+            if (event.key, self.way) == (SDLK_w, Way.Up):
+                self.change_state(UnitState.Stop)
+            elif (event.key, self.way) == (SDLK_a, Way.Left):
+                self.change_state(UnitState.Stop)
+            elif (event.key, self.way) == (SDLK_s, Way.Down):
+                self.change_state(UnitState.Stop)
+            elif (event.key, self.way) == (SDLK_d, Way.Right):
+                self.change_state(UnitState.Stop)
 
         if (event.type, self.way):
             pass
+
     def change_way(self, way):
         self.way = way
         self.delay = 0
@@ -139,6 +117,12 @@ class Isaac(Unit):      #sub class
             self.frameHead = 4
         elif self.way == Way.Left:
             self.frameHead = 6
+
+    def change_state(self, state):
+        self.state = state
+        self.change_way(self.way)
+        self.delay = 0
+        self.frameBody = 0
 
     def shot_tear(self):
         self.tear_manager.append()
@@ -170,4 +154,28 @@ class Isaac(Unit):      #sub class
             self.x, self.y = self.game_engine.undo_move(self.x, self.y, game_engine.MovePattern.MoveY)
         elif self.way in (Way.Right, Way.Left):
             self.x, self.y = self.game_engine.undo_move(self.x, self.y, game_engine.MovePattern.MoveX)
+
+    def handle_attack(self, frame_time, unit = None):
+        self.delay += 1
+
+        if self.delay >= 5:
+            self.frameHead += 1
+            self.delay = 0
+
+            if (self.frameHead % 2) == 0:
+                self.change_way(self.way)
+                self.change_state(UnitState.Stop)
+
+    def handle_attacked(self, frame_time, unit = None):
+        pass
+
+    def handle_move(self, frame_time, unit = None):
+        """
+        if self.way in (Way.LeftUp, Way.LeftDown, Way.RightDown, Way.RightDown):
+            self.way = self.next_way
+            self.time_elapsed = 0.0
+        """
+        self.frameBody = (self.frameBody + 1) % 10
+        self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
+
 

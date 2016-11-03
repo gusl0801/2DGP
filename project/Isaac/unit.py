@@ -36,7 +36,15 @@ class Unit:
         self.hp = 6
 
         self.time_elapsed = 0.0
-
+        self.state_handler = \
+            {
+                UnitState.Stop    : self.handle_stop,
+                UnitState.Idle    : self.handle_idle,
+                UnitState.Move    : self.handle_move,
+                UnitState.Attack  : self.handle_attack,
+                UnitState.Wait    : self.handle_wait,
+                UnitState.Attacked: self.handle_attacked
+            }
     #overrided by subclass
     def update(self, frame_time):
         pass
@@ -93,12 +101,7 @@ class Unit:
             self.move_way = Way.Down
 
     def change_state(self, state):
-        self.state = state
-
-        #animation초기화, 이후 rendering 클래스로 따로 빼두자
-        self.change_way(self.way)
-        self.delay = 0
-        self.frameBody = 0
+        pass
 
     def detect_enemy(self, enemy):
         pass
@@ -127,15 +130,15 @@ class Unit:
         RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
         self.speed = RUN_SPEED_PPS
-    def handle_stop(self, frame_time, unit):
+    def handle_stop(self, frame_time, unit = None):
         pass
-    def handle_move(self, frame_time, unit):
+    def handle_move(self, frame_time, unit= None):
         pass
-    def handle_idle(self, frame_time, unit):
+    def handle_idle(self, frame_time, unit= None):
         pass
-    def handle_attack(self, frame_time, unit):
+    def handle_attack(self, frame_time, unit= None):
         pass
-    def handle_wait(self, frame_time, unit):
+    def handle_wait(self, frame_time, unit= None):
         pass
-    def handle_attacked(self, frame_time, unit):
+    def handle_attacked(self, frame_time, unit= None):
         pass

@@ -48,6 +48,20 @@ class Room:
 
     def add_door(self, door):
         self.door_list.append(door)
+class Room_Start(Room):
+    def __init__(self):
+        Room.__init__(self)
+
+    def update(self, frame_time, unit):
+        Room.update(self, frame_time, unit)
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+        return self
+
+    def draw(self):
+        Room.draw(self)
 
 class Room_0(Room):
     def __init__(self):
@@ -80,33 +94,7 @@ class Room_0(Room):
         #for ray in self.rays:
         #    ray.draw()
 
-
-
-
-
 class Room_1(Room):
-    def __init__(self):
-        Room.__init__(self)
-
-        self.monstro = Monstro(480, 300)
-
-    def update(self, frame_time, unit):
-        Room.update(self,frame_time,  unit)
-
-        self.monstro.update(frame_time, unit)
-
-        for door in self.door_list:
-            if door.check_collision(unit) != None:
-                return door.connected_room
-        return self
-
-    def draw(self):
-        Room.draw(self)
-
-        self.monstro.draw()
-
-
-class Room_2(Room):
     def __init__(self):
         Room.__init__(self)
         self.rock_list.append(Rock(490, 300, RockShape.Size_oneByone1, MapType.Normal))
@@ -155,7 +143,7 @@ class Room_2(Room):
         for spider in self.spiders:
             spider.draw()
 
-class Room_3(Room):
+class Room_2(Room):
     def __init__(self):
         Room.__init__(self)
 
@@ -181,7 +169,7 @@ class Room_3(Room):
             fly.draw()
 
 
-class Room_4(Room):
+class Room_3(Room):
     def __init__(self):
         Room.__init__(self)
 
@@ -213,7 +201,7 @@ class Room_4(Room):
     def draw(self):
         Room.draw(self)
 
-class Room_5(Room):
+class Room_4(Room):
     def __init__(self):
         Room.__init__(self)
 
@@ -230,6 +218,51 @@ class Room_5(Room):
     def draw(self):
         Room.draw(self)
 
+class Room_Boss_Monstro(Room):
+    def __init__(self):
+        Room.__init__(self)
+
+        self.monstro = Monstro(480, 300)
+
+    def update(self, frame_time, unit):
+        Room.update(self,frame_time,  unit)
+
+        self.monstro.update(frame_time, unit)
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        self.monstro.draw()
+class Room_Item_CommonCold(Room):
+    def __init__(self):
+        Room.__init__(self)
+
+        self.items = [CommonCold(480, 270)]
+
+    def update(self, frame_time, unit):
+        Room.update(self,frame_time,  unit)
+
+        for item in self.items:
+            item.update(frame_time, unit)
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        for item in self.items:
+            item.draw()
+
+
 """
 maker = {RoomType.Room1 : Room_1(),
                   RoomType.Room2 : Room_2(),
@@ -239,6 +272,8 @@ maker = {RoomType.Room1 : Room_1(),
 """
 
 def room_maker(parameter):
+    if parameter == RoomType.Room_Start:
+        return Room_Start()
     if parameter == RoomType.Room0:
         return Room_0()
     if parameter == RoomType.Room1:
@@ -249,8 +284,10 @@ def room_maker(parameter):
         return Room_3()
     if parameter == RoomType.Room4:
         return Room_4()
-    if parameter == RoomType.Room5:
-        return Room_5()
+    if parameter == RoomType.Room_Item_CommonCold:
+        return Room_Item_CommonCold()
+    if parameter == RoomType.Room_Boss_Monstro:
+        return Room_Boss_Monstro()
 
 
 

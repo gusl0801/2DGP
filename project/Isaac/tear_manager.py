@@ -6,7 +6,10 @@ class TearManager:
         self.unit = unit
 
     def append(self):
-        tear = Tear(self.unit)
+        if self.unit.tear_type in (TearType.Normal,):
+            tear = Tear(self.unit)
+        elif self.unit.tear_type in (TearType.Red_Ray, TearType.Dark_Ray, TearType.White_Ray):
+            tear = Ray(self.unit, self.unit.tear_type)
         self.tear_list.append(tear)
 
     def clear(self):

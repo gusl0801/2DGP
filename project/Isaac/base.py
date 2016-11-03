@@ -8,8 +8,8 @@ class Point:
 class Way:
     Left = 0
     Right = 1
-    Up = 2
-    Down = 3
+    Down = 2
+    Up = 3
     LeftUp = 4
     LeftDown = 5
     RightUp = 6

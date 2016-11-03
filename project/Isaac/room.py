@@ -3,6 +3,7 @@ from Monster import*
 
 from Boss import *
 from Item import *
+from tear import*
 
 class Room:
     image = None
@@ -52,13 +53,19 @@ class Room_0(Room):
     def __init__(self):
         Room.__init__(self)
 
-        self.tumors = [Tumor(200, 102, Way.Down), Tumor(200, 450, Way.Up)]
+        self.tumors = [Tumor(200, 102, Way.Down), Tumor(200, 450, Way.Up)
+            ,Tumor(760, 102, Way.Down), Tumor(760, 450, Way.Up)]
+        self.rays = [Ray(self.tumors[1], TearType.Red_Ray),Ray(self.tumors[0], TearType.White_Ray)
+                     ,Ray(self.tumors[2], TearType.Dark_Ray), Ray(self.tumors[3], TearType.Dark_Ray)]
 
     def update(self, frame_time, unit):
         Room.update(self, frame_time, unit)
 
         for tumor in self.tumors:
             tumor.update(frame_time, unit)
+
+        for ray in self.rays:
+            ray.update(frame_time)
 
         for door in self.door_list:
             if door.check_collision(unit) != None:
@@ -67,8 +74,15 @@ class Room_0(Room):
 
     def draw(self):
         Room.draw(self)
+
         for tumor in self.tumors:
             tumor.draw()
+        #for ray in self.rays:
+        #    ray.draw()
+
+
+
+
 
 class Room_1(Room):
     def __init__(self):

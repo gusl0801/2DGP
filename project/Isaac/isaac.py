@@ -6,16 +6,19 @@ lask_key = None
 class Isaac(Unit):      #sub class
     def __init__(self):
         Unit.__init__(self)
-        self.tear_type = TearType.Normal
+        self.tear_size = 5
 
         self.team = UnitTeam.Ally
-        self.frameHead, self.frameBody = 0, 0
+
         self.way = Way.Down
-        self.tear_size = 5
+        self.next_way = self.way
+
+        self.frameHead, self.frameBody = 0, 0
         self.sprite = load_image('resource/character/isaac_normal/isaac_base.png')
         self.game_engine = game_engine.GameEngine()
 
         self.renderer = Renderer.Renderer('resource/character/isaac_normal/isaac_base.png', 56, 75)
+
 
     def draw(self, frame_time):
         #draw_rectangle(self.x - 28, self.y - 37, self.x + 28, self.y + 37)
@@ -122,6 +125,8 @@ class Isaac(Unit):      #sub class
                     self.change_state(UnitState.Stop)
                     last_key = None
 
+        if (event.type, self.way):
+            pass
     def change_way(self, way):
         self.way = way
         self.delay = 0

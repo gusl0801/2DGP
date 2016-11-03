@@ -6,7 +6,8 @@ class UnitState:
     Idle = 1
     Move = 2
     Attack = 3
-    Attacked = 4
+    Wait = 4
+    Attacked = 5
 
 class UnitTeam:
     Ally = 0
@@ -17,6 +18,7 @@ class Unit:
     def __init__(self):
         self.state = UnitState.Idle
 
+        self.tear_type = TearType.Normal
         self.tear_manager = TearManager(self)
 
         self.team = None
@@ -26,11 +28,14 @@ class Unit:
         self.image_x, self.image_y = 32, 32
 
         self.speed = None
+        self.move_way = None
         self.init_speed()
 
         self.delay = 0
 
         self.hp = 6
+
+        self.time_elapsed = 0.0
 
     #overrided by subclass
     def update(self, frame_time):
@@ -71,6 +76,22 @@ class Unit:
         elif (not exist_on_left and not exist_on_up):
             self.way = Way.RightDown
 
+    def detect_enemy_x_pos(self, enemy):
+        exist_on_left = (enemy.x <= self.x) #enemy is exist on left face
+
+        if exist_on_left :
+            self.move_way = Way.Left
+        if not exist_on_left:
+            self.move_way = Way.Right
+
+    def detect_enemy_y_pos(self, enemy):
+        exist_on_up = (enemy.y >= self.y)   #enemy is exist on up face
+
+        if exist_on_up:
+            self.move_way = Way.Up
+        if not exist_on_up:
+            self.move_way = Way.Down
+
     def change_state(self, state):
         self.state = state
 
@@ -106,4 +127,15 @@ class Unit:
         RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
         self.speed = RUN_SPEED_PPS
-
+    def handle_stop(self, frame_time, unit):
+        pass
+    def handle_move(self, frame_time, unit):
+        pass
+    def handle_idle(self, frame_time, unit):
+        pass
+    def handle_attack(self, frame_time, unit):
+        pass
+    def handle_wait(self, frame_time, unit):
+        pass
+    def handle_attacked(self, frame_time, unit):
+        pass

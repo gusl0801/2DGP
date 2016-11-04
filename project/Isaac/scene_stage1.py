@@ -95,24 +95,29 @@ def init_rooms():
     global rooms
     global current_room
     way = random.randint(0, 3)
-    temp = None
     index = 0
-    count = 1
+    count = 0
 
-    # first_room_setting_start
+    # first_room_setting_ ::start
     rooms = [room_maker(RoomType.Room_Start)]
-    rooms.append(room_maker(random.randint(1, 8)))
+    rooms.append(room_maker(random.randint(1, 7)))
     connect_rooms(index, index + 1, way)
     current_room = rooms[0]
     index += 1
-    # first_room_setting_end
+    # first_room_setting_ ::end
 
+    # randomly makes rooms and connect them  :: start
     while count < 5:
+        temp = random.randint(0, 3)
+        while temp == way:
+            temp = random.randint(0, 3)
+        way = temp
+
         rooms.append(room_maker(random.randint(1, 7)))
-        connect_rooms(index, index + 1,random.randint(0, 3))
+        connect_rooms(index, index + 1, random.randint(0, 3))
         index += 1
         count += 1
-    print(count)
+    # :: end
 
 def connect_rooms(index1, index2, way, map_type = MapType.Normal):
     global rooms

@@ -86,9 +86,12 @@ class CommonCold(Item):
 
         Item.update(self, frame_time, unit)
         self.move(frame_time)
-        self.collision_update(unit)
+        return self.collision_update(unit)
 
     def collision_update(self, unit):
         if unit.check_collision(self.x - 20, self.x + 20, self.y - 20, self.y + 40):
-            unit.undo_move()
+            unit.change_type(ItemType.CommonCold)
+            return True
+
+        return False
 

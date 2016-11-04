@@ -248,7 +248,8 @@ class Room_Item_CommonCold(Room):
         Room.update(self,frame_time,  unit)
 
         for item in self.items:
-            item.update(frame_time, unit)
+            if item.update(frame_time, unit):
+                self.items.remove(item)
 
         for door in self.door_list:
             if door.check_collision(unit) != None:
@@ -261,15 +262,6 @@ class Room_Item_CommonCold(Room):
 
         for item in self.items:
             item.draw()
-
-
-"""
-maker = {RoomType.Room1 : Room_1(),
-                  RoomType.Room2 : Room_2(),
-                  RoomType.Room3 : Room_3(),
-                  RoomType.Room3 : Room_4(),
-                  RoomType.Room3 : Room_5()}
-"""
 
 def room_maker(parameter):
     if parameter == RoomType.Room_Start:

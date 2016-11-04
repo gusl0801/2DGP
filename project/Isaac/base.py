@@ -21,6 +21,9 @@ class MapType:
     Blood = 1
     Boss = 2
 
+class ItemType:
+    CommonCold = 0
+
 class RockShape:
     Size_oneByone1 = 0
     Size_oneByone2 = 1

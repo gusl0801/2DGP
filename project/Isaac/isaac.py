@@ -13,31 +13,24 @@ class Isaac(Unit):      #sub class
         self.way = Way.Down
         self.next_way = self.way
 
-        self.frameHead, self.frameBody = 0, 0
-        self.sprite = load_image('resource/character/isaac_normal/isaac_base.png')
         self.game_engine = game_engine.GameEngine()
 
-        self.renderer = Renderer.Renderer('resource/character/isaac_normal/isaac_base.png', 56, 75)
+        self.head_renderer = Renderer.Renderer('resource/character/normal_head.png', 54, 40, 0, 1)
+        self.body_renderer = Renderer.Renderer('resource/character/normal_body.png', 43, 24, 0, 2)
+
+        #self.head_renderer = Renderer.Renderer('resource/character/common_cold_head.png', 53, 42, 0, 1)
+        #self.body_renderer = Renderer.Renderer('resource/character/common_cold_body.png', 43, 26, 0, 2)
 
     def draw(self, frame_time):
-        #draw_rectangle(self.x - 28, self.y - 37, self.x + 28, self.y + 37)
-        if self.way in (Way.Up, Way.LeftUp, Way.RightUp):
-            self.sprite.clip_draw(self.frameBody * 45, 150, 45, 75, self.x, self.y)
-            self.sprite.clip_draw(self.frameHead * 56, 225, 56, 75, self.x, self.y + 13)
+        self.body_renderer.draw(self.x, self.y - 20)
 
-        elif self.way in (Way.Down, Way.LeftDown, Way.RightDown):
-            self.sprite.clip_draw(self.frameBody * 45, 150, 45, 75, self.x, self.y)
-            self.sprite.clip_draw(self.frameHead * 56, 225, 56, 75, self.x + 1, self.y + 13)
+        self.head_renderer.draw(self.x, self.y)
+        #draw_rectangle(self.x - 27, self.y - 28, self.x + 27, self.y + 24)
 
-        else:
-            self.sprite.clip_draw(self.frameBody * 45, self.way * 75, 45, 75, self.x, self.y)
-            self.sprite.clip_draw(self.frameHead * 56, 225, 56, 75, self.x, self.y + 13)
         self.tear_manager.draw()
 
-        #self.renderer.draw(self.x, self.y)
 
     def update(self,frame_time):
-        #self.renderer.update()
         self.time_elapsed += frame_time
 
         self.tear_manager.update(frame_time)
@@ -105,24 +98,25 @@ class Isaac(Unit):      #sub class
         if (event.type, self.way):
             pass
 
+    def change_type(self, item_type):
+        if item_type == ItemType.CommonCold:
+            self.head_renderer.change_image('resource/character/common_cold_head.png', 53, 42, 0, 1)
+            self.body_renderer.change_image('resource/character/common_cold_body.png', 43, 26, 0, 2)
+
     def change_way(self, way):
         self.way = way
         self.delay = 0
 
-        if self.way in (Way.Down, Way.RightDown, Way.LeftDown):
-            self.frameHead = 0
-        elif self.way == Way.Right:
-            self.frameHead = 2
-        elif self.way == Way.Up:
-            self.frameHead = 4
-        elif self.way == Way.Left:
-            self.frameHead = 6
+        self.head_renderer.change_frameX(0)
+        self.head_renderer.change_frameY(3 - self.way) #3 means WayCount not including diagonal way
+
+        self.body_renderer.change_frameX(0)
+        self.body_renderer.change_frameY(self.way)
 
     def change_state(self, state):
         self.state = state
         self.change_way(self.way)
         self.delay = 0
-        self.frameBody = 0
 
     def shot_tear(self):
         self.tear_manager.append()
@@ -140,16 +134,6 @@ class Isaac(Unit):      #sub class
         self.tear_manager.clear()
 
     def undo_move(self):
-        """
-        if self.way == Way.Down:
-            self.move(0, self.speed)
-        elif self.way == Way.Right:
-            self.move(-self.speed, 0)
-        elif self.way == Way.Up:
-            self.move(0, -self.speed)
-        elif self.way == Way.Left:
-            self.move(self.speed, 0)
-        """
         if self.way in (Way.Down, Way.Up):
             self.x, self.y = self.game_engine.undo_move(self.x, self.y, game_engine.MovePattern.MoveY)
         elif self.way in (Way.Right, Way.Left):
@@ -159,10 +143,9 @@ class Isaac(Unit):      #sub class
         self.delay += 1
 
         if self.delay >= 5:
-            self.frameHead += 1
             self.delay = 0
 
-            if (self.frameHead % 2) == 0:
+            if (self.head_renderer.frameX % 2) == 0:
                 self.change_way(self.way)
                 self.change_state(UnitState.Stop)
 
@@ -170,12 +153,8 @@ class Isaac(Unit):      #sub class
         pass
 
     def handle_move(self, frame_time, unit = None):
-        """
-        if self.way in (Way.LeftUp, Way.LeftDown, Way.RightDown, Way.RightDown):
-            self.way = self.next_way
-            self.time_elapsed = 0.0
-        """
-        self.frameBody = (self.frameBody + 1) % 10
+
+        self.body_renderer.update(10, None,False)
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
 
 

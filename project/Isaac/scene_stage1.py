@@ -107,7 +107,7 @@ def init_rooms():
     # first_room_setting_ ::end
 
     # randomly makes rooms and connect them  :: start
-    while count < 5:
+    while count < 15:
         temp = random.randint(0, 3)
         while temp == way:
             temp = random.randint(0, 3)

@@ -262,6 +262,30 @@ class Room_Item_CommonCold(Room):
 
         for item in self.items:
             item.draw()
+class Room_Item_Martyr(Room):
+    def __init__(self):
+        Room.__init__(self)
+
+        self.items = [Martyr(480, 270)]
+
+    def update(self, frame_time, unit):
+        Room.update(self,frame_time,  unit)
+
+        for item in self.items:
+            if item.update(frame_time, unit):
+                self.items.remove(item)
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        for item in self.items:
+            item.draw()
 
 def room_maker(parameter):
     if parameter == RoomType.Room_Start:
@@ -278,6 +302,8 @@ def room_maker(parameter):
         return Room_4()
     if parameter == RoomType.Room_Item_CommonCold:
         return Room_Item_CommonCold()
+    if parameter == RoomType.Room_Item_Martyr:
+        return Room_Item_Martyr()
     if parameter == RoomType.Room_Boss_Monstro:
         return Room_Boss_Monstro()
 

@@ -95,3 +95,24 @@ class CommonCold(Item):
 
         return False
 
+class Martyr(Item):
+    def __init__(self,x,y):
+        Item.__init__(self, x, y, "resource/Item/Martyr.png",40,37)
+
+    def draw(self):
+        Item.draw(self)
+        #self.renderer.draw_boundary(self.x - 20, self.x + 20, self.y - 20, self.y + 20)
+
+    def update(self, frame_time, unit):
+
+        Item.update(self, frame_time, unit)
+        self.move(frame_time)
+        return self.collision_update(unit)
+
+    def collision_update(self, unit):
+        if unit.check_collision(self.x - 20, self.x + 20, self.y - 20, self.y + 40):
+            unit.change_type(ItemType.Martyr)
+            return True
+
+        return False
+

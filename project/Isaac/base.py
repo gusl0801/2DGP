@@ -23,6 +23,7 @@ class MapType:
 
 class ItemType:
     CommonCold = 0
+    Martyr = 1
 
 class RockShape:
     Size_oneByone1 = 0
@@ -54,6 +55,7 @@ class RoomType:
     Room4 = 5
     Room_Boss_Monstro = 6
     Room_Item_CommonCold = 7
+    Room_Item_Martyr = 8
 
 def get_distance(x1, y1, x2,y2):
     return math.sqrt(math.pow(x1 - x2) + math.pow(y1 - y2))

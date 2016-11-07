@@ -100,7 +100,7 @@ def init_rooms():
 
     # first_room_setting_ ::start
     rooms = [room_maker(RoomType.Room_Start)]
-    rooms.append(room_maker(random.randint(1, 7)))
+    rooms.append(room_maker(random.randint(1, 8)))
     connect_rooms(index, index + 1, way)
     current_room = rooms[0]
     index += 1
@@ -113,7 +113,7 @@ def init_rooms():
             temp = random.randint(0, 3)
         way = temp
 
-        rooms.append(room_maker(random.randint(1, 7)))
+        rooms.append(room_maker(random.randint(1, 8)))
         connect_rooms(index, index + 1, random.randint(0, 3))
         index += 1
         count += 1

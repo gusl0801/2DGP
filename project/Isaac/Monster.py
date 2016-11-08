@@ -147,15 +147,6 @@ class Tumor(Unit):
 
     def handle_attacked(self, frame_time, unit):
         pass
-    """
-    state_handler = \
-        {
-            UnitState.Move: handle_move,
-            UnitState.Attack: handle_attack,
-            UnitState.Wait: handle_wait,
-            UnitState.Attacked: handle_attacked
-        }
-    """
 
 
 

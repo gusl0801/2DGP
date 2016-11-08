@@ -21,6 +21,7 @@ class GameEngine:
         self.max_x, self.max_y = max_x, max_y
 
         self.move_count = 0
+        self.jump_count = 0
         self.move_x = random.randint(-3, 3)
         self.move_y = random.randint(-3, 3)
 
@@ -45,6 +46,14 @@ class GameEngine:
             y = self.min_y
 
         return x, y
+    def jump(self, frame_time, speed,x, y, way = None):
+        self.prev_x, self.prev_y = x, y
+        distance = speed * frame_time
+
+        if way in (Way.Left, Way.LeftDown, Way.LeftUp):
+            pass
+        elif way in (Way.Right, Way.RightDown, Way.RightUp):
+            pass
 
     def handle_left_move(self, x, y, distance):
         x -= distance

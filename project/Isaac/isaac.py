@@ -1,6 +1,7 @@
 from unit import*
 import game_engine
 import Renderer
+import UI
 
 lask_key = None
 class Isaac(Unit):      #sub class
@@ -15,6 +16,8 @@ class Isaac(Unit):      #sub class
 
         self.game_engine = game_engine.GameEngine()
 
+        self.UI = UI.UI_Manager();
+
         self.head_renderer = Renderer.Renderer('resource/character/normal_head.png', 54, 40, 0, 1)
         self.body_renderer = Renderer.Renderer('resource/character/normal_body.png', 43, 24, 0, 2)
 
@@ -28,6 +31,7 @@ class Isaac(Unit):      #sub class
         #draw_rectangle(self.x - 27, self.y - 28, self.x + 27, self.y + 24)
 
         self.tear_manager.draw()
+        self.UI.draw(frame_time, self)
 
 
     def update(self,frame_time):

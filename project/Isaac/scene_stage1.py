@@ -17,32 +17,6 @@ def enter():
 
     isaac = Isaac()
     init_rooms()
-    """
-    rooms.append(Room_0())
-
-    rooms.append(Room_4())
-    rooms.append(Room_2())
-    rooms.append(Room_3())
-    rooms.append(Room_Boss_Monstro())
-    rooms.append(Room_1())
-    rooms.append(Room_Item_CommonCold())
-    current_room = rooms[0]
-
-    rooms[0].add_door(Door(Way.Up, MapType.Normal, rooms[1]))
-    rooms[1].add_door(Door(Way.Down, MapType.Normal, rooms[0]))
-
-    rooms[1].add_door(Door(Way.Right, MapType.Normal, rooms[2]))
-    rooms[2].add_door(Door(Way.Left, MapType.Normal, rooms[1]))
-
-    rooms[2].add_door(Door(Way.Down, MapType.Normal, rooms[3]))
-    rooms[3].add_door(Door(Way.Up, MapType.Normal, rooms[2]))
-
-    rooms[3].add_door(Door(Way.Down, MapType.Normal, rooms[5]))
-    rooms[5].add_door(Door(Way.Up, MapType.Normal, rooms[3]))
-
-    rooms[4].add_door(Door(Way.Right, MapType.Normal, rooms[0]))
-    rooms[0].add_door(Door(Way.Left, MapType.Normal, rooms[4]))
-    """
 
     bgm = load_music('resource/sound/easy_stage.mp3')
     bgm.set_volume(64)
@@ -92,33 +66,6 @@ def resume():
     pass
 
 def init_rooms():
-    """
-    global rooms
-    global current_room
-    way = random.randint(0, 3)
-    index = 0
-    count = 0
-
-    # first_room_setting_ ::start
-    rooms = [room_maker(RoomType.Room_Start)]
-    rooms.append(room_maker(random.randint(1, 8)))
-    connect_rooms(index, index + 1, way)
-    current_room = rooms[0]
-    index += 1
-    # first_room_setting_ ::end
-
-    # randomly makes rooms and connect them  :: start
-    while count < 15:
-        temp = random.randint(0, 3)
-
-        way = calculate_door_way(way)
-        rooms.append(room_maker(random.randint(1, 8)))
-        connect_rooms(index, index + 1, way)
-        index += 1
-        count += 1
-    count = 0
-    # :: end
-    """
     global rooms
     global current_room
     way = random.randint(0, 3)

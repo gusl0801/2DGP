@@ -20,6 +20,11 @@ class Renderer:
         pass
 
     def draw(self, x, y):
+        draw_rectangle(x + self.width / 2,
+                           y + self.height / 2,
+                           x - self.width / 2,
+                           y - self.height / 2)
+
         Renderer.sprites[self.key].clip_draw\
             (self.frameX * self.width,
              self.frameY * self.height,
@@ -42,9 +47,6 @@ class Renderer:
                 self.frameX = (self.frameX + 1) % max_x
             if max_y != None:
                 self.frameY = (self.frameY + 1) % max_y
-
-
-
 
     def change_frameX(self, x):
         self.frameX = x

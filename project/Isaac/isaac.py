@@ -106,6 +106,9 @@ class Isaac(Unit):      #sub class
         if item_type == ItemType.CommonCold:
             self.head_renderer.change_image('resource/character/common_cold_head.png', 53, 42, 0, 1)
             self.body_renderer.change_image('resource/character/common_cold_body.png', 43, 26, 0, 2)
+        elif item_type == ItemType.Martyr:
+            self.head_renderer.change_image('resource/character/martyr_head.png', 54, 50, 0, 1)
+            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 0, 2)
 
     def change_way(self, way):
         self.way = way

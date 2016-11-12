@@ -34,10 +34,8 @@ class Rock:
             self.image.clip_draw(0, 0, 128, 128, self.x, self.y)
 
     def check_collision(self, unit):
-
-
         if self.shape == RockShape.Size_oneBytwo:
-            unit.tear_manager.collision_update_ob(elf.x - 64, self.x + 64, self.y - 32, self.y + 32)
+            unit.tear_manager.collision_update_ob(self.x - 64, self.x + 64, self.y - 32, self.y + 32)
             if unit.check_collision(self.x - 64, self.x + 64, self.y - 32, self.y + 32):
                 unit.undo_move()
             return

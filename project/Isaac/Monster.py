@@ -19,6 +19,9 @@ class Spider(Unit):
 
         self.collision_update(unit)
 
+    def get_collision_box(self):
+        return self.x - 26, self.y, self.x + 26, self.y + 53
+
     def collision_update(self, unit):
         if unit.check_collision(self.x - 26, self.x + 26, self.y, self.y + 53):
             unit.undo_move()
@@ -38,6 +41,9 @@ class Tentacle(Unit):
 
         self.renderer.update(6)
         self.collision_update(unit)
+
+    def get_collision_box(self):
+        return self.x - 24, self.y - 24, self.x + 24, self.y - 48
 
     def collision_update(self, unit):
         if unit.check_collision(self.x - 24, self.x + 24, self.y - 24, self.y + 48):
@@ -67,6 +73,8 @@ class Fly(Unit):
         self.renderer.update(2)
         self.collision_update(unit)
 
+    def get_collision_box(self):
+        return self.x - 16, self.y, self.x + 16, self.y + 32
 
     def collision_update(self, unit):
         if unit.check_collision(self.x - 16, self.x + 16, self.y, self.y + 32):
@@ -111,6 +119,9 @@ class Tumor(Unit):
     def collision_update(self, unit):
         if unit.check_collision(self.x - 35, self.x + 35, self.y - 30, self.y + 67):
             unit.undo_move()
+
+    def get_collision_box(self):
+        return self.x - 35, self.y - 30, self.x + 35, self.y - 67
 
     def detect_enemy(self, enemy):
         x_axis_check = (enemy.x > self.x - 50 and enemy.x < self.x + 50)

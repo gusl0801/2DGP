@@ -28,7 +28,6 @@ class Isaac(Unit):      #sub class
         self.body_renderer.draw(self.x, self.y - 20)
 
         self.head_renderer.draw(self.x, self.y)
-        #draw_rectangle(self.x - 27, self.y - 28, self.x + 27, self.y + 24)
 
         self.tear_manager.draw()
         self.UI.draw(frame_time, self)
@@ -101,6 +100,9 @@ class Isaac(Unit):      #sub class
 
         if (event.type, self.way):
             pass
+
+    def get_collision_box(self):
+        return self.x - 27, self.y - 28, self.x + 27, self.y + 24
 
     def change_type(self, item_type):
         if item_type == ItemType.CommonCold:

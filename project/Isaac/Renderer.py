@@ -21,9 +21,9 @@ class Renderer:
 
     def draw(self, x, y):
         draw_rectangle(x + self.width / 2,
-                           y + self.height / 2,
-                           x - self.width / 2,
-                           y - self.height / 2)
+                       y + self.height / 2,
+                       x - self.width / 2,
+                       y - self.height / 2)
 
         Renderer.sprites[self.key].clip_draw\
             (self.frameX * self.width,

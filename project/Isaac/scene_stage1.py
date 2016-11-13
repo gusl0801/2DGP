@@ -72,14 +72,25 @@ def init_rooms():
     index = 0
     random_num = 0
     exist_boss_room = False
-    exist_item_room = False
 
     # first_room_setting_ ::start
     rooms = [room_maker(RoomType.Room_Start)]
     rooms.append(room_maker(random.randint(1, 5)))
     connect_rooms(index, index + 1, way)
+
+    # connect item-room   ::start
+    way = calculate_door_way(way)
+    random_num = random.randint(7, 8)
+    if random_num == RoomType.Room_Item_CommonCold:
+        rooms.append(room_maker(RoomType.Room_Item_CommonCold))
+        connect_rooms(0,  2, way)
+    elif random_num == RoomType.Room_Item_Martyr:
+        rooms.append(room_maker(RoomType.Room_Item_Martyr))
+        connect_rooms(0,  2, way)
+    # connect item-room   ::end
+
+    index = 2
     current_room = rooms[0]
-    index += 1
     # first_room_setting_ ::end
 
     # randomly makes rooms and connect them  :: start
@@ -93,18 +104,7 @@ def init_rooms():
                     connect_rooms(index, index + 1, way)
                     index += 1
                     exist_boss_room = True
-            if not exist_item_room:
-                random_num = random.randint(7, 8)
-                if random_num == RoomType.Room_Item_CommonCold and not exist_item_room:
-                    rooms.append(room_maker(RoomType.Room_Item_CommonCold))
-                    connect_rooms(index, index + 1, way)
-                    index += 1
-                    exist_item_room = True
-                elif random_num == RoomType.Room_Item_Martyr and not exist_item_room:
-                    rooms.append(room_maker(RoomType.Room_Item_Martyr))
-                    connect_rooms(index, index + 1, way)
-                    index += 1
-                    exist_item_room = True
+            #here
             break
         else:
             random_num = random.randint(0, 29)
@@ -114,16 +114,6 @@ def init_rooms():
                 connect_rooms(index, index + 1, way)
                 index += 1
                 exist_boss_room = True
-            elif random_num == RoomType.Room_Item_CommonCold and not exist_item_room:
-                rooms.append(room_maker(RoomType.Room_Item_CommonCold))
-                connect_rooms(index, index + 1, way)
-                index += 1
-                exist_item_room = True
-            elif random_num == RoomType.Room_Item_Martyr and not exist_item_room:
-                rooms.append(room_maker(RoomType.Room_Item_Martyr))
-                connect_rooms(index, index + 1, way)
-                index += 1
-                exist_item_room = True
             else:
                 rooms.append(room_maker(random.randint(1, 5)))
                 connect_rooms(index, index + 1, way)

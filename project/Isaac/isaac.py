@@ -12,6 +12,7 @@ class Isaac(Unit):      #sub class
         self.team = UnitTeam.Ally
 
         self.way = Way.Down
+        self.image_y = 0
         self.next_way = self.way
 
         self.game_engine = game_engine.GameEngine()
@@ -25,7 +26,8 @@ class Isaac(Unit):      #sub class
         #self.body_renderer = Renderer.Renderer('resource/character/common_cold_body.png', 43, 26, 0, 2)
 
     def draw(self, frame_time):
-        self.body_renderer.draw(self.x, self.y - 20)
+
+        self.body_renderer.draw(self.x, self.y - 20 - self.image_y)
 
         self.head_renderer.draw(self.x, self.y)
 
@@ -108,9 +110,13 @@ class Isaac(Unit):      #sub class
         if item_type == ItemType.CommonCold:
             self.head_renderer.change_image('resource/character/common_cold_head.png', 53, 42, 0, 1)
             self.body_renderer.change_image('resource/character/common_cold_body.png', 43, 26, 0, 2)
+            self.image_y = 0
+
         elif item_type == ItemType.Martyr:
             self.head_renderer.change_image('resource/character/martyr_head.png', 54, 50, 0, 1)
             self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 0, 2)
+            self.image_y = 5
+            self.tear_size += 2
 
     def change_way(self, way):
         self.way = way
@@ -151,6 +157,7 @@ class Isaac(Unit):      #sub class
     def handle_attack(self, frame_time, unit = None):
         self.delay += 1
 
+        self.head_renderer.update(2)
         if self.delay >= 5:
             self.delay = 0
 
@@ -162,7 +169,6 @@ class Isaac(Unit):      #sub class
         pass
 
     def handle_move(self, frame_time, unit = None):
-
         self.body_renderer.update(10, None,False)
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
 

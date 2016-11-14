@@ -79,7 +79,9 @@ def init_rooms():
     connect_rooms(index, index + 1, way)
 
     # connect item-room   ::start
+    print(way)
     way = calculate_door_way(way)
+    print(way)
     random_num = random.randint(7, 8)
     if random_num == RoomType.Room_Item_CommonCold:
         rooms.append(room_maker(RoomType.Room_Item_CommonCold))
@@ -87,6 +89,11 @@ def init_rooms():
     elif random_num == RoomType.Room_Item_Martyr:
         rooms.append(room_maker(RoomType.Room_Item_Martyr))
         connect_rooms(0,  2, way)
+    elif random_num != RoomType.Room_Item_Martyr and random_num != RoomType.Room_Item_CommonCold:
+        print("Error!")
+        print(random_num)
+        rooms.append(room_maker(RoomType.Room_Item_Martyr))
+        connect_rooms(0, 2, way)
     # connect item-room   ::end
 
     index = 2
@@ -136,15 +143,23 @@ def connect_rooms(index1, index2, way, map_type = MapType.Normal):
     rooms[index2].add_door(Door(opposite, map_type, rooms[index1]))
 
 def calculate_door_way(way):
+    count = 0
     while True:
+        count += 1
+        print("after",count)
+        if count >= 20:
+            temp = (way + 1) % 4
+            break;
         temp = random.randint(0, 3)
-        if way == Way.Left and temp != Way.Right:
+        if way == Way.Left and temp not in(Way.Right, Way.Left):
             break;
-        if way == Way.Right and temp != Way.Left:
+        if way == Way.Right and temp not in (Way.Left, Way.Right):
             break;
-        if way == Way.Up and temp != Way.Down:
+        if way == Way.Up and temp not in(Way.Down, Way.Up):
             break;
-        if way == Way.Down and temp != Way.Up:
+        if way == Way.Down and temp not in(Way.Up, Way.Down):
             break;
+    print("before", count)
     return temp
+
 

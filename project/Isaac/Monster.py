@@ -92,7 +92,7 @@ class Tumor(Unit):
         self.change_speed(5)
         self.way = way
         self.move_way = way
-        self.tear_type = random.randint(0,2) + 2
+        self.tear_type = 2
 
         self.game_engine = game_engine.GameEngine()
         self.renderer = Renderer.Renderer\

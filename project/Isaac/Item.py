@@ -53,15 +53,24 @@ class Item:
     def collision_update(self, unit):
         pass
 
-class Heart(Item):
-    def __init__(self,x,y):
-        Item.__init__(self,x,y, "",0,0)
+class Hp(Item):
+    def __init__(self,x,y, amount = 1):
+        Item.__init__(self,x,y, "resource/item/hp_heart.png", 24, 24)
+        self.amount = amount
 
     def draw(self):
         Item.draw(self)
 
     def update(self, frame_time, unit):
         Item.update(self, frame_time, unit)
+        self.move(frame_time)
+        return self.collision_update(unit)
+
+    def collision_update(self, unit):
+        if unit.check_collision(self.x - 20, self.x + 20, self.y - 20, self.y + 40):
+            unit.set_hp(self.amount)
+            return True
+        return False
 
 
 class Key(Item):

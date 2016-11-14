@@ -101,10 +101,20 @@ class Unit:
             self.move_way = Way.Down
 
     def change_state(self, state):
+        self.state = state
+        self.time_elapsed = 0
         pass
 
     def detect_enemy(self, enemy):
         pass
+
+    def set_hp(self, amount):
+        self.hp += amount
+
+    def check_die(self):
+        if self.hp <= 0:
+            return True
+        return False
 
     def check_collision(self, x1, x2, y1, y2):
         if ((x1 < self.x  and x2 > self.x)

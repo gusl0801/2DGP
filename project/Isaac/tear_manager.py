@@ -6,7 +6,7 @@ class TearManager:
         self.unit = unit
 
     def append(self):
-        if self.unit.tear_type in (TearType.Normal,):
+        if self.unit.tear_type in (TearType.Normal, TearType.Commond_Cold):
             tear = Tear(self.unit, self.unit.tear_size)
         elif self.unit.tear_type in (TearType.Red_Ray, TearType.Dark_Ray, TearType.White_Ray):
             tear = Ray(self.unit, self.unit.tear_type)
@@ -22,8 +22,11 @@ class TearManager:
 
     def collision_update(self, unit):
         for i in self.tear_list:
+            if unit.check_die():
+                return
             if unit.check_collision(i.x - 24, i.x + 24, i.y -24, i.y + 24):
                 self.tear_list.remove(i)
+                unit.set_hp(-1)
 
     def collision_update_ob(self, x1, x2, y1, y2):
         for tear in self.tear_list:

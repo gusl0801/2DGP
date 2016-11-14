@@ -26,6 +26,7 @@ class Renderer:
                        x - self.width / 2,
                        y - self.height / 2)
 """
+        #Renderer.sprites[self.key].opacify(0.5)
         Renderer.sprites[self.key].clip_draw\
             (self.frameX * self.width,
              self.frameY * self.height,

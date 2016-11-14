@@ -3,10 +3,11 @@ import random
 import Renderer
 
 class Spider(Unit):
-    def __init__(self, x, y):
+    def __init__(self, x, y, hp = 3):
         Unit.__init__(self)
         self.team == UnitTeam.Enemy
         self.x, self.y = x, y
+        self.hp = hp
 
         self.game_engine = game_engine.GameEngine()
         self.renderer = Renderer.Renderer('resource/monster/spider.png', 53, 53)
@@ -30,11 +31,12 @@ class Spider(Unit):
         self.renderer.draw(self.x, self.y)
 
 class Tentacle(Unit):
-    def __init__(self, x, y):
+    def __init__(self, x, y, hp = 3):
         Unit.__init__(self)
         self.x, self.y = x, y
         self.renderer = Renderer.Renderer(
             'resource/monster/tentacle.png', 48, 96)
+        self.hp = hp
 
     def update(self, frame_time, unit):
         unit.tear_manager.collision_update(self)
@@ -53,10 +55,11 @@ class Tentacle(Unit):
         self.renderer.draw(self.x, self.y)
 
 class Fly(Unit):
-    def __init__(self):
+    def __init__(self,hp = 2):
         Unit.__init__(self)
         self.x = random.randint(120, 830)
         self.y = random.randint(120, 430)
+        self.hp = hp
 
         self.game_engine = game_engine.GameEngine()
 
@@ -84,9 +87,10 @@ class Fly(Unit):
         self.renderer.draw(self.x, self.y)
 
 class Tumor(Unit):
-    def __init__(self, x, y, way):
+    def __init__(self, x, y, way, hp = 3):
         Unit.__init__(self)
         self.x, self.y = x, y
+        self.hp = hp
 
         self.state = UnitState.Move
         self.change_speed(5)

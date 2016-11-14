@@ -1,7 +1,7 @@
 import game_framework
-import scene_stage2
-from isaac import *
 from room import*
+import scene_stage1 #import isaac# as prev_unit
+import scene_stage3
 
 isaac = None
 running = True
@@ -16,10 +16,13 @@ def enter():
     global current_room
     global bgm
 
-    isaac = Isaac()
+    Room.change_image(Room,'resource/map/map_normal.png')
+    isaac = scene_stage1.isaac
+    del(scene_stage1.isaac)
+    isaac.init_position()
     init_rooms()
 
-    bgm = load_music('resource/sound/easy_stage.mp3')
+    bgm = load_music('resource/sound/normal_stage.mp3')
     bgm.set_volume(64)
     bgm.repeat_play()
 
@@ -57,7 +60,7 @@ def handle_events(frame_time):
         elif (event.type, event.key)  == (SDL_KEYDOWN,SDLK_ESCAPE):
             game_framework.quit()
         elif (event.type, event.key)  == (SDL_KEYDOWN,SDLK_SPACE):
-            game_framework.change_state(scene_stage2)
+            game_framework.change_state(scene_stage3)
         else:
             isaac.handle_event(event)
 
@@ -77,7 +80,6 @@ def init_rooms():
 
     # first_room_setting_ ::start
     rooms = [room_maker(RoomType.Room_Start)]
-    #rooms = [room_maker(RoomType.Room_Boss_Monstro)]
     rooms.append(room_maker(random.randint(1, 7)))
     connect_rooms(index, index + 1, way)
 
@@ -107,6 +109,7 @@ def init_rooms():
     while True:
         way = calculate_door_way(way)
         if index > 10:
+            """
             if not exist_boss_room:
                 random_num = random.randint(0, 0)
                 if random_num == 0:
@@ -115,6 +118,7 @@ def init_rooms():
                     index += 1
                     exist_boss_room = True
             #here
+            """
             break
         else:
             random_num = random.randint(0, 29)
@@ -130,14 +134,13 @@ def init_rooms():
                 index += 1
             if index > 2:
                 break
-    #create last room ::start
+    # create last room ::start
     way = calculate_door_way(way)
     rooms.append(room_maker(RoomType.Room_Last))
     connect_rooms(index, index + 1, way)
     rooms[-1].init_framework(game_framework)
-    rooms[-1].init_next_state(scene_stage2)
+    rooms[-1].init_next_state(scene_stage3)
     # create last room ::end
-
 def connect_rooms(index1, index2, way, map_type = MapType.Normal):
     global rooms
     opposite = None

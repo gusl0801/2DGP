@@ -46,14 +46,51 @@ class GameEngine:
             y = self.min_y
 
         return x, y
-    def jump(self, frame_time, speed,x, y, way = None):
-        self.prev_x, self.prev_y = x, y
-        distance = speed * frame_time
 
-        if way in (Way.Left, Way.LeftDown, Way.LeftUp):
-            pass
-        elif way in (Way.Right, Way.RightDown, Way.RightUp):
-            pass
+    def move_direct(self, frame_time, unit):
+        self.prev_x, self.prev_y = unit.x, unit.y
+        distance = unit.speed * frame_time
+        unit.x, unit.y = self.move_handler[unit.way](self, unit.x, unit.y, distance)
+
+        if unit.x <= self.min_x:
+            unit.x = self.min_x
+        if unit.y <= self.min_y:
+            unit.y = self.min_y
+
+    def move_x_direct(self, frame_time, unit):
+        self.prev_x, self.prev_y = unit.x, unit.y
+        distance = unit.speed_x * frame_time
+        unit.x, y = self.move_handler[unit.way](self, unit.x, unit.y, distance)
+
+        if unit.x <= self.min_x:
+            unit.x = self.min_x
+        if unit.y <= self.min_y:
+            unit.y = self.min_y
+
+    def move_y_direct(self, frame_time, unit):
+        self.prev_x, self.prev_y = unit.x, unit.y
+        distance = unit.speed_y * frame_time
+        x, unit.y = self.move_handler[unit.way](self, unit.x, unit.y, distance)
+
+        if unit.x <= self.min_x:
+            unit.x = self.min_x
+        if unit.y <= self.min_y:
+            unit.y = self.min_y
+    def jump(self, frame_time, unit):
+        self.prev_x, self.prev_y = unit.x, unit.y
+        distance_x = unit.speed_x * frame_time
+        distance_y = unit.speed_y * frame_time
+
+        #print(self.time_elapsed)
+        if unit.time_elapsed >= 0.3:
+            unit.y -= distance_y
+        else:
+            unit.y += distance_y
+
+        if unit.way in (Way.Left, Way.LeftDown, Way.LeftUp):
+            unit.x -= distance_x
+        elif unit.way in (Way.Right, Way.RightDown, Way.RightUp):
+            unit.x += distance_x
 
     def handle_left_move(self, x, y, distance):
         x -= distance

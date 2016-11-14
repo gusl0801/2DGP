@@ -111,12 +111,15 @@ class Isaac(Unit):      #sub class
             self.head_renderer.change_image('resource/character/common_cold_head.png', 53, 42, 0, 1)
             self.body_renderer.change_image('resource/character/common_cold_body.png', 43, 26, 0, 2)
             self.image_y = 0
+            self.tear_size = 5
+            self.tear_type = TearType.Commond_Cold
 
         elif item_type == ItemType.Martyr:
             self.head_renderer.change_image('resource/character/martyr_head.png', 54, 50, 0, 1)
             self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 0, 2)
             self.image_y = 5
-            self.tear_size += 2
+            self.tear_size = 7
+            self.tear_type = TearType.Normal
 
     def change_way(self, way):
         self.way = way
@@ -147,6 +150,9 @@ class Isaac(Unit):      #sub class
             self.y = 450
 
         self.tear_manager.clear()
+
+    def init_position(self):
+        self.x, self.y = 490, 280
 
     def undo_move(self):
         if self.way in (Way.Down, Way.Up):

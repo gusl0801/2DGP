@@ -15,7 +15,7 @@ class Room:
         #if RoomShape.Room_normal_one:
 
         if Room.image == None:
-            Room.image = load_image('resource/map/map_normal.png')
+            Room.image = load_image('resource/map/map_easy.png')
         pass
 
     def update(self, frame_time, unit):
@@ -48,6 +48,11 @@ class Room:
 
     def add_door(self, door):
         self.door_list.append(door)
+
+    def change_image(self, path):
+        del (Room.image)
+        Room.image = load_image(path)
+
 class Room_Start(Room):
     def __init__(self):
         Room.__init__(self)
@@ -112,6 +117,18 @@ class Room_1(Room):
         Room.update(self, frame_time, unit)
 
         for fly in self.flies:
+            if fly.check_die():
+                self.flies.remove(fly)
+
+        for tentacle in self.tentacles:
+            if tentacle.check_die():
+                self.tentacles.remove(tentacle)
+
+        for spider in self.spiders:
+            if spider.check_die():
+                self.spiders.remove(spider)
+
+        for fly in self.flies:
             fly.update(frame_time, unit)
 
         for tentacle in self.tentacles:
@@ -153,6 +170,10 @@ class Room_2(Room):
 
     def update(self,frame_time,  unit):
         Room.update(self,frame_time,  unit)
+
+        for fly in self.flies:
+            if fly.check_die():
+                self.flies.remove(fly)
 
         for fly in self.flies:
             fly.update(frame_time, unit)
@@ -217,6 +238,59 @@ class Room_4(Room):
 
     def draw(self):
         Room.draw(self)
+class Room_HP_1(Room):
+    def __init__(self):
+        Room.__init__(self)
+
+        self.items = [Hp(490, 270)]
+
+    def update(self, frame_time, unit):
+        Room.update(self,frame_time,  unit)
+
+        for item in self.items:
+            if item.update(frame_time, unit):
+                self.items.remove(item)
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        for item in self.items:
+            item.draw()
+
+class Room_HP_2(Room):
+    def __init__(self):
+        Room.__init__(self)
+
+        self.items = [Hp(490, 270)]
+        self.rock_list = [Rock(490, 300, RockShape.Size_oneByone1, MapType.Normal),
+                          Rock(440, 250, RockShape.Size_oneByone2, MapType.Normal),
+                          Rock(490, 200, RockShape.Size_oneByone3, MapType.Normal)]
+
+        self.dung_list = [Dung(130, 440), Dung(130, 110), Dung(830, 440), Dung(830, 110)]
+    def update(self, frame_time, unit):
+        Room.update(self,frame_time,  unit)
+
+        for item in self.items:
+            if item.update(frame_time, unit):
+                self.items.remove(item)
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        for item in self.items:
+            item.draw()
 
 class Room_Boss_Monstro(Room):
     def __init__(self):
@@ -286,6 +360,34 @@ class Room_Item_Martyr(Room):
 
         for item in self.items:
             item.draw()
+class Room_Last(Room):
+    def __init__(self):
+        Room.__init__(self)
+
+        self.gate = Gate()
+        self.framework = None
+        self.next_state = None
+    def update(self, frame_time, unit):
+        Room.update(self,frame_time,  unit)
+
+        if self.gate.check_collision(unit):
+            self.framework.change_state(self.next_state)
+            return self
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        self.gate.draw()
+    def init_framework(self, framework):
+        self.framework = framework
+    def init_next_state(self, state):
+        self.next_state = state
 
 def room_maker(parameter):
     if parameter == RoomType.Room_Start:
@@ -300,12 +402,18 @@ def room_maker(parameter):
         return Room_3()
     if parameter == RoomType.Room4:
         return Room_4()
+    if parameter == RoomType.Room_HP_1:
+        return Room_HP_1()
+    if parameter == RoomType.Room_HP_2:
+        return Room_HP_2()
     if parameter == RoomType.Room_Item_CommonCold:
         return Room_Item_CommonCold()
     if parameter == RoomType.Room_Item_Martyr:
         return Room_Item_Martyr()
     if parameter == RoomType.Room_Boss_Monstro:
         return Room_Boss_Monstro()
+    if parameter == RoomType.Room_Last:
+        return Room_Last()
 
 
 

@@ -9,6 +9,7 @@ class TearType:
     Dark_Ray = 2
     White_Ray = 3
     Red_Ray = 4
+    Commond_Cold = 5
 
 class Tear:
     game_engine = game_engine.GameEngine(100, 100, 850, 460)
@@ -22,13 +23,16 @@ class Tear:
         elif unit.way == Way.Left:
             self.x, self.y = unit.x - 7, unit.y
 
-        self.speed = unit.speed
+        self.change_speed(30)
         self.team = unit.team
         self.way = unit.way
         self.size = size
+        self.tear_type = unit.tear_type
 
         if unit.tear_type == TearType.Normal:
             self.renderer = Renderer.Renderer('resource/tear/normal.png',48,48, self.size)
+        if unit.tear_type == TearType.Commond_Cold:
+            self.renderer = Renderer.Renderer('resource/tear/common_cold.png', 64, 64)
 
     def move(self, frame_time):
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
@@ -56,9 +60,19 @@ class Tear:
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
         #self.move_handler[self.way](self, frame_time)
 
+        #if self.tear_type == TearType.Commond_Cold:
+        #    self.renderer.update(13)
     def draw(self):
         self.renderer.draw(self.x, self.y)
 
+    def change_speed(self, KMPH_speed):
+        PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+        RUN_SPEED_KMPH = KMPH_speed  # Km / Hour
+        RUN_SPEED_MPH = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+        RUN_SPEED_MPS = (RUN_SPEED_MPH / 60.0)
+        RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+        self.speed = RUN_SPEED_PPS
 class Ray:
     def __init__(self, unit, type):
         frame = 0

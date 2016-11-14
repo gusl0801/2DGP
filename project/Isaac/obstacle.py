@@ -85,6 +85,13 @@ class Dung:
         if unit.check_collision(self.x - 32, self.x + 32, self.y, self.y + 64):
             unit.undo_move()
 
+    def check_die(self):
+        if self.hp <= 0:
+            return True
+        return False
+
+    def set_hp(self, amount):
+        self.hp += amount
 
 class Campfire:
     sprite_wood = None
@@ -159,6 +166,24 @@ class Door:
             unit.change_room(self.way)
             return self.connected_room
        return None
+
+    def connect_room(self, room):
+        self.conntected_room = room
+
+class Gate:
+    image = None
+    def __init__(self, room = None):
+        self.x, self.y = 490, 280
+        if Gate.image == None:
+            Gate.image = load_image('resource/obstacle/temp.png')
+
+    def draw(self):
+            self.image.clip_draw(0, 0, 60, 60, self.x, self.y, 64, 64)
+
+    def check_collision(self, unit):
+       if unit.check_collision(self.x - 30, self.x + 30, self.y - 30, self.y + 30):
+            return True
+       return False
 
     def connect_room(self, room):
         self.conntected_room = room

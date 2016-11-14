@@ -24,11 +24,10 @@ class UI_Manager:
         self.hp = unit.hp
 
         hp = unit.hp
-        hp = 5
         x = 60
         y = 480
         while hp > 0:
-            if hp - 2 > 0:
+            if hp - 2 >= 0:
                 self.hp_image.clip_draw(0, 0, 15, 14, x, y, 30, 28)
                 hp -= 2
             else:

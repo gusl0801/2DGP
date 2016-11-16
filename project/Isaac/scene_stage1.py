@@ -106,7 +106,7 @@ def init_rooms():
     # randomly makes rooms and connect them  :: start
     while True:
         way = calculate_door_way(way)
-        if index > 10:
+        if index > 7:
             if not exist_boss_room:
                 random_num = random.randint(0, 0)
                 if random_num == 0:
@@ -128,8 +128,6 @@ def init_rooms():
                 rooms.append(room_maker(random.randint(1, 7)))
                 connect_rooms(index, index + 1, way)
                 index += 1
-            if index > 2:
-                break
     #create last room ::start
     way = calculate_door_way(way)
     rooms.append(room_maker(RoomType.Room_Last))

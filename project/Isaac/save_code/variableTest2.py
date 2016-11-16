@@ -5,3 +5,14 @@ class Unit:
         print(self.hp)
 
 unit = Unit(50)
+
+a = 30
+
+for i in range(30):
+    a += 1
+    if a % 2 == 0:
+        pass
+    else:
+        print(a)
+
+b = False

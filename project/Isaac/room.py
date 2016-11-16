@@ -81,6 +81,10 @@ class Room_0(Room):
         Room.update(self, frame_time, unit)
 
         for tumor in self.tumors:
+            if tumor.check_die():
+                self.tumors.remove(tumor)
+
+        for tumor in self.tumors:
             tumor.update(frame_time, unit)
 
         for ray in self.rays:

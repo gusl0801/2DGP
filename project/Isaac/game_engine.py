@@ -76,6 +76,7 @@ class GameEngine:
             unit.x = self.min_x
         if unit.y <= self.min_y:
             unit.y = self.min_y
+
     def jump(self, frame_time, unit):
         self.prev_x, self.prev_y = unit.x, unit.y
         distance_x = unit.speed_x * frame_time

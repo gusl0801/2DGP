@@ -11,6 +11,11 @@ class TearType:
     Red_Ray = 4
     Commond_Cold = 5
 
+class TearState:
+    Idle      = 0
+    Disappear = 1
+    Wait      = 2
+
 class Tear:
     game_engine = game_engine.GameEngine(100, 100, 850, 460)
     def __init__(self, unit, size = 5):
@@ -28,18 +33,31 @@ class Tear:
         self.way = unit.way
         self.size = size
         self.tear_type = unit.tear_type
+        self.state = TearState.Idle
+        self.time_elapsed = 0
+        self.disappear = False
 
         if unit.tear_type == TearType.Normal:
-            self.renderer = Renderer.Renderer('resource/tear/normal.png',48,48, self.size)
+            self.renderer = Renderer.Renderer('resource/tear/normal.png',68,64)
         if unit.tear_type == TearType.Commond_Cold:
-            self.renderer = Renderer.Renderer('resource/tear/common_cold.png', 64, 64)
+            self.renderer = Renderer.Renderer('resource/tear/common_cold.png', 68, 64)
+
+        self.state_handler = \
+            {
+                TearState.Idle       : self.handle_idle,
+                TearState.Disappear  : self.handle_disappear,
+                TearState.Wait       : self.handle_wait
+            }
 
     def move(self, frame_time):
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
 
     def check_collision(self, x1, x2, y1, y2):
+        if self.state not in (TearState.Idle,):
+            return False
         if ((x1 < self.x  and x2 > self.x)
             and (y1 < self.y and y2 > self.y)):
+            #self.state = self.disappear
             return True
 
         return False
@@ -54,14 +72,18 @@ class Tear:
         if self.y >= 460:
             return True
 
-        return False
+        return
 
-    def update(self ,frame_time):
-        self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
+    def check_disappear(self):
+        return self.disappear
+
+    def update(self, frame_time):
+        self.time_elapsed += frame_time
         #self.move_handler[self.way](self, frame_time)
-
+        self.state_handler[self.state](frame_time)
         #if self.tear_type == TearType.Commond_Cold:
         #    self.renderer.update(13)
+
     def draw(self):
         self.renderer.draw(self.x, self.y)
 
@@ -73,6 +95,23 @@ class Tear:
         RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
         self.speed = RUN_SPEED_PPS
+
+    def handle_idle(self, frame_time):
+        self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
+        if self.time_elapsed >= 1.0:
+            self.state = TearState.Disappear
+            self.time_elapsed = 0
+
+    def handle_disappear(self, frame_time):
+        if self.renderer.check_animation_end(12):
+            self.disappear = True
+            self.state     = TearState.Wait
+        else:
+            self.renderer.update(13)
+
+    def handle_wait(self, frame_time):
+        pass
+
 class Ray:
     def __init__(self, unit, type):
         frame = 0

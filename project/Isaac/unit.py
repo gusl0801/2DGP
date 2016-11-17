@@ -9,6 +9,7 @@ class UnitState:
     Wait = 4
     Attacked = 5
 
+
 class UnitTeam:
     Ally = 0
     Enemy = 1

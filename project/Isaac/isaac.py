@@ -40,6 +40,7 @@ class Isaac(Unit):      #sub class
 
         self.tear_manager.update(frame_time)
         self.tear_manager.check_frame_out()
+        self.tear_manager.check_disappear()
 
         self.state_handler[self.state](frame_time)
 

@@ -77,8 +77,8 @@ class Monstro(Unit):
 
     def set_destination(self, unit):
         self.dest_x, self.dest_y = unit.x, unit.y
-        self.speed_x = (self.x - self.dest_x) * 0.5
-        self.speed_y = (self.y - self.dest_y) * 0.5
+        #self.speed_x = (self.x - self.dest_x)
+        #self.speed_y = (self.y - self.dest_y)
         print("dest_x, x, speed : ", self.dest_x, self.x, self.speed_x)
         print("dest_y, y, speed : ", self.dest_y, self.y, self.speed_y)
 

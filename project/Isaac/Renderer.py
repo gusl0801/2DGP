@@ -68,3 +68,6 @@ class Renderer:
         if (image_path in Renderer.sprites) == False:
             return False
         return True
+
+    def check_animation_end(self, max):
+        return self.frameX + 1 > max

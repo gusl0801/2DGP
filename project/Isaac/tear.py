@@ -10,6 +10,7 @@ class TearType:
     White_Ray = 3
     Red_Ray = 4
     Commond_Cold = 5
+    BloodBag     = 6
 
 class TearState:
     Idle      = 0
@@ -39,9 +40,10 @@ class Tear:
 
         if unit.tear_type == TearType.Normal:
             self.renderer = Renderer.Renderer('resource/tear/normal.png',68,64)
-        if unit.tear_type == TearType.Commond_Cold:
+        elif unit.tear_type == TearType.Commond_Cold:
             self.renderer = Renderer.Renderer('resource/tear/common_cold.png', 68, 64)
-
+        elif unit.tear_type == TearType.BloodBag:
+            self.renderer = Renderer.Renderer('resource/tear/blood_bag.png', 68, 64)
         self.state_handler = \
             {
                 TearState.Idle       : self.handle_idle,

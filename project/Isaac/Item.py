@@ -54,15 +54,25 @@ class Item:
         pass
 
 class Hp(Item):
-    def __init__(self,x,y, amount = 1):
-        Item.__init__(self,x,y, "resource/item/hp_heart.png", 24, 24)
+    def __init__(self,x,y, amount):
+        #Item.__init__(self,x,y, "resource/item/hp_heart.png", 24, 24)
         self.amount = amount
+        self.x, self.y = x, y
+        self.renderer = Renderer.Renderer("resource/item/hp_heart.png", 24, 24, amount - 1)
+        self.speed = None
+        self.change_speed(1)
+        self.way = Way.Up
+        self.time_elapsed = 0.0
+        self.game_engine = game_engine.GameEngine()
+        #self.renderer.frameX = amount - 1
+        #self.renderer.change_frameX(1)
 
     def draw(self):
-        Item.draw(self)
+        #Item.draw(self)
+        self.renderer.draw(self.x, self.y)
 
     def update(self, frame_time, unit):
-        Item.update(self, frame_time, unit)
+        #Item.update(self, frame_time, unit)
         self.move(frame_time)
         return self.collision_update(unit)
 
@@ -125,3 +135,23 @@ class Martyr(Item):
 
         return False
 
+class BloodBag(Item):
+    def __init__(self,x,y):
+        Item.__init__(self, x, y, "resource/Item/blood_bag.png",40,37)
+
+    def draw(self):
+        Item.draw(self)
+        #self.renderer.draw_boundary(self.x - 20, self.x + 20, self.y - 20, self.y + 20)
+
+    def update(self, frame_time, unit):
+
+        Item.update(self, frame_time, unit)
+        self.move(frame_time)
+        return self.collision_update(unit)
+
+    def collision_update(self, unit):
+        if unit.check_collision(self.x - 20, self.x + 20, self.y - 20, self.y + 40):
+            unit.change_type(ItemType.BloodBag)
+            return True
+
+        return False

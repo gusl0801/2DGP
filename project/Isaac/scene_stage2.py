@@ -87,14 +87,17 @@ def init_rooms():
     print(way)
     way = calculate_door_way(way)
     print(way)
-    random_num = random.randint(21, 22)
+    random_num = random.randint(21, 23)
     if random_num == RoomType.Room_Item_CommonCold:
         rooms.append(room_maker(RoomType.Room_Item_CommonCold))
         connect_rooms(0,  2, way)
     elif random_num == RoomType.Room_Item_Martyr:
         rooms.append(room_maker(RoomType.Room_Item_Martyr))
         connect_rooms(0,  2, way)
-    elif random_num != RoomType.Room_Item_Martyr and random_num != RoomType.Room_Item_CommonCold:
+    elif random_num == RoomType.Room_Item_BloodBag:
+        rooms.append(room_maker(RoomType.Room_Item_BloodBag))
+        connect_rooms(0, 2, way)
+    else:
         print("Error!")
         print(random_num)
         rooms.append(room_maker(RoomType.Room_Item_Martyr))

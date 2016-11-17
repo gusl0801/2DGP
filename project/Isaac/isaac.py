@@ -2,6 +2,7 @@ from unit import*
 import game_engine
 import Renderer
 import UI
+from Sound import *
 
 lask_key = None
 class Isaac(Unit):      #sub class
@@ -16,7 +17,8 @@ class Isaac(Unit):      #sub class
         self.next_way = self.way
 
         self.game_engine = game_engine.GameEngine()
-
+        self.sound_manager = SoundManager()
+        self.sound_manager.add_sound('resource/sound/tear_shot.wav', SoundType.EFFECT, SoundKey.EFFECT_Normal_Tear)
         self.UI = UI.UI_Manager();
 
         self.head_renderer = Renderer.Renderer('resource/character/normal_head.png', 54, 40, 0, 1)
@@ -122,6 +124,13 @@ class Isaac(Unit):      #sub class
             self.tear_size = 7
             self.tear_type = TearType.Normal
 
+        elif item_type == ItemType.BloodBag:
+            self.head_renderer.change_image('resource/character/blood_bag_head.png', 54, 40, 0, 1)
+            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 0, 2)
+            self.image_y = 0
+            self.tear_size = 5
+            self.tear_type = TearType.BloodBag
+
     def change_way(self, way):
         self.way = way
         self.delay = 0
@@ -139,6 +148,7 @@ class Isaac(Unit):      #sub class
 
     def shot_tear(self):
         self.tear_manager.append()
+        self.sound_manager.play(SoundKey.EFFECT_Normal_Tear)
 
     def change_room(self, way):
         if way == Way.Left:

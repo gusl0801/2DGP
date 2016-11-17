@@ -246,7 +246,7 @@ class Room_HP_1(Room):
     def __init__(self):
         Room.__init__(self)
 
-        self.items = [Hp(490, 270)]
+        self.items = [Hp(490, 270, 1)]
 
     def update(self, frame_time, unit):
         Room.update(self,frame_time,  unit)
@@ -271,7 +271,7 @@ class Room_HP_2(Room):
     def __init__(self):
         Room.__init__(self)
 
-        self.items = [Hp(490, 270)]
+        self.items = [Hp(490, 270, 2)]
         self.rock_list = [Rock(490, 300, RockShape.Size_oneByone1, MapType.Normal),
                           Rock(440, 250, RockShape.Size_oneByone2, MapType.Normal),
                           Rock(490, 200, RockShape.Size_oneByone3, MapType.Normal)]
@@ -364,6 +364,33 @@ class Room_Item_Martyr(Room):
 
         for item in self.items:
             item.draw()
+
+class Room_Item_BloodBag(Room):
+    def __init__(self):
+        Room.__init__(self)
+
+        self.items = [BloodBag(480, 270)]
+        print("Why")
+
+    def update(self, frame_time, unit):
+        Room.update(self,frame_time,  unit)
+
+        for item in self.items:
+            if item.update(frame_time, unit):
+                self.items.remove(item)
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        for item in self.items:
+            item.draw()
+
 class Room_Last(Room):
     def __init__(self):
         Room.__init__(self)
@@ -414,6 +441,8 @@ def room_maker(parameter):
         return Room_Item_CommonCold()
     if parameter == RoomType.Room_Item_Martyr:
         return Room_Item_Martyr()
+    if parameter == RoomType.Room_Item_BloodBag:
+        return Room_Item_BloodBag()
     if parameter == RoomType.Room_Boss_Monstro:
         return Room_Boss_Monstro()
     if parameter == RoomType.Room_Last:

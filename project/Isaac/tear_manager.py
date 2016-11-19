@@ -18,7 +18,8 @@ class TearManager:
     def check_frame_out(self):
         for i in self.tear_list:
             if i.check_frame_out():
-                self.tear_list.remove(i)
+                i.state = TearState.Disappear
+                #self.tear_list.remove(i)
 
     def check_disappear(self):
         for i in self.tear_list:

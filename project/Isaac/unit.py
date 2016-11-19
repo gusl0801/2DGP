@@ -118,6 +118,9 @@ class Unit:
         return False
 
     def check_collision(self, x1, x2, y1, y2):
+        if self.state in (UnitState.Attacked,):
+            return False
+
         if ((x1 < self.x  and x2 > self.x)
             and (y1 < self.y and y2 > self.y)):
             return True

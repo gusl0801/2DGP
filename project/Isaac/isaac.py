@@ -28,6 +28,8 @@ class Isaac(Unit):      #sub class
         #self.body_renderer = Renderer.Renderer('resource/character/common_cold_body.png', 43, 26, 0, 2)
 
     def draw(self, frame_time):
+        #self.head_renderer.set_alpha((1 - self.time_elapsed) * 2.0)
+        #self.body_renderer.set_alpha((1 - self.time_elapsed) * 2.0)
 
         self.body_renderer.draw(self.x, self.y - 20 - self.image_y)
 
@@ -145,6 +147,9 @@ class Isaac(Unit):      #sub class
         self.state = state
         self.change_way(self.way)
         self.delay = 0
+        self.time_elapsed = 0
+        self.head_renderer.set_alpha(1)
+        self.body_renderer.set_alpha(1)
 
     def shot_tear(self):
         self.tear_manager.append()
@@ -183,6 +188,17 @@ class Isaac(Unit):      #sub class
                 self.change_state(UnitState.Stop)
 
     def handle_attacked(self, frame_time, unit = None):
+        self.head_renderer.set_alpha((1 - self.time_elapsed))
+        self.body_renderer.set_alpha((1 - self.time_elapsed))
+
+        if self.time_elapsed >= 1.0:
+            self.change_state(UnitState.Idle)
+            return
+
+        if self.way in (Way.Left, Way.LeftUp, Way.LeftDown):
+            return
+        if self.way in (Way.Right, Way.RightUp, Way.RightUp):
+            return
         pass
 
     def handle_move(self, frame_time, unit = None):

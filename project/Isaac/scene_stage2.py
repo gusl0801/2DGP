@@ -9,6 +9,7 @@ last_key = None
 bgm = None
 rooms = []
 current_room = None
+room_limits = 10
 
 def enter():
     global isaac
@@ -84,9 +85,7 @@ def init_rooms():
     connect_rooms(index, index + 1, way)
 
     # connect item-room   ::start
-    print(way)
     way = calculate_door_way(way)
-    print(way)
     random_num = random.randint(21, 23)
     if random_num == RoomType.Room_Item_CommonCold:
         rooms.append(room_maker(RoomType.Room_Item_CommonCold))
@@ -99,7 +98,6 @@ def init_rooms():
         connect_rooms(0, 2, way)
     else:
         print("Error!")
-        print(random_num)
         rooms.append(room_maker(RoomType.Room_Item_Martyr))
         connect_rooms(0, 2, way)
     # connect item-room   ::end
@@ -111,7 +109,7 @@ def init_rooms():
     # randomly makes rooms and connect them  :: start
     while True:
         way = calculate_door_way(way)
-        if index > 10:
+        if index > room_limits:
             if not exist_boss_room:
                 random_num = random.randint(0, 0)
                 if random_num == 0:

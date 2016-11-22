@@ -242,6 +242,52 @@ class Room_4(Room):
 
     def draw(self):
         Room.draw(self)
+
+class Room_NightCrawler(Room):
+    def __init__(self):
+        Room.__init__(self)
+        #self, x, y, way, hp = 3
+        self.crawlers = [NightCrawler(random.randint(200,600), random.randint(200,400)) for i in range(5)]
+
+    def update(self,frame_time,  unit):
+        Room.update(self,frame_time,  unit)
+
+        for crawler in self.crawlers:
+            crawler.update(frame_time, unit)
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        for crawler in self.crawlers:
+            crawler.draw()
+
+class Room_Pacer(Room):
+    def __init__(self):
+        Room.__init__(self)
+        self.pacers = [Pacer() for i in range(5)]
+
+    def update(self,frame_time,  unit):
+        Room.update(self,frame_time,  unit)
+
+        for pacer in self.pacers:
+            pacer.update(frame_time, unit);
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        for pacer in self.pacers:
+            pacer.draw()
+
 class Room_HP_1(Room):
     def __init__(self):
         Room.__init__(self)
@@ -370,7 +416,6 @@ class Room_Item_BloodBag(Room):
         Room.__init__(self)
 
         self.items = [BloodBag(480, 270)]
-        print("Why")
 
     def update(self, frame_time, unit):
         Room.update(self,frame_time,  unit)
@@ -437,6 +482,10 @@ def room_maker(parameter):
         return Room_HP_1()
     if parameter == RoomType.Room_HP_2:
         return Room_HP_2()
+    if parameter == RoomType.Room_NightCrawler:
+        return Room_NightCrawler()
+    if parameter == RoomType.Room_Pacer:
+        return Room_Pacer()
     if parameter == RoomType.Room_Item_CommonCold:
         return Room_Item_CommonCold()
     if parameter == RoomType.Room_Item_Martyr:

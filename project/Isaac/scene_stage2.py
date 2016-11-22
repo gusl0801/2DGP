@@ -81,7 +81,7 @@ def init_rooms():
 
     # first_room_setting_ ::start
     rooms = [room_maker(RoomType.Room_Start)]
-    rooms.append(room_maker(random.randint(1, 7)))
+    rooms.append(room_maker(random.randint(1, 9)))
     connect_rooms(index, index + 1, way)
 
     # connect item-room   ::start
@@ -128,7 +128,7 @@ def init_rooms():
                 index += 1
                 exist_boss_room = True
             else:
-                rooms.append(room_maker(random.randint(1, 7)))
+                rooms.append(room_maker(random.randint(1, 9)))
                 connect_rooms(index, index + 1, way)
                 index += 1
 

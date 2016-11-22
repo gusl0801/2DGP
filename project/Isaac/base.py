@@ -56,6 +56,8 @@ class RoomType:
     Room4 = 5
     Room_HP_1   = 6
     Room_HP_2   = 7
+    Room_NightCrawler = 8
+    Room_Pacer  = 9
     Room_Boss_Monstro = 11
     Room_Item_CommonCold = 21
     Room_Item_Martyr = 22

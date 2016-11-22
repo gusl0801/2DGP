@@ -169,21 +169,20 @@ class Tumor(Unit):
     def handle_attacked(self, frame_time, unit):
         pass
 
-class Nightcrawler(Unit):
-    def __init__(self, x, y, way, hp = 3):
+class NightCrawler(Unit):
+    def __init__(self, x, y, hp = 3):
         Unit.__init__(self)
         self.x, self.y = x, y
         self.hp = hp
 
         self.state = UnitState.Move
         self.change_speed(5)
-        self.way = way
-        self.move_way = way
+        self.way = random.randint(0, 3)
         self.tear_type = 2
 
         self.game_engine = game_engine.GameEngine()
         self.renderer = Renderer.Renderer\
-                ('resource/monster/nightcrawler.png', 70, 67, 0, (self.way))
+                ('resource/monster/nightcrawler.png', 48, 48)
                 #('resource/monster/tumor.png', 70, 67, 0, (Way.WayCount - 4 - self.way + 1),)
 
     def update(self, frame_time, unit):
@@ -223,27 +222,31 @@ class Nightcrawler(Unit):
 
         self.renderer.change_frameX(0)
         if state in (UnitState.Move,):
-            self.renderer.change_frameY(self.way)
+            pass
+            #self.renderer.change_frameY(self.way)
 
         if state in (UnitState.Attack,):
-            self.renderer.change_frameY(self.way - 2)
-            self.tear_manager.append()
+            pass
+            #self.renderer.change_frameY(self.way - 2)
+            #self.tear_manager.append()
 
     def handle_move(self, frame_time, unit):
-        self.renderer.update(3)
-        self.detect_enemy_x_pos(unit)
-        self.detect_enemy(unit)
+        self.renderer.update(5)
+        #self.detect_enemy_x_pos(unit)
+        #self.detect_enemy(unit)
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.move_way)
 
     def handle_attack(self, frame_time, unit):
         if self.time_elapsed > 1.0:
-            self.change_state(UnitState.Move)
-            self.tear_manager.clear()
+            pass
+            #self.change_state(UnitState.Move)
+            #self.tear_manager.clear()
 
     def handle_wait(self, frame_time, unit):
         if self.time_elapsed > 1.0:
-            self.change_state(UnitState.Attack)
-            self.time_elapsed = 0.0
+            pass
+            #self.change_state(UnitState.Attack)
+            #self.time_elapsed = 0.0
 
     def handle_attacked(self, frame_time, unit):
         pass
@@ -260,7 +263,7 @@ class Pacer(Unit):
 
 
         self.renderer = Renderer.Renderer(
-            'resource/monster/pacer.png', 32, 32)
+            'resource/monster/pacer.png', 43, 24)
 
     def update(self, frame_time, unit):
         unit.tear_manager.collision_update(self)
@@ -269,10 +272,10 @@ class Pacer(Unit):
         self.collision_update(unit)
 
     def get_collision_box(self):
-        return self.x - 16, self.y, self.x + 16, self.y + 32
+        return self.x - 21, self.y - 12, self.x + 21, self.y + 12
 
     def collision_update(self, unit):
-        if unit.check_collision(self.x - 16, self.x + 16, self.y, self.y + 32):
+        if unit.check_collision(self.x - 21, self.y - 12, self.x + 21, self.y + 12):
             unit.undo_move()
             unit.change_state(UnitState.Attacked)
             unit.set_hp(-1)

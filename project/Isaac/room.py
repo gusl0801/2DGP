@@ -246,7 +246,6 @@ class Room_4(Room):
 class Room_NightCrawler(Room):
     def __init__(self):
         Room.__init__(self)
-        #self, x, y, way, hp = 3
         self.crawlers = [NightCrawler(random.randint(200,600), random.randint(200,400)) for i in range(5)]
 
     def update(self,frame_time,  unit):
@@ -270,6 +269,7 @@ class Room_Pacer(Room):
     def __init__(self):
         Room.__init__(self)
         self.pacers = [Pacer() for i in range(5)]
+        print("pacer")
 
     def update(self,frame_time,  unit):
         Room.update(self,frame_time,  unit)

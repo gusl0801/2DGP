@@ -8,7 +8,11 @@ class UnitState:
     Attack = 3
     Wait = 4
     Attacked = 5
-
+    Attack_Phase_1 = 11
+    Attack_Phase_2 = 12
+    Attack_Phase_3 = 13
+    Attack_Phase_4 = 14
+    Attack_Phase_5 = 15
 
 class UnitTeam:
     Ally = 0

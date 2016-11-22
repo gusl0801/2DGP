@@ -8,7 +8,7 @@ lask_key = None
 class Isaac(Unit):      #sub class
     def __init__(self):
         Unit.__init__(self)
-        self.tear_size = 5
+        self.tear_size = 1.0
 
         self.team = UnitTeam.Ally
 
@@ -116,21 +116,21 @@ class Isaac(Unit):      #sub class
             self.head_renderer.change_image('resource/character/common_cold_head.png', 53, 42, 0, 1)
             self.body_renderer.change_image('resource/character/common_cold_body.png', 43, 26, 0, 2)
             self.image_y = 0
-            self.tear_size = 5
+            self.tear_size = 1
             self.tear_type = TearType.Commond_Cold
 
         elif item_type == ItemType.Martyr:
             self.head_renderer.change_image('resource/character/martyr_head.png', 54, 50, 0, 1)
             self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 0, 2)
             self.image_y = 5
-            self.tear_size = 7
+            self.tear_size = 1.5
             self.tear_type = TearType.Normal
 
         elif item_type == ItemType.BloodBag:
             self.head_renderer.change_image('resource/character/blood_bag_head.png', 54, 40, 0, 1)
             self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 0, 2)
             self.image_y = 0
-            self.tear_size = 5
+            self.tear_size = 1
             self.tear_type = TearType.BloodBag
 
     def change_way(self, way):

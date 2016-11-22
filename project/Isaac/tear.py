@@ -19,7 +19,7 @@ class TearState:
 
 class Tear:
     game_engine = game_engine.GameEngine(100, 100, 850, 460)
-    def __init__(self, unit, size = 5):
+    def __init__(self, unit, size = 1):
         if unit.way == Way.Down:
             self.x, self.y = unit.x, unit.y - 7
         elif unit.way == Way.Right:
@@ -57,8 +57,9 @@ class Tear:
     def check_collision(self, x1, x2, y1, y2):
         if self.state not in (TearState.Idle,):
             return False
-        if ((x1 < self.x  and x2 > self.x)
-            and (y1 < self.y and y2 > self.y)):
+        size = 7 * self.size
+        if ((x1 < self.x - size and x2 > self.x + size)
+            and (y1 < self.y  - size and y2 > self.y + size)):
             #self.state = self.disappear
             return True
 
@@ -87,7 +88,7 @@ class Tear:
         #    self.renderer.update(13)
 
     def draw(self):
-        self.renderer.draw(self.x, self.y)
+        self.renderer.draw(self.x, self.y, self.size, self.size)
 
     def change_speed(self, KMPH_speed):
         PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm

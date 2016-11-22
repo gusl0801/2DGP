@@ -178,12 +178,11 @@ class NightCrawler(Unit):
         self.state = UnitState.Move
         self.change_speed(5)
         self.way = random.randint(0, 3)
-        self.tear_type = 2
-
+        self.tear_size = 3
+        self.tear_type = TearType.BloodBag
         self.game_engine = game_engine.GameEngine()
         self.renderer = Renderer.Renderer\
                 ('resource/monster/nightcrawler.png', 48, 48)
-                #('resource/monster/tumor.png', 70, 67, 0, (Way.WayCount - 4 - self.way + 1),)
 
     def update(self, frame_time, unit):
         self.time_elapsed += frame_time
@@ -200,7 +199,6 @@ class NightCrawler(Unit):
     def draw(self):
         self.renderer.draw(self.x, self.y)
         self.tear_manager.draw()
-        #print("%d, %d %d" % (id(self),self.state, self.way))
 
     def collision_update(self, unit):
         if unit.check_collision(self.x - 35, self.x + 35, self.y - 30, self.y + 67):
@@ -255,21 +253,29 @@ class Pacer(Unit):
 
     def __init__(self,hp = 2):
         Unit.__init__(self)
+        self.state = UnitState.Move
         self.x = random.randint(120, 830)
         self.y = random.randint(120, 430)
         self.hp = hp
 
         self.game_engine = game_engine.GameEngine()
 
-
+        self.tear_size = 1
+        self.tear_type = TearType.BloodBag  
         self.renderer = Renderer.Renderer(
             'resource/monster/pacer.png', 43, 24)
 
     def update(self, frame_time, unit):
+        self.time_elapsed += frame_time
+        self.tear_manager.check_frame_out()
+        self.tear_manager.check_disappear()
         unit.tear_manager.collision_update(self)
-        self.x, self.y = self.game_engine.move_randomly(self.x, self.y)
-        self.renderer.update(2)
+        #self.x, self.y = self.game_engine.move_randomly(self.x, self.y)
+        #self.renderer.update(2)
         self.collision_update(unit)
+        self.tear_manager.update(frame_time)
+
+        self.state_handler[self.state](frame_time, unit)
 
     def get_collision_box(self):
         return self.x - 21, self.y - 12, self.x + 21, self.y + 12
@@ -280,6 +286,42 @@ class Pacer(Unit):
             unit.change_state(UnitState.Attacked)
             unit.set_hp(-1)
 
+    def change_state(self, state):
+        self.time_elapsed = 0
+        self.state = state
+        pass
+
     def draw(self):
+        self.tear_manager.draw()
         self.renderer.draw(self.x, self.y)
+
+    def handle_move(self, frame_time, unit):
+        if self.time_elapsed > 1.0:
+            self.change_state(UnitState.Attack)
+            return;
+        self.renderer.update(5)
+        #self.detect_enemy_x_pos(unit)
+        #self.detect_enemy(unit)
+        #self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.move_way)
+        self.x, self.y = self.game_engine.move_randomly(self.x, self.y)
+
+    def handle_attack(self, frame_time, unit):
+        self.way = Way.Up
+        self.tear_manager.append()
+
+        self.way = Way.Down
+        self.tear_manager.append()
+
+        self.way = Way.Left
+        self.tear_manager.append()
+
+        self.way = Way.Right
+        self.tear_manager.append()
+
+        self.change_state(UnitState.Wait)
+
+    def handle_wait(self, frame_time, unit):
+        if self.time_elapsed > 0.2:
+            self.change_state(UnitState.Move)
+
 

@@ -19,18 +19,20 @@ class Renderer:
     def __del__(self):
         pass
 
-    def draw(self, x, y):
+    def draw(self, x, y, w = None, h = None):
         """
         draw_rectangle(x + self.width / 2,
                        y + self.height / 2,
                        x - self.width / 2,
                        y - self.height / 2)
 """
+        if w != None: w = w * self.width
+        if h != None: h = h * self.height
         #Renderer.sprites[self.key].opacify(1)
         Renderer.sprites[self.key].clip_draw\
             (self.frameX * self.width,
              self.frameY * self.height,
-             self.width, self.height, x, y)
+             self.width, self.height, x, y, w, h)
 
     def draw_boundary(self, x1, x2, y1, y2):
         draw_rectangle(x1, y1, x2, y2)

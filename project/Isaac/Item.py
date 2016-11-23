@@ -1,6 +1,6 @@
 import Renderer
-import game_engine
-from base import*
+import Game_Engine
+from Base import*
 
 class ItemState:
     Noting = 0,
@@ -8,10 +8,10 @@ class ItemState:
     #소멸
 
 class Item:
-    def __init__(self,x,y, path, width, height):
+    def __init__(self,x,y, path, width, height, max_frame_x, max_frame_y = 0):
         self.x, self.y = x,y
-        self.renderer = Renderer.Renderer(path, width, height)
-        self.game_engine = game_engine.GameEngine()
+        self.renderer = Renderer.Renderer(path, width, height, max_frame_x, max_frame_y)
+        self.game_engine = Game_Engine.GameEngine()
         self.speed = None
         self.change_speed(1)
         self.way = Way.Up
@@ -53,7 +53,7 @@ class Item:
     def collision_update(self, unit):
         pass
 
-class Hp(Item):
+class Heart(Item):
     def __init__(self,x,y, amount):
         #Item.__init__(self,x,y, "resource/item/hp_heart.png", 24, 24)
         self.amount = amount
@@ -63,9 +63,7 @@ class Hp(Item):
         self.change_speed(1)
         self.way = Way.Up
         self.time_elapsed = 0.0
-        self.game_engine = game_engine.GameEngine()
-        #self.renderer.frameX = amount - 1
-        #self.renderer.change_frameX(1)
+        self.game_engine = Game_Engine.GameEngine()
 
     def draw(self):
         #Item.draw(self)
@@ -95,7 +93,7 @@ class Key(Item):
 
 class CommonCold(Item):
     def __init__(self,x,y):
-        Item.__init__(self, x, y, "resource/Item/common_cold.png",40,37)
+        Item.__init__(self, x, y, "resource/Item/common_cold.png",40,37, 0)
 
     def draw(self):
         Item.draw(self)
@@ -116,7 +114,7 @@ class CommonCold(Item):
 
 class Martyr(Item):
     def __init__(self,x,y):
-        Item.__init__(self, x, y, "resource/Item/Martyr.png",40,37)
+        Item.__init__(self, x, y, "resource/Item/Martyr.png",40,37, 0)
 
     def draw(self):
         Item.draw(self)
@@ -137,7 +135,7 @@ class Martyr(Item):
 
 class BloodBag(Item):
     def __init__(self,x,y):
-        Item.__init__(self, x, y, "resource/Item/blood_bag.png",40,37)
+        Item.__init__(self, x, y, "resource/Item/blood_bag.png",40,37, 0)
 
     def draw(self):
         Item.draw(self)

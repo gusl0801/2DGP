@@ -1,5 +1,5 @@
-from tear_manager import*
-import game_engine
+from Tear_Manager import*
+import Game_Engine
 
 class UnitState:
     Stop = 0
@@ -20,7 +20,7 @@ class UnitTeam:
 
 #superclass
 class Unit:
-    def __init__(self):
+    def __init__(self, speed = 20):
         self.state = UnitState.Idle
 
         self.tear_type = TearType.Normal
@@ -34,7 +34,7 @@ class Unit:
 
         self.speed = None
         self.move_way = None
-        self.init_speed()
+        self.change_speed(speed)
 
         self.delay = 0
 

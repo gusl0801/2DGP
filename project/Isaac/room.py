@@ -1,9 +1,9 @@
-from obstacle import*
+from Obstacle import*
 from Monster import*
 
 from Boss import *
 from Item import *
-from tear import*
+from Tear import*
 
 class Room:
     image = None
@@ -292,7 +292,7 @@ class Room_HP_1(Room):
     def __init__(self):
         Room.__init__(self)
 
-        self.items = [Hp(490, 270, 1)]
+        self.items = [Heart(490, 270, 1)]
 
     def update(self, frame_time, unit):
         Room.update(self,frame_time,  unit)
@@ -317,7 +317,7 @@ class Room_HP_2(Room):
     def __init__(self):
         Room.__init__(self)
 
-        self.items = [Hp(490, 270, 2)]
+        self.items = [Heart(490, 270, 2)]
         self.rock_list = [Rock(490, 300, RockShape.Size_oneByone1, MapType.Normal),
                           Rock(440, 250, RockShape.Size_oneByone2, MapType.Normal),
                           Rock(490, 200, RockShape.Size_oneByone3, MapType.Normal)]

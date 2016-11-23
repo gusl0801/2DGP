@@ -1,6 +1,6 @@
-from unit import*
+from Unit import*
 import Renderer
-import game_engine
+import Game_Engine
 import random
 
 class Monstro(Unit):
@@ -8,15 +8,17 @@ class Monstro(Unit):
         Shot = 0
         FlyAttack = 1
     def __init__(self,x, y):
-        Unit.__init__(self)
+        Unit.__init__(self, 5)
 
         self.way = Way.Left
-        self.speed_x, self.speed_y
         self.state = UnitState.Wait
-        self.frameX, self.frameY = 0, 3
         self.x, self.y = x, y
+
+        self.speed_x, self.speed_y = None, None
+        self.init_speed()
+
         self.renderer = Renderer.Renderer('resource/monster/Monstro.png', 118, 141, 3, 1)
-        self.game_engine = game_engine.GameEngine()
+        self.game_engine = Game_Engine.GameEngine()
         self.dest_x, self.dest_y = None, None
 
     def update(self,frame_time,unit):
@@ -25,7 +27,6 @@ class Monstro(Unit):
 
     def draw(self):
         self.renderer.draw(self.x, self.y)
-        #self.sprite.clip_draw(self.frameX * 118, self.frameY * 141, 118, 141 , self.x, self.y)
 
     def detect_enemy(self, enemy):
         x_axis_check = (enemy.x >= self.x)
@@ -42,7 +43,7 @@ class Monstro(Unit):
 
     def handle_move(self, frame_time, unit):
         if self.renderer.frameX < 3:
-            self.renderer.update(4)
+            self.renderer.update()
         self.game_engine.jump(frame_time, self)
         if self.time_elapsed > 0.6:
             if random.randint(0, 1) == 0:
@@ -77,10 +78,6 @@ class Monstro(Unit):
 
     def set_destination(self, unit):
         self.dest_x, self.dest_y = unit.x, unit.y
-        #self.speed_x = (self.x - self.dest_x)
-        #self.speed_y = (self.y - self.dest_y)
-        print("dest_x, x, speed : ", self.dest_x, self.x, self.speed_x)
-        print("dest_y, y, speed : ", self.dest_y, self.y, self.speed_y)
 
     def handle_attacked(self, frame_time, unit):
         pass

@@ -1,4 +1,5 @@
-from tear import*
+from Unit import*
+from Tear import*
 
 class TearManager:
     def __init__(self, unit):
@@ -19,7 +20,6 @@ class TearManager:
         for i in self.tear_list:
             if i.check_frame_out():
                 i.state = TearState.Disappear
-                #self.tear_list.remove(i)
 
     def check_disappear(self):
         for i in self.tear_list:
@@ -32,15 +32,14 @@ class TearManager:
                 return
             if unit.check_collision(i.x - 24, i.x + 24, i.y -24, i.y + 24):
                 i.state = TearState.Disappear
-                #self.tear_list.remove(i)
                 unit.set_hp(-1)
+                unit.change_state(UnitState.Attacked)
 
     def collision_update_ob(self, x1, x2, y1, y2):
         for tear in self.tear_list:
             if ((x1 < tear.x and x2 > tear.x)
                 and (y1 < tear.y and y2 > tear.y)):
                 tear.state = TearState.Disappear
-                #self.tear_list.remove(tear)
 
     def update(self, frame_time):
         for i in self.tear_list:

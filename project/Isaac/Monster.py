@@ -1,22 +1,22 @@
-from unit import *
+from Unit import *
 import random
 import Renderer
 
 class Spider(Unit):
     def __init__(self, x, y, hp = 3):
-        Unit.__init__(self)
+        Unit.__init__(self, 5)
         self.team == UnitTeam.Enemy
         self.x, self.y = x, y
         self.hp = hp
 
-        self.game_engine = game_engine.GameEngine()
-        self.renderer = Renderer.Renderer('resource/monster/spider.png', 53, 53)
+        self.game_engine = Game_Engine.GameEngine()
+        self.renderer = Renderer.Renderer('resource/monster/spider.png', 53, 53, 5)
 
     def update(self, frame_time, unit):
         unit.tear_manager.collision_update(self)
 
-        self.x, self.y = self.game_engine.move_randomly(self.x, self.y)
-        self.renderer.update(5)
+        self.x, self.y = self.game_engine.move_randomly(self.x, self.y, frame_time)
+        self.renderer.update()
 
         self.collision_update(unit)
 
@@ -36,13 +36,13 @@ class Tentacle(Unit):
         Unit.__init__(self)
         self.x, self.y = x, y
         self.renderer = Renderer.Renderer(
-            'resource/monster/tentacle.png', 48, 96)
+            'resource/monster/tentacle.png', 48, 96, 6)
         self.hp = hp
 
     def update(self, frame_time, unit):
         unit.tear_manager.collision_update(self)
 
-        self.renderer.update(6)
+        self.renderer.update()
         self.collision_update(unit)
 
     def get_collision_box(self):
@@ -53,29 +53,30 @@ class Tentacle(Unit):
             unit.undo_move()
             unit.change_state(UnitState.Attacked)
             unit.set_hp(-1)
+
     def draw(self):
         self.renderer.draw(self.x, self.y)
 
 class Fly(Unit):
     def __init__(self,hp = 2):
-        Unit.__init__(self)
+        Unit.__init__(self, 5)
         self.x = random.randint(120, 830)
         self.y = random.randint(120, 430)
         self.hp = hp
 
-        self.game_engine = game_engine.GameEngine()
+        self.game_engine = Game_Engine.GameEngine()
 
         if random.randint(0, 1) == 0:
             self.renderer = Renderer.Renderer(
-                'resource/monster/fly_base.png', 32, 32)
+                'resource/monster/fly_base.png', 32, 32, 2)
         else:
             self.renderer = Renderer.Renderer(
-                'resource/monster/fly_yellow.png', 32, 32)
+                'resource/monster/fly_yellow.png', 32, 32, 2)
 
     def update(self, frame_time, unit):
         unit.tear_manager.collision_update(self)
-        self.x, self.y = self.game_engine.move_randomly(self.x, self.y)
-        self.renderer.update(2)
+        self.x, self.y = self.game_engine.move_randomly(self.x, self.y, frame_time)
+        self.renderer.update()
         self.collision_update(unit)
 
     def get_collision_box(self):
@@ -92,7 +93,7 @@ class Fly(Unit):
 
 class Tumor(Unit):
     def __init__(self, x, y, way, hp = 3):
-        Unit.__init__(self)
+        Unit.__init__(self, 5)
         self.x, self.y = x, y
         self.hp = hp
 
@@ -102,10 +103,9 @@ class Tumor(Unit):
         self.move_way = way
         self.tear_type = 2
 
-        self.game_engine = game_engine.GameEngine()
+        self.game_engine = Game_Engine.GameEngine()
         self.renderer = Renderer.Renderer\
-                ('resource/monster/tumor.png', 70, 67, 0, (self.way))
-                #('resource/monster/tumor.png', 70, 67, 0, (Way.WayCount - 4 - self.way + 1),)
+                ('resource/monster/tumor.png', 70, 67, 3, 0, 0, (self.way))
 
     def update(self, frame_time, unit):
         self.time_elapsed += frame_time
@@ -122,7 +122,6 @@ class Tumor(Unit):
     def draw(self):
         self.renderer.draw(self.x, self.y)
         self.tear_manager.draw()
-        #print("%d, %d %d" % (id(self),self.state, self.way))
 
     def collision_update(self, unit):
         if unit.check_collision(self.x - 35, self.x + 35, self.y - 30, self.y + 67):
@@ -151,7 +150,7 @@ class Tumor(Unit):
             self.tear_manager.append()
 
     def handle_move(self, frame_time, unit):
-        self.renderer.update(3)
+        self.renderer.update()
         self.detect_enemy_x_pos(unit)
         self.detect_enemy(unit)
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.move_way)
@@ -171,7 +170,7 @@ class Tumor(Unit):
 
 class NightCrawler(Unit):
     def __init__(self, x, y, hp = 3):
-        Unit.__init__(self)
+        Unit.__init__(self, 5)
         self.x, self.y = x, y
         self.hp = hp
 
@@ -180,9 +179,9 @@ class NightCrawler(Unit):
         self.way = random.randint(0, 3)
         self.tear_size = 3
         self.tear_type = TearType.BloodBag
-        self.game_engine = game_engine.GameEngine()
+        self.game_engine = Game_Engine.GameEngine()
         self.renderer = Renderer.Renderer\
-                ('resource/monster/nightcrawler.png', 48, 48)
+                ('resource/monster/nightcrawler.png', 48, 48, 5)
 
     def update(self, frame_time, unit):
         self.time_elapsed += frame_time
@@ -221,30 +220,21 @@ class NightCrawler(Unit):
         self.renderer.change_frameX(0)
         if state in (UnitState.Move,):
             pass
-            #self.renderer.change_frameY(self.way)
 
         if state in (UnitState.Attack,):
             pass
-            #self.renderer.change_frameY(self.way - 2)
-            #self.tear_manager.append()
 
     def handle_move(self, frame_time, unit):
-        self.renderer.update(5)
-        #self.detect_enemy_x_pos(unit)
-        #self.detect_enemy(unit)
+        self.renderer.update()
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.move_way)
 
     def handle_attack(self, frame_time, unit):
         if self.time_elapsed > 1.0:
             pass
-            #self.change_state(UnitState.Move)
-            #self.tear_manager.clear()
 
     def handle_wait(self, frame_time, unit):
         if self.time_elapsed > 1.0:
             pass
-            #self.change_state(UnitState.Attack)
-            #self.time_elapsed = 0.0
 
     def handle_attacked(self, frame_time, unit):
         pass
@@ -252,27 +242,29 @@ class NightCrawler(Unit):
 class Pacer(Unit):
 
     def __init__(self,hp = 2):
-        Unit.__init__(self)
+        Unit.__init__(self, 5)
         self.state = UnitState.Move
         self.x = random.randint(120, 830)
         self.y = random.randint(120, 430)
         self.hp = hp
 
-        self.game_engine = game_engine.GameEngine()
+        self.game_engine = Game_Engine.GameEngine()
 
         self.tear_size = 1
-        self.tear_type = TearType.BloodBag  
+        self.tear_type = TearType.BloodBag
         self.renderer = Renderer.Renderer(
-            'resource/monster/pacer.png', 43, 24)
+            'resource/monster/pacer.png', 43, 24, 10)
 
     def update(self, frame_time, unit):
         self.time_elapsed += frame_time
+
         self.tear_manager.check_frame_out()
         self.tear_manager.check_disappear()
+
         unit.tear_manager.collision_update(self)
-        #self.x, self.y = self.game_engine.move_randomly(self.x, self.y)
-        #self.renderer.update(2)
+        self.tear_manager.collision_update(unit)
         self.collision_update(unit)
+
         self.tear_manager.update(frame_time)
 
         self.state_handler[self.state](frame_time, unit)
@@ -289,7 +281,6 @@ class Pacer(Unit):
     def change_state(self, state):
         self.time_elapsed = 0
         self.state = state
-        pass
 
     def draw(self):
         self.tear_manager.draw()
@@ -298,12 +289,9 @@ class Pacer(Unit):
     def handle_move(self, frame_time, unit):
         if self.time_elapsed > 1.0:
             self.change_state(UnitState.Attack)
-            return;
-        self.renderer.update(5)
-        #self.detect_enemy_x_pos(unit)
-        #self.detect_enemy(unit)
-        #self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.move_way)
-        self.x, self.y = self.game_engine.move_randomly(self.x, self.y)
+            return
+        self.renderer.update()
+        self.x, self.y = self.game_engine.move_randomly(self.x, self.y, frame_time)
 
     def handle_attack(self, frame_time, unit):
         self.way = Way.Up

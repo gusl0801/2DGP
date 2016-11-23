@@ -1,9 +1,9 @@
-import game_framework
+import Game_Framework
 
-import start_state
+import Logo_Scene
 
-import scene_stage1
+import Easy_Stage
 
-game_framework.run(start_state)
+Game_Framework.run(Logo_Scene)
 
 #game_framework.run(scene_stage1)

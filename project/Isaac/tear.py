@@ -1,6 +1,6 @@
-from base import*
+from Base import*
 from pico2d import*
-import game_engine
+import Game_Engine
 import Renderer
 
 class TearType:
@@ -18,7 +18,7 @@ class TearState:
     Wait      = 2
 
 class Tear:
-    game_engine = game_engine.GameEngine(100, 100, 850, 460)
+    game_engine = Game_Engine.GameEngine(100, 100, 850, 460)
     def __init__(self, unit, size = 1):
         if unit.way == Way.Down:
             self.x, self.y = unit.x, unit.y - 7
@@ -39,11 +39,11 @@ class Tear:
         self.disappear = False
 
         if unit.tear_type == TearType.Normal:
-            self.renderer = Renderer.Renderer('resource/tear/normal.png',68,64)
+            self.renderer = Renderer.Renderer('resource/tear/normal.png',68,64,12)
         elif unit.tear_type == TearType.Commond_Cold:
-            self.renderer = Renderer.Renderer('resource/tear/common_cold.png', 68, 64)
+            self.renderer = Renderer.Renderer('resource/tear/common_cold.png', 68, 64,12)
         elif unit.tear_type == TearType.BloodBag:
-            self.renderer = Renderer.Renderer('resource/tear/blood_bag.png', 68, 64)
+            self.renderer = Renderer.Renderer('resource/tear/blood_bag.png', 68, 64,12)
         self.state_handler = \
             {
                 TearState.Idle       : self.handle_idle,
@@ -106,11 +106,11 @@ class Tear:
             self.time_elapsed = 0
 
     def handle_disappear(self, frame_time):
-        if self.renderer.check_animation_end(12):
+        if self.renderer.check_animation_end():
             self.disappear = True
             self.state     = TearState.Wait
         else:
-            self.renderer.update(13)
+            self.renderer.update()
 
     def handle_wait(self, frame_time):
         pass
@@ -133,13 +133,13 @@ class Ray:
         self.way = unit.way
 
         if type == TearType.Dark_Ray:   #dark_ray_small :: 31, 64, big :: 63, 128
-            self.renderer = Renderer.Renderer('resource/tear/dark_ray.png', 63, 166, 0, frame)
+            self.renderer = Renderer.Renderer('resource/tear/dark_ray.png', 63, 166, 4, 0, 0, frame)
 
         if type == TearType.White_Ray:  #white_ray :: 110, 256, small :: 62, 154
-            self.renderer = Renderer.Renderer('resource/tear/white_ray.png', 63, 166, 0, frame)
+            self.renderer = Renderer.Renderer('resource/tear/white_ray.png', 63, 166, 4, 0, 0, frame)
 
         if type == TearType.Red_Ray:
-            self.renderer = Renderer.Renderer('resource/tear/red_ray.png', 63, 166, 0, frame)
+            self.renderer = Renderer.Renderer('resource/tear/red_ray.png', 63, 166, 4, 0, 0, frame)
 
     def move(self, frame_time):
         pass
@@ -164,7 +164,7 @@ class Ray:
         return False
 
     def update(self, frame_time):
-        self.renderer.update(4)
+        self.renderer.update()
         pass
 
     def draw(self):

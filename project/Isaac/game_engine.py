@@ -1,5 +1,5 @@
 import random
-from base import Way
+from Base import Way
 
 class MovePattern:
     MoveX = 0
@@ -82,7 +82,6 @@ class GameEngine:
         distance_x = unit.speed_x * frame_time
         distance_y = unit.speed_y * frame_time
 
-        #print(self.time_elapsed)
         if unit.time_elapsed >= 0.3:
             unit.y -= distance_y
         else:
@@ -141,7 +140,7 @@ class GameEngine:
     }
 
 
-    def move_randomly(self, x, y):
+    def move_randomly(self, x, y, frame_time):
         self.prev_x, self.prev_y = x, y
 
         x = min(x + self.move_x, self.max_x)
@@ -192,3 +191,12 @@ class GameEngine:
         if right_a < left_b: return False
         if top_a < bottom_b: return False
         if bottom_a > top_b: return False
+
+    def change_speed(self, KMPH_speed):
+        PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+        RUN_SPEED_KMPH = KMPH_speed  # Km / Hour
+        RUN_SPEED_MPH = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+        RUN_SPEED_MPS = (RUN_SPEED_MPH / 60.0)
+        RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+        return RUN_SPEED_PPS

@@ -1,6 +1,6 @@
 
 from pico2d import*
-from base import*
+from Base import*
 
 class Rock:
     image = None
@@ -109,7 +109,7 @@ class Campfire:
     def update(self, unit):
         self.delay += 1
 
-        if self.delay > 2:
+        if self.delay > 15:
             self.delay = 0
             self.frame_fire.x = (self.frame_fire.x + 1) % 6
 

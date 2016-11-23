@@ -1,5 +1,5 @@
-from unit import*
-import game_engine
+from Unit import*
+import Game_Engine
 import Renderer
 import UI
 from Sound import *
@@ -16,21 +16,15 @@ class Isaac(Unit):      #sub class
         self.image_y = 0
         self.next_way = self.way
 
-        self.game_engine = game_engine.GameEngine()
+        self.game_engine = Game_Engine.GameEngine()
         self.sound_manager = SoundManager()
         self.sound_manager.add_sound('resource/sound/tear_shot.wav', SoundType.EFFECT, SoundKey.EFFECT_Normal_Tear)
-        self.UI = UI.UI_Manager();
+        self.UI = UI.UI_Manager()
 
-        self.head_renderer = Renderer.Renderer('resource/character/normal_head.png', 54, 40, 0, 1)
-        self.body_renderer = Renderer.Renderer('resource/character/normal_body.png', 43, 24, 0, 2)
-
-        #self.head_renderer = Renderer.Renderer('resource/character/common_cold_head.png', 53, 42, 0, 1)
-        #self.body_renderer = Renderer.Renderer('resource/character/common_cold_body.png', 43, 26, 0, 2)
+        self.head_renderer = Renderer.Renderer('resource/character/normal_head.png', 54, 40, 2, 0, 0, 1, True)
+        self.body_renderer = Renderer.Renderer('resource/character/normal_body.png', 43, 24, 10, 0, 0, 2, False)
 
     def draw(self, frame_time):
-        #self.head_renderer.set_alpha((1 - self.time_elapsed) * 2.0)
-        #self.body_renderer.set_alpha((1 - self.time_elapsed) * 2.0)
-
         self.body_renderer.draw(self.x, self.y - 20 - self.image_y)
 
         self.head_renderer.draw(self.x, self.y)
@@ -113,22 +107,22 @@ class Isaac(Unit):      #sub class
 
     def change_type(self, item_type):
         if item_type == ItemType.CommonCold:
-            self.head_renderer.change_image('resource/character/common_cold_head.png', 53, 42, 0, 1)
-            self.body_renderer.change_image('resource/character/common_cold_body.png', 43, 26, 0, 2)
+            self.head_renderer.change_image('resource/character/common_cold_head.png', 53, 42, 2, 0, 0, 1)
+            self.body_renderer.change_image('resource/character/common_cold_body.png', 43, 26, 10, 0, 0, 2)
             self.image_y = 0
             self.tear_size = 1
             self.tear_type = TearType.Commond_Cold
 
         elif item_type == ItemType.Martyr:
-            self.head_renderer.change_image('resource/character/martyr_head.png', 54, 50, 0, 1)
-            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 0, 2)
+            self.head_renderer.change_image('resource/character/martyr_head.png', 54, 50, 2, 0, 0, 1)
+            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 10, 0, 0, 2)
             self.image_y = 5
             self.tear_size = 1.5
             self.tear_type = TearType.Normal
 
         elif item_type == ItemType.BloodBag:
-            self.head_renderer.change_image('resource/character/blood_bag_head.png', 54, 40, 0, 1)
-            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 0, 2)
+            self.head_renderer.change_image('resource/character/blood_bag_head.png', 54, 40, 2, 0, 0, 1)
+            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 10, 0, 0, 2)
             self.image_y = 0
             self.tear_size = 1
             self.tear_type = TearType.BloodBag
@@ -172,14 +166,14 @@ class Isaac(Unit):      #sub class
 
     def undo_move(self):
         if self.way in (Way.Down, Way.Up):
-            self.x, self.y = self.game_engine.undo_move(self.x, self.y, game_engine.MovePattern.MoveY)
+            self.x, self.y = self.game_engine.undo_move(self.x, self.y, Game_Engine.MovePattern.MoveY)
         elif self.way in (Way.Right, Way.Left):
-            self.x, self.y = self.game_engine.undo_move(self.x, self.y, game_engine.MovePattern.MoveX)
+            self.x, self.y = self.game_engine.undo_move(self.x, self.y, Game_Engine.MovePattern.MoveX)
 
     def handle_attack(self, frame_time, unit = None):
         self.delay += 1
 
-        self.head_renderer.update(2)
+        self.head_renderer.update()
         if self.delay >= 5:
             self.delay = 0
 
@@ -202,7 +196,7 @@ class Isaac(Unit):      #sub class
         pass
 
     def handle_move(self, frame_time, unit = None):
-        self.body_renderer.update(10, None,False)
+        self.body_renderer.update()
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
 
 

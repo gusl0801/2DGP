@@ -49,11 +49,11 @@ class RoomShape:
 
 class RoomType:
     Room_Start = 0
-    Room0 = 1
-    Room1 = 2
-    Room2 = 3
-    Room3 = 4
-    Room4 = 5
+    Room_Tumor = 1
+    Room_Spider = 2
+    Room_Fly = 3
+    Room_Rock = 4
+    Room_Dung = 5
     Room_HP_1   = 6
     Room_HP_2   = 7
     Room_NightCrawler = 8

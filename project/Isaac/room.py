@@ -68,7 +68,7 @@ class Room_Start(Room):
     def draw(self):
         Room.draw(self)
 
-class Room_0(Room):
+class Room_Tumor(Room):
     def __init__(self):
         Room.__init__(self)
 
@@ -103,7 +103,7 @@ class Room_0(Room):
         #for ray in self.rays:
         #    ray.draw()
 
-class Room_1(Room):
+class Room_Spider(Room):
     def __init__(self):
         Room.__init__(self)
         self.rock_list.append(Rock(490, 300, RockShape.Size_oneByone1, MapType.Normal))
@@ -145,8 +145,6 @@ class Room_1(Room):
             for spider in self.spiders:
                 rock.check_collision(spider)
 
-
-
         for door in self.door_list:
             if door.check_collision(unit) != None:
                 return door.connected_room
@@ -164,7 +162,7 @@ class Room_1(Room):
         for spider in self.spiders:
             spider.draw()
 
-class Room_2(Room):
+class Room_Fly(Room):
     def __init__(self):
         Room.__init__(self)
 
@@ -194,7 +192,7 @@ class Room_2(Room):
             fly.draw()
 
 
-class Room_3(Room):
+class Room_Rock(Room):
     def __init__(self):
         Room.__init__(self)
 
@@ -226,7 +224,7 @@ class Room_3(Room):
     def draw(self):
         Room.draw(self)
 
-class Room_4(Room):
+class Room_Dung(Room):
     def __init__(self):
         Room.__init__(self)
 
@@ -247,9 +245,14 @@ class Room_NightCrawler(Room):
     def __init__(self):
         Room.__init__(self)
         self.crawlers = [NightCrawler(random.randint(200,600), random.randint(200,400)) for i in range(5)]
+        print("Crawler")
 
     def update(self,frame_time,  unit):
         Room.update(self,frame_time,  unit)
+
+        for crawler in self.crawlers:
+            if crawler.check_die():
+                self.crawlers.remove(crawler)
 
         for crawler in self.crawlers:
             crawler.update(frame_time, unit)
@@ -275,7 +278,11 @@ class Room_Pacer(Room):
         Room.update(self,frame_time,  unit)
 
         for pacer in self.pacers:
-            pacer.update(frame_time, unit);
+            if pacer.check_die():
+                self.pacers.remove(pacer)
+
+        for pacer in self.pacers:
+            pacer.update(frame_time, unit)
 
         for door in self.door_list:
             if door.check_collision(unit) != None:
@@ -468,16 +475,16 @@ class Room_Last(Room):
 def room_maker(parameter):
     if parameter == RoomType.Room_Start:
         return Room_Start()
-    if parameter == RoomType.Room0:
-        return Room_0()
-    if parameter == RoomType.Room1:
-        return Room_1()
-    if parameter == RoomType.Room2:
-        return Room_2()
-    if parameter == RoomType.Room3:
-        return Room_3()
-    if parameter == RoomType.Room4:
-        return Room_4()
+    if parameter == RoomType.Room_Tumor:
+        return Room_Tumor()
+    if parameter == RoomType.Room_Spider:
+        return Room_Spider()
+    if parameter == RoomType.Room_Fly:
+        return Room_Fly()
+    if parameter == RoomType.Room_Rock:
+        return Room_Rock()
+    if parameter == RoomType.Room_Dung:
+        return Room_Dung()
     if parameter == RoomType.Room_HP_1:
         return Room_HP_1()
     if parameter == RoomType.Room_HP_2:

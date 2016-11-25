@@ -174,10 +174,11 @@ class NightCrawler(Unit):
         self.x, self.y = x, y
         self.hp = hp
 
+        self.time_elapsed = random.randint(0, 10) / 10.0
         self.state = UnitState.Move
         self.change_speed(5)
         self.way = random.randint(0, 3)
-        self.tear_size = 3
+        self.tear_size = 1.0
         self.tear_type = TearType.BloodBag
         self.game_engine = Game_Engine.GameEngine()
         self.renderer = Renderer.Renderer\
@@ -186,8 +187,12 @@ class NightCrawler(Unit):
     def update(self, frame_time, unit):
         self.time_elapsed += frame_time
 
-        unit.tear_manager.collision_update(self)
-        self.collision_update(unit)
+        self.tear_manager.check_frame_out()
+        self.tear_manager.check_disappear()
+
+        if self.state not in (UnitState.Wait,):
+            self.collision_update(unit)
+            unit.tear_manager.collision_update(self)
         self.tear_manager.update(frame_time)
 
         self.state_handler[self.state](frame_time,unit)
@@ -196,7 +201,8 @@ class NightCrawler(Unit):
         pass
 
     def draw(self):
-        self.renderer.draw(self.x, self.y)
+        if (self.state not in (UnitState.Wait,)):
+            self.renderer.draw(self.x, self.y)
         self.tear_manager.draw()
 
     def collision_update(self, unit):
@@ -208,33 +214,40 @@ class NightCrawler(Unit):
     def get_collision_box(self):
         return self.x - 35, self.y - 30, self.x + 35, self.y - 67
 
-    def detect_enemy(self, enemy):
-        x_axis_check = (enemy.x > self.x - 50 and enemy.x < self.x + 50)
-        if x_axis_check:
-            self.change_state(UnitState.Wait)
-
     def change_state(self, state):
         self.state = state
         self.time_elapsed = 0.0
 
         self.renderer.change_frameX(0)
-        if state in (UnitState.Move,):
-            pass
-
-        if state in (UnitState.Attack,):
-            pass
 
     def handle_move(self, frame_time, unit):
+        if self.time_elapsed >= 2.0:
+            self.change_state(UnitState.Wait)
+            return
         self.renderer.update()
-        self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.move_way)
+        self.x, self.y = self.game_engine.move_randomly(self.x, self.y, frame_time)
 
     def handle_attack(self, frame_time, unit):
-        if self.time_elapsed > 1.0:
-            pass
+        if self.time_elapsed > 0.5:
+            self.way = Way.Up
+            self.tear_manager.append()
+
+            self.way = Way.Down
+            self.tear_manager.append()
+
+            self.way = Way.Left
+            self.tear_manager.append()
+
+            self.way = Way.Right
+            self.tear_manager.append()
+
+            self.change_state(UnitState.Move)
 
     def handle_wait(self, frame_time, unit):
         if self.time_elapsed > 1.0:
-            pass
+            self.change_state(UnitState.Attack)
+            self.x = random.randint(120, 830)
+            self.y = random.randint(120, 430)
 
     def handle_attacked(self, frame_time, unit):
         pass

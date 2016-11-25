@@ -33,7 +33,7 @@ class TearManager:
             if unit.check_collision(i.x - 24, i.x + 24, i.y -24, i.y + 24):
                 i.state = TearState.Disappear
                 unit.set_hp(-1)
-                unit.change_state(UnitState.Attacked)
+                #unit.change_state(UnitState.Attacked)
 
     def collision_update_ob(self, x1, x2, y1, y2):
         for tear in self.tear_list:

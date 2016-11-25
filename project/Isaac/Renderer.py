@@ -52,7 +52,6 @@ class Renderer:
                     self.frameX = (self.frameX + 1) % self.max_frame_x
                 if self.max_frame_y != 0:
                     self.frameY = (self.frameY + 1) % self.max_frame_y
-                self.delay = 0
 
     def change_frameX(self, x):
         self.frameX = x

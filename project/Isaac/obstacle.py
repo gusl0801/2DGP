@@ -109,7 +109,7 @@ class Campfire:
     def update(self, unit):
         self.delay += 1
 
-        if self.delay > 15:
+        if self.delay > 3:
             self.delay = 0
             self.frame_fire.x = (self.frame_fire.x + 1) % 6
 

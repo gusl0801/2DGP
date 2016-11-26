@@ -54,7 +54,7 @@ class Room:
         Room.image = load_image(path)
 
 class Room_Start(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
     def update(self, frame_time, unit):
@@ -69,11 +69,11 @@ class Room_Start(Room):
         Room.draw(self)
 
 class Room_Tumor(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
-        self.tumors = [Tumor(200, 102, Way.Down), Tumor(200, 450, Way.Up)
-            ,Tumor(760, 102, Way.Down), Tumor(760, 450, Way.Up)]
+        self.tumors = [Tumor(200, 102, Way.Down, hp), Tumor(200, 450, Way.Up, hp)
+            ,Tumor(760, 102, Way.Down, hp), Tumor(760, 450, Way.Up, hp)]
         self.rays = [Ray(self.tumors[1], TearType.Red_Ray),Ray(self.tumors[0], TearType.White_Ray)
                      ,Ray(self.tumors[2], TearType.Dark_Ray), Ray(self.tumors[3], TearType.Dark_Ray)]
 
@@ -104,18 +104,18 @@ class Room_Tumor(Room):
         #    ray.draw()
 
 class Room_Spider(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
         self.rock_list.append(Rock(490, 300, RockShape.Size_oneByone1, MapType.Normal))
         self.rock_list.append(Rock(440, 250, RockShape.Size_oneByone2, MapType.Normal))
         self.rock_list.append(Rock(490, 200, RockShape.Size_oneByone3, MapType.Normal))
         self.rock_list.append(Rock(540, 250, RockShape.Size_oneByone4, MapType.Normal))
 
-        self.flies = [Fly() for i in range(20)]
+        self.flies = [Fly(hp) for i in range(20)]
 
-        self.spiders = [Spider(380,280), Spider(700,380), Spider(150, 150)]
+        self.spiders = [Spider(380,280, hp), Spider(700,380, hp), Spider(150, 150, hp)]
 
-        self.tentacles = [Tentacle(120, 450), Tentacle(120, 120), Tentacle(830, 450), Tentacle(830, 120)]
+        self.tentacles = [Tentacle(120, 450, hp), Tentacle(120, 120, hp), Tentacle(830, 450, hp), Tentacle(830, 120, hp)]
 
     def update(self, frame_time, unit):
         Room.update(self, frame_time, unit)
@@ -163,12 +163,12 @@ class Room_Spider(Room):
             spider.draw()
 
 class Room_Fly(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.campfire_list = [Campfire(130, 440), Campfire(130, 110), Campfire(830, 440), Campfire(830, 110)]
         self.dung_list = [Dung(490, 300), Dung(440, 250), Dung(490, 200), Dung(540, 250)]
-        self.flies = [Fly() for i in range(20)]
+        self.flies = [Fly(hp) for i in range(20)]
 
     def update(self,frame_time,  unit):
         Room.update(self,frame_time,  unit)
@@ -193,7 +193,7 @@ class Room_Fly(Room):
 
 
 class Room_Rock(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.rock_list.append(Rock(140, 160, RockShape.Size_oneByone1, MapType.Normal))
@@ -225,7 +225,7 @@ class Room_Rock(Room):
         Room.draw(self)
 
 class Room_Dung(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.dung_list = [Dung(130, 440), Dung(130, 110), Dung(830, 440), Dung(830, 110)]
@@ -242,9 +242,9 @@ class Room_Dung(Room):
         Room.draw(self)
 
 class Room_NightCrawler(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
-        self.crawlers = [NightCrawler(random.randint(200,600), random.randint(200,400)) for i in range(5)]
+        self.crawlers = [NightCrawler(random.randint(200,600), random.randint(200,400), hp) for i in range(5)]
         print("Crawler")
 
     def update(self,frame_time,  unit):
@@ -269,9 +269,9 @@ class Room_NightCrawler(Room):
             crawler.draw()
 
 class Room_Pacer(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
-        self.pacers = [Pacer() for i in range(5)]
+        self.pacers = [Pacer(hp) for i in range(5)]
         print("pacer")
 
     def update(self,frame_time,  unit):
@@ -296,7 +296,7 @@ class Room_Pacer(Room):
             pacer.draw()
 
 class Room_HP_1(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.items = [Heart(490, 270, 1)]
@@ -321,7 +321,7 @@ class Room_HP_1(Room):
             item.draw()
 
 class Room_HP_2(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.items = [Heart(490, 270, 2)]
@@ -350,7 +350,7 @@ class Room_HP_2(Room):
             item.draw()
 
 class Room_Boss_Monstro(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.monstro = Monstro(480, 300)
@@ -370,7 +370,7 @@ class Room_Boss_Monstro(Room):
 
         self.monstro.draw()
 class Room_Item_CommonCold(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.items = [CommonCold(480, 270)]
@@ -394,7 +394,7 @@ class Room_Item_CommonCold(Room):
         for item in self.items:
             item.draw()
 class Room_Item_Martyr(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.items = [Martyr(480, 270)]
@@ -419,7 +419,7 @@ class Room_Item_Martyr(Room):
             item.draw()
 
 class Room_Item_BloodBag(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.items = [BloodBag(480, 270)]
@@ -444,7 +444,7 @@ class Room_Item_BloodBag(Room):
             item.draw()
 
 class Room_Last(Room):
-    def __init__(self):
+    def __init__(self, hp):
         Room.__init__(self)
 
         self.gate = Gate()
@@ -472,37 +472,37 @@ class Room_Last(Room):
     def init_next_state(self, state):
         self.next_state = state
 
-def room_maker(parameter):
+def room_maker(parameter, hp):
     if parameter == RoomType.Room_Start:
-        return Room_Start()
+        return Room_Start(hp)
     if parameter == RoomType.Room_Tumor:
-        return Room_Tumor()
+        return Room_Tumor(hp)
     if parameter == RoomType.Room_Spider:
-        return Room_Spider()
+        return Room_Spider(hp)
     if parameter == RoomType.Room_Fly:
-        return Room_Fly()
+        return Room_Fly(hp)
     if parameter == RoomType.Room_Rock:
-        return Room_Rock()
+        return Room_Rock(hp)
     if parameter == RoomType.Room_Dung:
-        return Room_Dung()
+        return Room_Dung(hp)
     if parameter == RoomType.Room_HP_1:
-        return Room_HP_1()
+        return Room_HP_1(hp)
     if parameter == RoomType.Room_HP_2:
-        return Room_HP_2()
+        return Room_HP_2(hp)
     if parameter == RoomType.Room_NightCrawler:
-        return Room_NightCrawler()
+        return Room_NightCrawler(hp)
     if parameter == RoomType.Room_Pacer:
-        return Room_Pacer()
+        return Room_Pacer(hp)
     if parameter == RoomType.Room_Item_CommonCold:
-        return Room_Item_CommonCold()
+        return Room_Item_CommonCold(hp)
     if parameter == RoomType.Room_Item_Martyr:
-        return Room_Item_Martyr()
+        return Room_Item_Martyr(hp)
     if parameter == RoomType.Room_Item_BloodBag:
-        return Room_Item_BloodBag()
+        return Room_Item_BloodBag(hp)
     if parameter == RoomType.Room_Boss_Monstro:
-        return Room_Boss_Monstro()
+        return Room_Boss_Monstro(hp)
     if parameter == RoomType.Room_Last:
-        return Room_Last()
+        return Room_Last(hp)
 
 
 

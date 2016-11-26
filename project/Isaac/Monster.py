@@ -3,11 +3,11 @@ import random
 import Renderer
 
 class Spider(Unit):
-    def __init__(self, x, y, hp = 3):
+    def __init__(self, x, y, hp = 0):
         Unit.__init__(self, 5)
         self.team == UnitTeam.Enemy
         self.x, self.y = x, y
-        self.hp = hp
+        self.hp = 3 + hp
 
         self.game_engine = Game_Engine.GameEngine()
         self.renderer = Renderer.Renderer('resource/monster/spider.png', 53, 53, 5)
@@ -32,12 +32,12 @@ class Spider(Unit):
         self.renderer.draw(self.x, self.y)
 
 class Tentacle(Unit):
-    def __init__(self, x, y, hp = 3):
+    def __init__(self, x, y, hp = 0):
         Unit.__init__(self)
         self.x, self.y = x, y
         self.renderer = Renderer.Renderer(
             'resource/monster/tentacle.png', 48, 96, 6)
-        self.hp = hp
+        self.hp = 3 + hp
 
     def update(self, frame_time, unit):
         unit.tear_manager.collision_update(self)
@@ -58,11 +58,11 @@ class Tentacle(Unit):
         self.renderer.draw(self.x, self.y)
 
 class Fly(Unit):
-    def __init__(self,hp = 2):
+    def __init__(self,hp = 0):
         Unit.__init__(self, 5)
         self.x = random.randint(120, 830)
         self.y = random.randint(120, 430)
-        self.hp = hp
+        self.hp = 2 + hp
 
         self.game_engine = Game_Engine.GameEngine()
 
@@ -92,10 +92,10 @@ class Fly(Unit):
         self.renderer.draw(self.x, self.y)
 
 class Tumor(Unit):
-    def __init__(self, x, y, way, hp = 3):
+    def __init__(self, x, y, way, hp = 0):
         Unit.__init__(self, 5)
         self.x, self.y = x, y
-        self.hp = hp
+        self.hp = 3 + hp
 
         self.state = UnitState.Move
         self.change_speed(5)
@@ -169,10 +169,10 @@ class Tumor(Unit):
         pass
 
 class NightCrawler(Unit):
-    def __init__(self, x, y, hp = 3):
+    def __init__(self, x, y, hp = 0):
         Unit.__init__(self, 5)
         self.x, self.y = x, y
-        self.hp = hp
+        self.hp = 3 + hp
 
         self.time_elapsed = random.randint(0, 10) / 10.0
         self.state = UnitState.Move
@@ -254,12 +254,12 @@ class NightCrawler(Unit):
 
 class Pacer(Unit):
 
-    def __init__(self,hp = 2):
+    def __init__(self,hp = 0):
         Unit.__init__(self, 5)
         self.state = UnitState.Move
         self.x = random.randint(120, 830)
         self.y = random.randint(120, 430)
-        self.hp = hp
+        self.hp = 2 + hp
 
         self.game_engine = Game_Engine.GameEngine()
 

@@ -9,6 +9,8 @@ class Isaac(Unit):      #sub class
     def __init__(self):
         Unit.__init__(self)
         self.tear_size = 1.0
+        self.unbeatable_time = 0.0
+        self.unbeatable      = False
 
         self.team = UnitTeam.Ally
 
@@ -32,7 +34,6 @@ class Isaac(Unit):      #sub class
         self.tear_manager.draw()
         self.UI.draw(frame_time, self)
 
-
     def update(self,frame_time):
         self.time_elapsed += frame_time
 
@@ -40,6 +41,7 @@ class Isaac(Unit):      #sub class
         self.tear_manager.check_frame_out()
         self.tear_manager.check_disappear()
 
+        self.update_unbeatable(frame_time)
         self.state_handler[self.state](frame_time)
 
     def handle_event(self, event):
@@ -99,9 +101,18 @@ class Isaac(Unit):      #sub class
             elif (event.key, self.way) == (SDLK_d, Way.Right):
                 self.change_state(UnitState.Stop)
 
-        if (event.type, self.way):
-            pass
-
+    def update_unbeatable(self, frame_time):
+        if self.unbeatable:
+            self.unbeatable_time += frame_time
+            if self.unbeatable_time < 0.5:
+                self.head_renderer.set_alpha((1 - self.unbeatable_time * 2))
+                self.body_renderer.set_alpha((1 - self.unbeatable_time * 2))
+            elif 0.5 <= self.unbeatable_time and 1.0 > self.unbeatable_time:
+                self.head_renderer.set_alpha(self.unbeatable_time)
+                self.body_renderer.set_alpha(self.unbeatable_time)
+            else:
+                self.unbeatable = False
+                self.unbeatable_time = 0.0
     def get_collision_box(self):
         return self.x - 27, self.y - 28, self.x + 27, self.y + 24
 
@@ -161,6 +172,16 @@ class Isaac(Unit):      #sub class
 
         self.tear_manager.clear()
 
+    def check_collision(self, x1, x2, y1, y2):
+        if self.unbeatable:
+            return False
+
+        if ((x1 < self.x  and x2 > self.x)
+            and (y1 < self.y and y2 > self.y)):
+            return True
+
+        return False
+
     def init_position(self):
         self.x, self.y = 490, 280
 
@@ -182,18 +203,11 @@ class Isaac(Unit):      #sub class
                 self.change_state(UnitState.Stop)
 
     def handle_attacked(self, frame_time, unit = None):
-        self.head_renderer.set_alpha((1 - self.time_elapsed))
-        self.body_renderer.set_alpha((1 - self.time_elapsed))
-
+        self.unbeatable = True
         if self.time_elapsed >= 1.0:
+            self.unbeatable = False
             self.change_state(UnitState.Idle)
             return
-
-        if self.way in (Way.Left, Way.LeftUp, Way.LeftDown):
-            return
-        if self.way in (Way.Right, Way.RightUp, Way.RightUp):
-            return
-        pass
 
     def handle_move(self, frame_time, unit = None):
         self.body_renderer.update()

@@ -40,7 +40,7 @@ class Rock:
                 unit.undo_move()
             return
         if self.shape == RockShape.Size_twoByone:
-            unit.tear_manager.collision_update_ob(elf.x - 32, self.x + 32, self.y - 64, self.y + 64)
+            unit.tear_manager.collision_update_ob(self.x - 32, self.x + 32, self.y - 64, self.y + 64)
             if unit.check_collision(self.x - 32, self.x + 32, self.y - 64, self.y + 64):
                 unit.undo_move()
             return
@@ -138,6 +138,7 @@ class Door:
         elif way == Way.Down:
             self.x, self.y = 490, 55
 
+        self.lock = True
         self.way = way
         self.connected_room = room
 
@@ -153,15 +154,16 @@ class Door:
 
     def draw(self):
         if self.way == Way.Up:
-            self.image.clip_draw(0, 100, 100, 60, self.x, self.y)
+            self.image.clip_draw(0 + 200 * self.lock, 100, 100, 60, self.x, self.y)
         elif self.way == Way.Down:
-            self.image.clip_draw(100, 100, 100, 60, self.x, self.y)
+            self.image.clip_draw(100 + 200 * self.lock, 100, 100, 60, self.x, self.y)
         elif self.way == Way.Left:
-            self.image.clip_draw(0, 0, 60, 100, self.x, self.y)
+            self.image.clip_draw(0 + 200 * self.lock, 0, 60, 100, self.x, self.y)
         elif self.way == Way.Right:
-            self.image.clip_draw(60, 0, 60, 100, self.x, self.y)
+            self.image.clip_draw(60 + 200 * self.lock, 0, 60, 100, self.x, self.y)
 
     def check_collision(self, unit):
+       if self.lock: return None
        if unit.check_collision(self.x - 70, self.x + 50, self.y - 25, self.y + 70):
             unit.change_room(self.way)
             return self.connected_room
@@ -169,6 +171,9 @@ class Door:
 
     def connect_room(self, room):
         self.conntected_room = room
+
+    def set_lock(self, lock):
+        self.lock = lock
 
 class Gate:
     image = None

@@ -4,6 +4,7 @@ from Monster import*
 from Boss import *
 from Item import *
 from Tear import*
+from Sound import *
 
 class Room:
     image = None
@@ -13,8 +14,10 @@ class Room:
         self.campfire_list = []
         self.dung_list = []
         self.monster_num = 0
+        self.lock = True
         #if RoomShape.Room_normal_one:
-
+        self.sound_manager = SoundManager()
+        self.sound_manager.add_sound('resource/sound/door_unlock.wav', SoundType.EFFECT, SoundKey.EFFECT_Door_Unlock)
         if Room.image == None:
             Room.image = load_image('resource/map/map_easy.png')
         pass
@@ -57,9 +60,11 @@ class Room:
         Room.image = load_image(path)
 
     def update_door_lock(self):
-        if self.monster_num == 0:
+        if self.monster_num == 0 and self.lock:
             for door in self.door_list:
                 door.set_lock(False)
+            self.lock = False
+            self.sound_manager.play(SoundKey.EFFECT_Door_Unlock)
 
 class Room_Start(Room):
     def __init__(self, hp):
@@ -75,6 +80,12 @@ class Room_Start(Room):
 
     def draw(self):
         Room.draw(self)
+
+    def update_door_lock(self):
+        if self.monster_num == 0 and self.lock:
+            for door in self.door_list:
+                door.set_lock(False)
+            self.lock = False
 
 class Room_Tumor(Room):
     def __init__(self, hp):
@@ -240,6 +251,12 @@ class Room_Rock(Room):
     def draw(self):
         Room.draw(self)
 
+    def update_door_lock(self):
+        if self.monster_num == 0 and self.lock:
+            for door in self.door_list:
+                door.set_lock(False)
+            self.lock = False
+
 class Room_Dung(Room):
     def __init__(self, hp):
         Room.__init__(self)
@@ -256,6 +273,12 @@ class Room_Dung(Room):
 
     def draw(self):
         Room.draw(self)
+
+    def update_door_lock(self):
+        if self.monster_num == 0 and self.lock:
+            for door in self.door_list:
+                door.set_lock(False)
+            self.lock = False
 
 class Room_NightCrawler(Room):
     def __init__(self, hp):
@@ -338,6 +361,12 @@ class Room_HP_1(Room):
         for item in self.items:
             item.draw()
 
+    def update_door_lock(self):
+        if self.monster_num == 0 and self.lock:
+            for door in self.door_list:
+                door.set_lock(False)
+            self.lock = False
+
 class Room_HP_2(Room):
     def __init__(self, hp):
         Room.__init__(self)
@@ -366,6 +395,12 @@ class Room_HP_2(Room):
 
         for item in self.items:
             item.draw()
+
+    def update_door_lock(self):
+        if self.monster_num == 0 and self.lock:
+            for door in self.door_list:
+                door.set_lock(False)
+            self.lock = False
 
 class Room_Boss_Monstro(Room):
     def __init__(self, hp):
@@ -412,6 +447,13 @@ class Room_Item_CommonCold(Room):
 
         for item in self.items:
             item.draw()
+
+    def update_door_lock(self):
+        if self.monster_num == 0 and self.lock:
+            for door in self.door_list:
+                door.set_lock(False)
+            self.lock = False
+
 class Room_Item_Martyr(Room):
     def __init__(self, hp):
         Room.__init__(self)
@@ -437,6 +479,12 @@ class Room_Item_Martyr(Room):
         for item in self.items:
             item.draw()
 
+    def update_door_lock(self):
+        if self.monster_num == 0 and self.lock:
+            for door in self.door_list:
+                door.set_lock(False)
+            self.lock = False
+
 class Room_Item_BloodBag(Room):
     def __init__(self, hp):
         Room.__init__(self)
@@ -461,6 +509,12 @@ class Room_Item_BloodBag(Room):
 
         for item in self.items:
             item.draw()
+
+    def update_door_lock(self):
+        if self.monster_num == 0 and self.lock:
+            for door in self.door_list:
+                door.set_lock(False)
+            self.lock = False
 
 class Room_Last(Room):
     def __init__(self, hp):
@@ -490,6 +544,12 @@ class Room_Last(Room):
         self.framework = framework
     def init_next_state(self, state):
         self.next_state = state
+
+    def update_door_lock(self):
+        if self.monster_num == 0 and self.lock:
+            for door in self.door_list:
+                door.set_lock(False)
+            self.lock = False
 
 def room_maker(parameter, hp):
     if parameter == RoomType.Room_Start:

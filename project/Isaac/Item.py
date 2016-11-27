@@ -70,7 +70,7 @@ class Heart(Item):
         self.renderer.draw(self.x, self.y)
 
     def update(self, frame_time, unit):
-        #Item.update(self, frame_time, unit)
+        Item.update(self, frame_time, unit)
         self.move(frame_time)
         return self.collision_update(unit)
 

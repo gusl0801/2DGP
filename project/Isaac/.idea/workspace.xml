@@ -42,16 +42,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Item.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Item.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2581">
-              <caret line="91" column="43" selection-start-line="91" selection-start-column="43" selection-end-line="91" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Base.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Base.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -96,12 +86,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map_size.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="map_size.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/memo/map_size.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+            <state relative-caret-position="261">
+              <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scroll_state.py" pinned="false" current-in-tab="true">
+        <entry file="file://$USER_HOME$/Desktop/2016-2DGP-master/2016-2DGP-master/Labs/Lab12 - Scroll Fixed BG/scroll_state.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="319">
+              <caret line="20" column="2" selection-start-line="20" selection-start-column="2" selection-end-line="20" selection-end-column="2" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -138,7 +140,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/monstro.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$USER_HOME$/Desktop/test.py" />
         <option value="$USER_HOME$/Desktop/pico2d.py" />
@@ -189,6 +190,7 @@
         <option value="$PROJECT_DIR$/Easy_Stage.py" />
         <option value="$PROJECT_DIR$/Lose_Stage.py" />
         <option value="$PROJECT_DIR$/memo/map_size.txt" />
+        <option value="$USER_HOME$/Desktop/2016-2DGP-master/2016-2DGP-master/Labs/Lab12 - Scroll Fixed BG/scroll_state.py" />
       </list>
     </option>
   </component>
@@ -276,7 +278,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../TestCode/Lab10 - Scroll and Tiling" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../TestCode/Lab12 - Scroll Fixed BG" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/2DGP/project/Isaac/Monster.py" />
   </component>
   <component name="RecentsManager">
@@ -552,7 +554,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26248673" sideWeight="0.50421053" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32943678" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24453694" sideWeight="0.49578947" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24453694" sideWeight="0.49578947" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -600,13 +602,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Desktop/ㅁㄹㄹ.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/2D겜플예시/예시_성소윤/Bine_2dGameProject/Camera.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -944,9 +939,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/memo/map_size.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+        <state relative-caret-position="261">
+          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/2016-2DGP-master/2016-2DGP-master/Labs/Lab12 - Scroll Fixed BG/scroll_state.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="20" column="2" selection-start-line="20" selection-start-column="2" selection-end-line="20" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

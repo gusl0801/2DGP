@@ -8,6 +8,3 @@ map height 370 pixel -> 1110, 11.1m
 isaac width  60 pixel -> 180cm   1.8m
 issac height 60 pixel -> 180cm   1.8m
 isaac speed  5.5 m/s
-
-
-

@@ -2,6 +2,7 @@ import Game_Framework
 from Isaac import *
 from Room import*
 import Normal_Stage
+from Sound import*
 
 isaac = None
 running = True
@@ -10,12 +11,14 @@ bgm = None
 rooms = []
 current_room = None
 room_limits = 15
+sound_manager = None
 
 def enter():
     global isaac
     global rooms
     global current_room
     global bgm
+    global sound_manager
 
     Room.change_image(Room,'resource/map/map_hard.png')
     isaac = Normal_Stage.isaac
@@ -27,15 +30,18 @@ def enter():
     bgm = load_music('resource/sound/hard_stage.mp3')
     bgm.set_volume(64)
     bgm.repeat_play()
+    sound_manager = SoundManager()
 
 def exit():
     global isaac
     global rooms
     global bgm
+    global sound_manager
 
     del(isaac)
     del(rooms)
     del(bgm)
+    del(sound_manager)
 
 def update(frame_time):
     global current_room

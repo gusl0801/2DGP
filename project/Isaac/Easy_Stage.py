@@ -104,7 +104,6 @@ def init_rooms():
         rooms.append(room_maker(RoomType.Room_Item_BloodBag,0))
         connect_rooms(0, 2, way)
     else:
-        print("Error!")
         rooms.append(room_maker(RoomType.Room_Item_Martyr,0))
         connect_rooms(0, 2, way)
 

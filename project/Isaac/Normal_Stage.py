@@ -124,17 +124,9 @@ def init_rooms():
                     exist_boss_room = True
             break
         else:
-            random_num = random.randint(0, 29)
-
-            if random_num == 0 and exist_boss_room == False:
-                rooms.append(room_maker(RoomType.Room_Boss_Monstro, 2))
-                connect_rooms(index, index + 1, way)
-                index += 1
-                exist_boss_room = True
-            else:
-                rooms.append(room_maker(random.randint(1, 9), 2))
-                connect_rooms(index, index + 1, way)
-                index += 1
+            rooms.append(room_maker(random.randint(1, 9), 2))
+            connect_rooms(index, index + 1, way)
+            index += 1
 
     # create last room ::start
     way = calculate_door_way(way)

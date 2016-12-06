@@ -3,6 +3,7 @@ import Normal_Stage
 from Isaac import *
 from Room import*
 from Sound import*
+import Title_Scene
 
 isaac = None
 running = True
@@ -43,7 +44,7 @@ def update(frame_time):
     global current_room
 
     if (isaac.check_die()):
-        Game_Framework.change_state()
+        Game_Framework.change_state(Title_Scene)
     isaac.update(frame_time)
 
     current_room = current_room.update(frame_time,isaac)
@@ -117,13 +118,6 @@ def init_rooms():
     while True:
         way = calculate_door_way(way)
         if index > room_limits:
-            if not exist_boss_room:
-                random_num = random.randint(0, 0)
-                if random_num == 0:
-                    rooms.append(room_maker(RoomType.Room_Boss_Monstro,0))
-                    connect_rooms(index, index + 1, way)
-                    index += 1
-                    exist_boss_room = True
             break
         else:
             rooms.append(room_maker(random.randint(1, 9),0))

@@ -1,5 +1,4 @@
 from pico2d import*
-
 current_time = 0.0
 
 class GameState:

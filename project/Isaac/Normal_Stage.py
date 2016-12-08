@@ -45,6 +45,8 @@ def exit():
 def update(frame_time):
     global current_room
 
+    if (isaac.check_die()):
+        Game_Framework.change_state(Title_Scene)
     isaac.update(frame_time)
 
     current_room = current_room.update(frame_time,isaac)

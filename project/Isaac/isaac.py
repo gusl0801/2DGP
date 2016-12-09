@@ -113,27 +113,29 @@ class Isaac(Unit):      #sub class
             else:
                 self.unbeatable = False
                 self.unbeatable_time = 0.0
+
     def get_collision_box(self):
         return self.x - 27, self.y - 28, self.x + 27, self.y + 24
 
     def change_type(self, item_type):
+        #self, image_path, width, height, max_frame_x, max_frame_y = 0, frameX = 0, frameY = 0
         if item_type == ItemType.CommonCold:
-            self.head_renderer.change_image('resource/character/common_cold_head.png', 53, 42, 2, 0, 0, 1)
-            self.body_renderer.change_image('resource/character/common_cold_body.png', 43, 26, 10, 0, 0, 2)
+            self.head_renderer.change_image('resource/character/common_cold_head.png', 53, 42, 2, 0, 0, 3 - self.way)
+            self.body_renderer.change_image('resource/character/common_cold_body.png', 43, 26, 10, 0, 0,self.way)
             self.image_y = 0
             self.tear_size = 1
             self.tear_type = TearType.Commond_Cold
 
         elif item_type == ItemType.Martyr:
-            self.head_renderer.change_image('resource/character/martyr_head.png', 54, 50, 2, 0, 0, 1)
-            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 10, 0, 0, 2)
+            self.head_renderer.change_image('resource/character/martyr_head.png', 54, 50, 2, 0, 0,  3 - self.way)
+            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 10, 0, 0,  self.way)
             self.image_y = 5
             self.tear_size = 1.5
             self.tear_type = TearType.Normal
 
         elif item_type == ItemType.BloodBag:
-            self.head_renderer.change_image('resource/character/blood_bag_head.png', 54, 40, 2, 0, 0, 1)
-            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 10, 0, 0, 2)
+            self.head_renderer.change_image('resource/character/blood_bag_head.png', 54, 40, 2, 0, 0, 3 - self.way)
+            self.body_renderer.change_image('resource/character/normal_body.png', 43, 24, 10, 0, 0,   self.way)
             self.image_y = 0
             self.tear_size = 1
             self.tear_type = TearType.BloodBag

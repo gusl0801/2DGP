@@ -1,57 +1,47 @@
 import Game_Framework
-import Normal_Stage
-from Isaac import *
-from Room import*
-from Sound import*
 
-isaac = None
+from Sound import*
+import Title_Scene
+
 running = True
 last_key = None
 bgm = None
-rooms = []
-current_room = None
-room_limits = 7
 sound_manager = None
+background = None
+cry = None
 
 def enter():
-    global isaac
-    global rooms
-    global current_room
     global bgm
     global sound_manager
+    global background
+    global cry
 
-    isaac = Isaac()
-
+    background = load_image("resource/lose.png")
+    cry = load_image("resource/cry.png")
     bgm = load_music('resource/sound/easy_stage.mp3')
     bgm.set_volume(64)
     bgm.repeat_play()
     sound_manager = SoundManager()
 
 def exit():
-    global isaac
-    global rooms
     global bgm
     global sound_manager
+    global background
+    global cry
 
-    #del(isaac)
-    del(rooms)
+    del(cry)
+    del(background)
     del(bgm)
     del(sound_manager)
 
 def update(frame_time):
     global current_room
 
-    if (isaac.check_die()):
-        Game_Framework.change_state()
-    isaac.update(frame_time)
-
-    current_room = current_room.update(frame_time,isaac)
     delay(0.017)
 
 def draw(frame_time):
     clear_canvas()
-    current_room.draw()
-    isaac.draw(frame_time)
+    background.draw(480,270, 960, 540)
     update_canvas()
 
 def handle_events(frame_time):
@@ -64,8 +54,8 @@ def handle_events(frame_time):
 
         elif (event.type, event.key)  == (SDL_KEYDOWN,SDLK_ESCAPE):
             Game_Framework.quit()
-        else:
-            isaac.handle_event(event)
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+            Game_Framework.change_state(Title_Scene)
 
 def pause():
     pass

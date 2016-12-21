@@ -1,0 +1,15 @@
+common_cold_body.png 
+width : 43
+height : 26
+
+common_cold_head.png
+width : 53
+height : 42
+
+normal_body.png
+width : 43
+height : 24
+
+normal_head.png
+width : 54
+height : 40

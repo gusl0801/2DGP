@@ -1,0 +1,25 @@
+Tue Nov 15 04:16:59 2016 +0900 updates for demo
+Mon Nov 14 22:50:13 2016 +0900 Bug fix : sprite position and animation   room connect
+Sun Nov 13 21:45:46 2016 +0900 1.Update room make pattern    : (prev)Itemroom is created randomly.      (cur) Itemroom is created on aside of start_room
+Sat Nov 12 21:51:55 2016 +0900 1.Collision check pattern was changed   : (prev)object->collision check     (cur)game_engine->collison check
+Fri Nov 11 14:47:29 2016 +0900 1.Updates resources If Isaac eat Martyr, Isaac's appearance is changed
+Thu Nov 10 01:53:14 2016 +0900 1.Add HP_UI 2.Add bounding_box
+Wed Nov 9 02:32:40 2016 +0900 1.Updates stage making pattern.   Each stage has one boss room, and item room.   Current maximum amount of room is 12
+Tue Nov 8 18:42:24 2016 +0900 1. Updates boss(Monstro)class - Use Renderer class   Use GameEngine class   Move basically(change to jump is needed)
+Mon Nov 7 21:37:52 2016 +0900 1.Add Item class's sub class Martyr 2.Add Room of Martyr
+Sun Nov 6 13:00:05 2016 +0900 updates
+Sat Nov 5 01:59:21 2016 +0900 1.Add Change of Isaac's type   :  If Isaac gets some Item,          Isaac's type will be changed by item's type   ex)get CommonCold -> Isaac's type : CommonCold
+Fri Nov 4 03:42:25 2016 +0900 1.Change room make pattern   - partially make random map
+Fri Nov 4 00:53:00 2016 +0900 1. Add long-range monster 'tumor' 2. Change update pattern    : if-else -> state_handler[::map]
+Thu Nov 3 00:57:14 2016 +0900 Add move pattern     : diagonally move     - LeftUp, LeftDown, RightUp, RightDown,      Modification is needed
+Wed Nov 2 01:33:25 2016 +0900 1. Updates codes by Refectoring 2. Add handler codes    ex) move_handler = {Way.Down : handle_down_move...}
+Tue Nov 1 23:19:21 2016 +0900 Updates
+Mon Oct 31 20:20:28 2016 +0900 Add Item class's subclass Key and Heart
+Sun Oct 30 19:58:45 2016 +0900 Add Item class
+Sat Oct 29 21:53:51 2016 +0900 move pixel per second
+Fri Oct 28 22:05:31 2016 +0900 add concept of frame
+Thu Oct 27 23:23:53 2016 +0900 change key input pattern :stage.handle_event -> isaac.handle_event
+Wed Oct 26 11:35:56 2016 +0900 change rendering pattern (class.draw -> renderer.draw)
+Sat Oct 22 03:18:55 2016 +0900 2DGP 2st presentation
+Sat Oct 22 03:18:14 2016 +0900 2DGP 1st presentation
+Sat Oct 22 03:13:41 2016 +0900 2DGP project

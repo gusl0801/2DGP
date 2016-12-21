@@ -3,6 +3,9 @@ from Isaac import *
 from Room import*
 import Normal_Stage
 from Sound import*
+import Title_Scene
+import Lose_Stage
+import Win_Stage
 
 isaac = None
 running = True
@@ -10,7 +13,7 @@ last_key = None
 bgm = None
 rooms = []
 current_room = None
-room_limits = 15
+room_limits = 5
 sound_manager = None
 
 def enter():
@@ -47,7 +50,11 @@ def update(frame_time):
     global current_room
 
     if (isaac.check_die()):
-        Game_Framework.change_state(Title_Scene)
+        Game_Framework.change_state(Lose_Stage)
+
+    if (current_room.is_ending()):
+        Game_Framework.change_state(Win_Stage)
+
     isaac.update(frame_time)
 
     current_room = current_room.update(frame_time,isaac)
@@ -115,25 +122,26 @@ def init_rooms():
 
     # randomly makes rooms and connect them  :: start
     while True:
-        way = calculate_door_way(way)
         if index > room_limits :
             if not exist_boss_room:
+                way = calculate_door_way(way)
                 random_num = random.randint(0, 0)
                 if random_num == 0:
-                    rooms.append(room_maker(RoomType.Room_Boss_Monstro, 4))
+                    rooms.append(room_maker(RoomType.Room_Boss_Mom, 4))
                     connect_rooms(index, index + 1, way)
                     index += 1
                     exist_boss_room = True
             #here
             break
         else:
+            way = calculate_door_way(way)
             rooms.append(room_maker(random.randint(1, 9),4))
             connect_rooms(index, index + 1, way)
             index += 1
 
     # create last room ::start
     way = calculate_door_way(way)
-    rooms.append(room_maker(RoomType.Room_Boss_Monstro, 4))
+    rooms.append(room_maker(RoomType.Room_Boss_Mom, 4))
     connect_rooms(index, index + 1, way)
     # create last room ::end
 def connect_rooms(index1, index2, way, map_type = MapType.Normal):

@@ -59,6 +59,7 @@ class RoomType:
     Room_NightCrawler = 8
     Room_Pacer  = 9
     Room_Boss_Monstro = 11
+    Room_Boss_Mom     = 12
     Room_Item_CommonCold = 21
     Room_Item_Martyr = 22
     Room_Item_BloodBag = 23

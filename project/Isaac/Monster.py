@@ -96,13 +96,11 @@ class Tumor(Unit):
         Unit.__init__(self, 5)
         self.x, self.y = x, y
         self.hp = 3 + hp
-
         self.state = UnitState.Move
         self.change_speed(5)
         self.way = way
         self.move_way = way
         self.tear_type = 2
-
         self.game_engine = Game_Engine.GameEngine()
         self.renderer = Renderer.Renderer\
                 ('resource/monster/tumor.png', 70, 67, 3, 0, 0, (self.way))
@@ -111,10 +109,13 @@ class Tumor(Unit):
         self.time_elapsed += frame_time
 
         unit.tear_manager.collision_update(self)
+        self.tear_manager.collision_update(unit)
+
         self.collision_update(unit)
         self.tear_manager.update(frame_time)
 
         self.state_handler[self.state](frame_time,unit)
+
 
     def attack(self, unit):
         pass
@@ -124,16 +125,16 @@ class Tumor(Unit):
         self.tear_manager.draw()
 
     def collision_update(self, unit):
-        if unit.check_collision(self.x - 35, self.x + 35, self.y - 30, self.y + 67):
+        if unit.check_collision(self.x - 45, self.x + 45, self.y - 0, self.y + 67):
             unit.undo_move()
             unit.change_state(UnitState.Attacked)
             unit.set_hp(-1)
 
     def get_collision_box(self):
-        return self.x - 35, self.y - 30, self.x + 35, self.y - 67
+        return self.x - 45, self.y - 30, self.x + 45, self.y + 67
 
     def detect_enemy(self, enemy):
-        x_axis_check = (enemy.x > self.x - 50 and enemy.x < self.x + 50)
+        x_axis_check = (enemy.x > self.x - 30 and enemy.x < self.x + 30)
         if x_axis_check:
             self.change_state(UnitState.Wait)
 
@@ -146,7 +147,16 @@ class Tumor(Unit):
             self.renderer.change_frameY(self.way)
 
         if state in (UnitState.Attack,):
+            #print(self.y)
             self.renderer.change_frameY(self.way - 2)
+            if (self.y == 120):
+                self.y = 230
+                self.tear_manager.append()
+                self.y = 120
+            elif (self.y == 450):
+                self.y = 320
+                self.tear_manager.append()
+                self.y = 450
             self.tear_manager.append()
 
     def handle_move(self, frame_time, unit):
@@ -190,9 +200,12 @@ class NightCrawler(Unit):
         self.tear_manager.check_frame_out()
         self.tear_manager.check_disappear()
 
+        unit.tear_manager.collision_update(self)
+        self.tear_manager.collision_update(unit)
+
         if self.state not in (UnitState.Wait,):
             self.collision_update(unit)
-            unit.tear_manager.collision_update(self)
+            #unit.tear_manager.collision_update(self)
         self.tear_manager.update(frame_time)
 
         self.state_handler[self.state](frame_time,unit)
@@ -253,7 +266,6 @@ class NightCrawler(Unit):
         pass
 
 class Pacer(Unit):
-
     def __init__(self,hp = 0):
         Unit.__init__(self, 5)
         self.state = UnitState.Move
@@ -271,31 +283,39 @@ class Pacer(Unit):
     def update(self, frame_time, unit):
         self.time_elapsed += frame_time
 
+        self.tear_manager.update(frame_time)
+
         self.tear_manager.check_frame_out()
         self.tear_manager.check_disappear()
 
         unit.tear_manager.collision_update(self)
         self.tear_manager.collision_update(unit)
         self.collision_update(unit)
-
-        self.tear_manager.update(frame_time)
-
         self.state_handler[self.state](frame_time, unit)
 
     def get_collision_box(self):
         return self.x - 21, self.y - 12, self.x + 21, self.y + 12
 
     def collision_update(self, unit):
-        if unit.check_collision(self.x - 21, self.y - 12, self.x + 21, self.y + 12):
+        if unit.check_collision(self.x - 21, self.x + 21, self.y - 12, self.y + 20):
+            print("pacer collide")
             unit.undo_move()
             unit.change_state(UnitState.Attacked)
             unit.set_hp(-1)
+
+    def check_collision(self, x1, x2, y1, y2):
+        if ((x1 < self.x  and x2 > self.x)
+            and (y1 < self.y and y2 > self.y)):
+            return True
+
+        return False
 
     def change_state(self, state):
         self.time_elapsed = 0
         self.state = state
 
     def draw(self):
+        #draw_rectangle(self.x - 21, self.y - 12, self.x + 21, self.y + 12)
         self.tear_manager.draw()
         self.renderer.draw(self.x, self.y)
 

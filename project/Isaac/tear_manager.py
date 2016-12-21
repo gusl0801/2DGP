@@ -1,5 +1,6 @@
-from Unit import*
+#from Unit import*
 from Tear import*
+#import Isaac
 
 class TearManager:
     def __init__(self, unit):
@@ -30,10 +31,38 @@ class TearManager:
         for i in self.tear_list:
             if unit.check_die():
                 return
-            if unit.check_collision(i.x - 24, i.x + 24, i.y -24, i.y + 24):
-                i.state = TearState.Disappear
-                unit.set_hp(-1)
-                #unit.change_state(UnitState.Attacked)
+            if i.get_attackable():
+                if isinstance(i, Tear):
+                    if i.state == TearState.Disappear:
+                        continue
+                    if unit.check_collision(i.x - 24, i.x + 24, i.y - 24, i.y + 24):
+                        i.state = TearState.Disappear
+                        unit.set_hp(-1)
+                        i.set_attackable(False)
+                        print("tear collision")
+                        if unit.get_instance("Isaac"):
+                            unit.set_attacked()
+
+                elif isinstance(i, Ray):#63, 166
+                    if unit.check_collision(i.x - 31, i.x + 31, i.y - 800, i.y + 800):
+                        i.state = TearState.Disappear
+                        unit.set_hp(-1)
+                        i.set_attackable(False)
+                        print("ray")
+                        if unit.get_instance("Isaac"):
+                            unit.set_attacked()
+
+    def collision_update_boss(self, boss):
+        for tear in self.tear_list:
+            if not tear.get_attackable():
+                continue
+
+            if boss.check_collision(tear.x - 24, tear.x + 24, tear.y - 24, tear.y + 24):
+                tear.state = TearState.Disappear
+                boss.set_hp(-1)
+                tear.set_attackable(False)
+                return True
+        return False
 
     def collision_update_ob(self, x1, x2, y1, y2):
         for tear in self.tear_list:

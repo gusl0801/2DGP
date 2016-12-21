@@ -3,6 +3,9 @@ from Room import*
 import Easy_Stage #import isaac# as prev_unit
 import Hard_Stage
 from Sound import*
+import Title_Scene
+import Lose_Stage
+import Win_Stage
 
 isaac = None
 running = True
@@ -10,7 +13,7 @@ last_key = None
 bgm = None
 rooms = []
 current_room = None
-room_limits = 10
+room_limits = 4
 sound_manager = None
 
 def enter():
@@ -46,7 +49,8 @@ def update(frame_time):
     global current_room
 
     if (isaac.check_die()):
-        Game_Framework.change_state(Title_Scene)
+        Game_Framework.change_state(Lose_Stage)
+
     isaac.update(frame_time)
 
     current_room = current_room.update(frame_time,isaac)
@@ -68,8 +72,6 @@ def handle_events(frame_time):
 
         elif (event.type, event.key)  == (SDL_KEYDOWN,SDLK_ESCAPE):
             Game_Framework.quit()
-        elif (event.type, event.key)  == (SDL_KEYDOWN,SDLK_SPACE):
-            Game_Framework.change_state(Hard_Stage)
         else:
             isaac.handle_event(event)
 
@@ -115,10 +117,10 @@ def init_rooms():
 
     # randomly makes rooms and connect them  :: start
     while True:
-        way = calculate_door_way(way)
         if index > room_limits:
             break
         else:
+            way = calculate_door_way(way)
             rooms.append(room_maker(random.randint(1, 9), 2))
             connect_rooms(index, index + 1, way)
             index += 1

@@ -55,6 +55,9 @@ class Room:
     def add_door(self, door):
         self.door_list.append(door)
 
+    def is_ending(self):
+        return False
+
     def change_image(self, path):
         del (Room.image)
         Room.image = load_image(path)
@@ -94,8 +97,6 @@ class Room_Tumor(Room):
         self.monster_num = 4
         self.tumors = [Tumor(200, 102, Way.Down, hp), Tumor(200, 450, Way.Up, hp)
             ,Tumor(760, 102, Way.Down, hp), Tumor(760, 450, Way.Up, hp)]
-        self.rays = [Ray(self.tumors[1], TearType.Red_Ray),Ray(self.tumors[0], TearType.White_Ray)
-                     ,Ray(self.tumors[2], TearType.Dark_Ray), Ray(self.tumors[3], TearType.Dark_Ray)]
 
     def update(self, frame_time, unit):
         Room.update(self, frame_time, unit)
@@ -108,9 +109,6 @@ class Room_Tumor(Room):
         for tumor in self.tumors:
             tumor.update(frame_time, unit)
 
-        #for ray in self.rays:
-        #    ray.update(frame_time)
-
         for door in self.door_list:
             if door.check_collision(unit) != None:
                 return door.connected_room
@@ -121,8 +119,6 @@ class Room_Tumor(Room):
 
         for tumor in self.tumors:
             tumor.draw()
-        #for ray in self.rays:
-        #    ray.draw()
 
 class Room_Spider(Room):
     def __init__(self, hp):
@@ -423,6 +419,33 @@ class Room_Boss_Monstro(Room):
         Room.draw(self)
 
         self.monstro.draw()
+
+
+class Room_Boss_Mom(Room):
+    def __init__(self, hp):
+        Room.__init__(self)
+
+        self.mom = Mom(480, 300)
+        self.monster_num = 1
+
+    def update(self, frame_time, unit):
+        Room.update(self, frame_time, unit)
+
+        self.mom.update(frame_time, unit)
+
+        for door in self.door_list:
+            if door.check_collision(unit) != None:
+                return door.connected_room
+        return self
+
+    def draw(self):
+        Room.draw(self)
+
+        self.mom.draw()
+
+    def is_ending(self):
+        return self.mom.hp <= 0
+
 class Room_Item_CommonCold(Room):
     def __init__(self, hp):
         Room.__init__(self)
@@ -580,6 +603,8 @@ def room_maker(parameter, hp):
         return Room_Item_BloodBag(hp)
     if parameter == RoomType.Room_Boss_Monstro:
         return Room_Boss_Monstro(hp)
+    if parameter == RoomType.Room_Boss_Mom:
+        return Room_Boss_Mom(hp)
     if parameter == RoomType.Room_Last:
         return Room_Last(hp)
 

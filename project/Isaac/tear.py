@@ -36,7 +36,8 @@ class Tear:
         self.tear_type = unit.tear_type
         self.state = TearState.Idle
         self.time_elapsed = 0
-        self.disappear = False
+        self.disappear  = False
+        self.attackable = True
 
         if unit.tear_type == TearType.Normal:
             self.renderer = Renderer.Renderer('resource/tear/normal.png',68,64,12)
@@ -51,6 +52,9 @@ class Tear:
                 TearState.Wait       : self.handle_wait
             }
 
+    def get_instance(self):
+        return TearType.Normal
+
     def move(self, frame_time):
         self.x, self.y = self.game_engine.move(frame_time, self.speed, self.x, self.y, self.way)
 
@@ -60,11 +64,17 @@ class Tear:
         size = 7 * self.size
         if ((x1 < self.x - size and x2 > self.x + size)
             and (y1 < self.y  - size and y2 > self.y + size)):
-            #self.state = self.disappear
+            self.attackable = False
             return True
 
         return False
 
+
+    def get_attackable(self):
+        return self.attackable
+
+    def set_attackable(self, attackable):
+        self.attackable = attackable
     def check_frame_out(self):
         if self.x <= 100:
             return True
@@ -82,12 +92,10 @@ class Tear:
 
     def update(self, frame_time):
         self.time_elapsed += frame_time
-        #self.move_handler[self.way](self, frame_time)
         self.state_handler[self.state](frame_time)
-        #if self.tear_type == TearType.Commond_Cold:
-        #    self.renderer.update(13)
 
     def draw(self):
+        #draw_rectangle(self.x - 24, self.y - 24, self.x + 24, self.y + 24)
         self.renderer.draw(self.x, self.y, self.size, self.size)
 
     def change_speed(self, KMPH_speed):
@@ -131,20 +139,32 @@ class Ray:
 
         self.team = unit.team
         self.way = unit.way
+        self.attackable = True
 
-        if type == TearType.Dark_Ray:   #dark_ray_small :: 31, 64, big :: 63, 128
+        if type == TearType.Dark_Ray:
             self.renderer = Renderer.Renderer('resource/tear/dark_ray.png', 63, 166, 4, 0, 0, frame)
 
-        if type == TearType.White_Ray:  #white_ray :: 110, 256, small :: 62, 154
+        if type == TearType.White_Ray:
             self.renderer = Renderer.Renderer('resource/tear/white_ray.png', 63, 166, 4, 0, 0, frame)
 
         if type == TearType.Red_Ray:
             self.renderer = Renderer.Renderer('resource/tear/red_ray.png', 63, 166, 4, 0, 0, frame)
 
+    def get_instance(self):
+        return TearType.Dark_Ray
+
+    def get_attackable(self):
+        return self.attackable
+
+    def set_attackable(self, attackable):
+        self.attackable = attackable
+
     def move(self, frame_time):
         pass
 
     def check_collision(self, x1, x2, y1, y2):
+
+        print("ray collision check")
         if ((x1 < self.x and x2 > self.x)
             and (y1 < self.y and y2 > self.y)):
             return True

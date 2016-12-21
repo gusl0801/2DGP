@@ -158,6 +158,11 @@ class Isaac(Unit):      #sub class
         self.head_renderer.set_alpha(1)
         self.body_renderer.set_alpha(1)
 
+    def get_instance(self, name):
+        if name == 'Isaac':
+            return True
+        return False
+
     def shot_tear(self):
         self.tear_manager.append()
         self.sound_manager.play(SoundKey.EFFECT_Normal_Tear)

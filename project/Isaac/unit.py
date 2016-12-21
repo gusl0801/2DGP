@@ -113,6 +113,12 @@ class Unit:
     def detect_enemy(self, enemy):
         pass
 
+    def get_instance(self, name):
+        return False
+
+    def set_attacked(self):
+        self.change_state(UnitState.Attacked)
+
     def set_hp(self, amount):
         self.hp += amount
 
@@ -120,6 +126,9 @@ class Unit:
         if self.hp <= 0:
             return True
         return False
+
+    def get_collision_box(self):
+        pass
 
     def check_collision(self, x1, x2, y1, y2):
         if self.state in (UnitState.Attacked,):
@@ -130,6 +139,19 @@ class Unit:
             return True
 
         return False
+    """
+    def check_collision(self, unit):
+        if self.state in (UnitState.Attacked,):
+            return False
+
+        x1, y1, x2, y2 = unit.get_collision_box()
+        print(x1,y1,x2,y2)
+        if ((x1 < self.x  and x2 > self.x)
+            and (y1 < self.y and y2 > self.y)):
+            return True
+
+        return False
+    """
 
     def init_speed(self):
         PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
